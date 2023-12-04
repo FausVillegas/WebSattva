@@ -1,0 +1,26 @@
+<div class="shopping-cart">
+  <h1>Resumen de compra</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of getCartService().getCartItems(); let i = index">
+        <img [src]='item.image'>
+        <td>{{ item.title }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency:'USD':true }}</td>
+        <td><button (click)="getCartService().removeItem(i)">Eliminar</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="total">
+    <p>Total: {{ getCartService().totalPrice | currency:'USD':true }}</p>
+  </div>
+  <button>Continuar compra</button>
+</div>

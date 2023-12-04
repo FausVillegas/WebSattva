@@ -1,0 +1,97 @@
+#top-bar{
+    background-color: rgb(8, 155, 155);
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    /* font-size: small; */
+}
+
+#top-bar h2, #linksHeader a{
+    font-family: 'Dancing Script', cursive;
+}
+
+#top-bar img{
+    position: relative;
+    width: 5rem;
+    padding-left: 0.5rem;
+    margin: 0;
+}
+
+#linksHeader{
+    margin: 0;
+    padding: 1rem;
+    padding-right: 2rem;
+    float: right;
+}
+
+#linksHeader li{
+    display: inline;
+    padding: 10px;
+}
+
+#linksHeader a{
+    color: rgb(3, 71, 71);
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+#filter-button{
+    margin-right: 22rem;
+    margin-left: 0;
+}
+
+#filter-button,#btn-categorias,#btn-precios,
+.btn-categoria,#btn-precio-mayor,#btn-precio-menor{
+    border-radius: 6px;
+    border: none;
+    font-family: 'Dancing Script', cursive;
+    background-color: rgb(8, 155, 155);
+     background-origin: border-box;
+    box-shadow: 0px 0.5px 1.5px rgba(26, 83, 105, 0.61), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    font-size: 1.6rem;
+}
+
+#filter-button:hover {
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(11, 58, 70, 0.2), 0px 0.5px 1.5px rgba(25, 90, 121, 0.25), 0px 0px 0px 3.5px rgba(26, 78, 102, 0.5);
+    outline: 0;
+  }
+
+#filters{
+    list-style: none;
+    position: absolute;
+    padding-left: 25rem;
+    margin-top: 4rem;
+}
+
+#categorias-menu,#precios-menu{
+    list-style: disc;
+}
+
+@media (max-width: 768px) {
+    #app-top-bar {
+        padding: 0.5rem;
+    }
+
+    #app-top-bar img {
+        width: 3rem;
+    }
+
+    #linksHeader {
+        padding: 0.5rem;
+    }
+
+    #linksHeader a {
+        font-size: 1.2rem;
+    }
+
+    #filters{
+        margin: 0;
+    }
+}
+

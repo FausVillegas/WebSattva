@@ -1,0 +1,31 @@
+<header id="top-bar">
+    <nav>
+        <ul id="linksHeader">
+            <button type="button" id="filter-button" (click)="EventFilterButton()">Filtrar</button>
+            <li><a [routerLink]="['/']">Lista de productos</a></li>
+            <li><a >Iniciar Sesión</a></li>
+            <li><a routerLink="/cart"  class="button fancy-button">Carrito</a></li>
+        </ul>
+        <div>
+            <ul id="filters" hidden>
+                <li>
+                    <button id="btn-categorias" (click)="EventCategoriesBtn()">Categorias</button>
+                    <ul id="categorias-menu" hidden>
+                        <li><button class="btn-categoria" data-categoria="electronics">Electronicos</button></li>
+                        <li><button class="btn-categoria" data-categoria="men's clothing">Ropa de Hombre</button></li>                            
+                        <li><button class="btn-categoria" data-categoria="women's clothing">Ropa de Mujer</button></li>
+                        <li><button class="btn-categoria" data-categoria="jewelery">Joyeria</button></li>
+                    </ul>
+                </li>
+                <li>
+                    <button id="btn-precios" (click)="EventPrieceBtn()">Ordenar por Precio</button>
+                    <ul id="precios-menu" hidden>
+                        <li><button id="btn-precio-mayor">Precio Ascendente</button></li> 
+                        <li><button id="btn-precio-menor">Precio Descendente</button></li>                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <img src="https://img2.freepng.fr/20180130/dsw/kisspng-yoga-logo-download-itunes-creative-yoga-5a70a15b23d6e9.4274931715173307791468.jpg"   alt="Logo Sattva">
+</header>

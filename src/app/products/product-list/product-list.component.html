@@ -1,0 +1,17 @@
+<h2>Lista de productos</h2>
+<div id="products-list">
+  <div *ngFor="let product of products" class="product"
+  [title]="product.name + ' details'"  [routerLink]="['/product', product.id]">
+    <h2>{{ product.title }}</h2>
+    <img [src]='product.image'>
+  <!-- <p *ngIf='product.description!=null'>Description: {{ product.description }}</p> -->
+    <p>$ {{ product.price }}</p>
+    <button type="button" (click)="share(product)">Share</button>
+
+    <!-- <app-product-alerts [product]="product" (notify)="onNotify()">
+    </app-product-alerts> 
+
+    <p *ngIf='product.description!=null'>Description: {{ product.description }}</p>
+    <button type="button" (click)="share()">Buy</button>-->
+  </div>
+</div>
