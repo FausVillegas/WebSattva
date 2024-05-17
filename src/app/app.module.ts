@@ -13,6 +13,7 @@ import { CartService } from './cart.service';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { ApiDataComponent } from './api-data/api-data.component';
+import { LogInComponent } from './log-in/log-in.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ApiDataComponent } from './api-data/api-data.component';
     TopBarComponent,
     ProductListComponent,
     CartComponent,
+    LogInComponent,
     // ProductAlertsComponent,
     // ProductDetailsComponent,
   ],
@@ -32,10 +34,11 @@ import { ApiDataComponent } from './api-data/api-data.component';
       { path: '', component: ProductListComponent },
       // { path: 'product/:productId', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
+      { path: 'login', component: LogInComponent },
       // { path: 'shipping', component: ShippingComponent },
     ]),
   ],
-  providers: [CartService],
+  providers: [CartService,LogInComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

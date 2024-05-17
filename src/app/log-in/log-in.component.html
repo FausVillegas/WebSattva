@@ -1,0 +1,65 @@
+<div class="logIn-singUp">
+    <div class="container-form register">
+        <div class="information">
+            <div class="info-childs">
+                <h2>Bienvenido</h2>
+                <p>Para unirte a nuestra comunidad por favor Inicia Sesión con tus datos</p>
+                <input type="button" value="Iniciar Sesión" id="sing-in" (click)="showLoginForm()">
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-childs">
+                <h2>Crear una cuenta</h2>
+                <div class="google-icon">
+                    <i class='bx bxl-google'></i>
+                </div>
+                <p>o usa tu email para registrarte</p>
+                <form class="form">
+                    <label>
+                        <i class='bx bx-user'></i>
+                        <input type="text" placeholder="Nombre Completo">
+                    </label>
+                    <label>
+                        <i class='bx bx-envelope' ></i>
+                        <input type="email" placeholder="Correo Electronico">
+                    </label>
+                    <label>
+                        <i class='bx bx-lock-alt' ></i>
+                        <input type="password" placeholder="Contraseña">
+                    </label>
+                    <input type="submit" value="Registrarse">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-form login hide">
+        <div class="information">
+            <div class="info-childs">
+                <h2>Bienvenido</h2>
+                <p>Si aún no tiene una cuenta por favor registrese aqui</p>
+                <input type="button" value="Registrarse" id="sing-up" (click)="showRegisterForm()">
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-childs">
+                <h2>Iniciar Sesión</h2>
+                <div class="google-icon">
+                    <i class='bx bxl-google'></i>
+                </div>
+                <p>o usa tu email para iniciar sesión</p>
+                <form class="form">
+                    <label>
+                        <i class='bx bx-envelope' ></i>
+                        <input type="email" placeholder="Correo Electronico">
+                    </label>
+                    <label>
+                        <i class='bx bx-lock-alt' ></i>
+                        <input type="password" placeholder="Contraseña">
+                    </label>
+                    <input type="submit" value="Iniciar Sesión">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
