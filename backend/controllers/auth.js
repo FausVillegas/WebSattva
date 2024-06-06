@@ -7,7 +7,9 @@ const User = require('../models/user');
 exports.signup = async (req, res, next) => {
     const errors = validationResult(req);
     
-    if (!errors.isEmpty()) return
+    if (!errors.isEmpty()) {
+        return console.error("Error "+errors);
+    }
 
     const name = req.body.name;
     const email = req.body.email;
@@ -26,7 +28,7 @@ exports.signup = async (req, res, next) => {
 
         res.status(201).json({ message: 'User registeres' })
     } catch (err) {
-        if (!err.statusCode) err.statusCode = 500;
+        if (!err.statusCode) {err.statusCode = 500;}
         next(err);
     }
 }

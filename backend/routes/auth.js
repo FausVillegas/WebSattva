@@ -20,7 +20,7 @@ router.post(
             }
         })
         .normalizeEmail(),
-        body('password').trim().isLength({ min: 5 }).withMessage('Password must be at least 5 characters long.')
+        body('password').trim().isLength({ min: 5 }),
     ], authController.signup
 )
 
