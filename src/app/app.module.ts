@@ -4,21 +4,19 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ProductListComponent } from './products/product-list/product-list.component';
+import { ProductListComponent } from './components/products/product-list/product-list.component';
 // import { ProductAlertsComponent } from './products/product-alerts/product-alerts.component';
 // import { ProductDetailsComponent } from './products/product-details/product-details.component';
-import { CartComponent } from './cart/cart.component';
+import { CartComponent } from './components/cart/cart.component';
 import { CartService } from './cart.service';
 
 import { AppComponent } from './app.component';
-import { TopBarComponent } from './top-bar/top-bar.component';
-import { ApiDataComponent } from './api-data/api-data.component';
-import { LogInComponent } from './log-in/log-in.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { LogInComponent } from './components/log-in/log-in.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ApiDataComponent,
     TopBarComponent,
     ProductListComponent,
     CartComponent,

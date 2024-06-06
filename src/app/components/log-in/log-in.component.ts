@@ -1,6 +1,6 @@
 import { Component, Renderer2, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -9,10 +9,12 @@ import { AuthService } from '../services/auth.service';
 })
 export class LogInComponent implements OnInit{
    signupForm: FormGroup;
+   loginForm: FormGroup;
    title = 'my-app';
 
  constructor(private el: ElementRef, private renderer: Renderer2, private authService: AuthService) {
-   this.signupForm = this.createFormGroup()
+   this.signupForm = this.createFormGroupSignup();
+   this.loginForm = this.createFormGroupLogin();
  }
 
  showRegisterForm() {
@@ -26,12 +28,17 @@ export class LogInComponent implements OnInit{
  }
 
  ngOnInit(): void {
-    this.signupForm = this.createFormGroup();
  }
 
- createFormGroup(): FormGroup {
+ createFormGroupSignup(): FormGroup {
    return new FormGroup({
       name: new FormControl("", [Validators.required, Validators.minLength(2)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [Validators.required, Validators.minLength(5)]),
+ });
+}
+createFormGroupLogin(): FormGroup {
+   return new FormGroup({
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required, Validators.minLength(5)]),
  });
@@ -42,5 +49,9 @@ export class LogInComponent implements OnInit{
       this.authService
          .signup(this.signupForm.value)
          .subscribe((msg) => console.log(msg));
+ }
+
+ login(): void {
+   console.log(123);
  }
 }

@@ -48,7 +48,7 @@
                     <i class='bx bxl-google'></i>
                 </div>
                 <p>o usa tu email para iniciar sesión</p>
-                <form class="form">
+                <form class="form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                     <label>
                         <i class='bx bx-envelope' ></i>
                         <input type="email" placeholder="Correo Electronico">
@@ -57,7 +57,7 @@
                         <i class='bx bx-lock-alt' ></i>
                         <input type="password" placeholder="Contraseña">
                     </label>
-                    <input type="submit" value="Iniciar Sesión">
+                    <input type="button" value="Iniciar Sesión" id="log-in" (click)="showLoginForm()" [disabled]="!loginForm.valid">
                 </form>
             </div>
         </div>

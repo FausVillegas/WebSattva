@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from 'src/app/cart.service';
-import { ProductsData } from '../api-data';
+import { ProductsData } from '../../../api-data-products/api-data';
 
 @Component({
   selector: 'app-product-list',
