@@ -51,13 +51,13 @@
                 <form class="form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                     <label>
                         <i class='bx bx-envelope' ></i>
-                        <input type="email" placeholder="Correo Electronico">
+                        <input type="email" formControlName="email" placeholder="Correo Electronico">
                     </label>
                     <label>
                         <i class='bx bx-lock-alt' ></i>
-                        <input type="password" placeholder="Contraseña">
+                        <input type="password" formControlName="password" placeholder="Contraseña">
                     </label>
-                    <input type="button" value="Iniciar Sesión" id="log-in" (click)="showLoginForm()" [disabled]="!loginForm.valid">
+                    <input type="submit" [disabled]="!loginForm.valid" value="Iniciar Sesión">
                 </form>
             </div>
         </div>

@@ -52,6 +52,9 @@ createFormGroupLogin(): FormGroup {
  }
 
  login(): void {
-   console.log(123);
+   console.log(this.loginForm.value);
+   this.authService
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe();
  }
 }

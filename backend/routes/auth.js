@@ -22,6 +22,10 @@ router.post(
         .normalizeEmail(),
         body('password').trim().isLength({ min: 5 }),
     ], authController.signup
-)
+);
+
+router.post(
+    '/login', authController.login
+);
 
 module.exports = router;

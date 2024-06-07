@@ -29,7 +29,7 @@ import { LogInComponent } from './components/log-in/log-in.component';
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: ProductListComponent },
+      { path: 'products', component: ProductListComponent },
       // { path: 'product/:productId', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
