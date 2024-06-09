@@ -35,6 +35,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
+const productsRoutes = require('./routes/products');
 const errorController = require('./controllers/error');
 const cors = require('cors');
 
@@ -47,11 +48,11 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
-// Usa el middleware cors ANTES de definir las rutas
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/auth', authRoutes);
+app.use('/products', productsRoutes);
 
 app.use(errorController.get404);
 app.use(errorController.get500);
