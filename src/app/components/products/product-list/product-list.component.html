@@ -1,17 +1,24 @@
 <h2>Lista de productos</h2>
+<button routerLink="/addProduct">Agregar producto nuevo</button>
+
 <div id="products-list">
-  <div *ngFor="let product of products" class="product"
-  [title]="product.name + ' details'"  [routerLink]="['/product', product.id]">
+  <div *ngFor="let product of products$ | async" class="product"
+  [title]="product.title + ' details'"  >
+  
+    <button (click)="delete(product)">Borrar producto</button>
+
     <h2>{{ product.title }}</h2>
-    <img [src]='product.image'>
-  <!-- <p *ngIf='product.description!=null'>Description: {{ product.description }}</p> -->
-    <p>$ {{ product.price }}</p>
-    <button type="button" (click)="share(product)">Agregar a carrito</button>
+    
+    <div [routerLink]="['/products', product.id]">
+      <img [src]='product.image'>
+    <!-- <p *ngIf='product.description!=null'>Description: {{ product.description }}</p> -->
+      <p>$ {{ product.price }}</p>
+      <button type="button" (click)="share(product)">Agregar a carrito</button>
+      <!-- <app-product-alerts [product]="product" (notify)="onNotify()">
+      </app-product-alerts> 
 
-    <!-- <app-product-alerts [product]="product" (notify)="onNotify()">
-    </app-product-alerts> 
-
-    <p *ngIf='product.description!=null'>Description: {{ product.description }}</p>
-    <button type="button" (click)="share()">Buy</button>-->
+      <p *ngIf='product.description!=null'>Description: {{ product.description }}</p>
+      <button type="button" (click)="share()">Buy</button>-->
+    </div>
   </div>
 </div>

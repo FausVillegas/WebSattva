@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,10 +9,14 @@ import { ProductListComponent } from './components/products/product-list/product
 // import { ProductDetailsComponent } from './products/product-details/product-details.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartService } from './cart.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { LogInComponent } from './components/log-in/log-in.component';
+import { AddProductComponent } from './components/products/add-product/add-product.component';
+
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,7 @@ import { LogInComponent } from './components/log-in/log-in.component';
     ProductListComponent,
     CartComponent,
     LogInComponent,
+    AddProductComponent,
     // ProductAlertsComponent,
     // ProductDetailsComponent,
   ],
@@ -30,13 +35,20 @@ import { LogInComponent } from './components/log-in/log-in.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'products', component: ProductListComponent },
-      // { path: 'product/:productId', component: ProductDetailsComponent },
+      // { path: 'products/:productId', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
+      { path: 'addProduct', component: AddProductComponent, canActivate: [AuthGuardService] },
       // { path: 'shipping', component: ShippingComponent },
     ]),
   ],
-  providers: [CartService,LogInComponent],
+  providers: [CartService,LogInComponent,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

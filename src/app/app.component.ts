@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'e-commerce-sattva';
-  constructor (router: Router){
-    router.navigate(['/products']);
-  }
+  // constructor (router: Router){
+  //   router.navigate(['/products']);
+  // }
 }
