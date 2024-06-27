@@ -10,7 +10,7 @@
     <h2>{{ product.title }}</h2>
     
     <div [routerLink]="['/products', product.id]">
-      <img [src]='product.image'>
+      <img [src]="'http://localhost:3000/' + product.imageUrl" alt="{{ product.title }}" >
     <!-- <p *ngIf='product.description!=null'>Description: {{ product.description }}</p> -->
       <p>$ {{ product.price }}</p>
       <button type="button" (click)="share(product)">Agregar a carrito</button>
@@ -22,3 +22,4 @@
     </div>
   </div>
 </div>
+

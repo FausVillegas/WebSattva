@@ -16,15 +16,10 @@ import { User } from 'src/app/models/User';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit{
-  products: any;
-
   products$!: Observable<Product[]>;
   userId!: Pick<User, "id">;
 
-  constructor(private ProductsData: ProductsData, private cartService: CartService, private productService: ProductService, private authService: AuthService) {
-    this.ProductsData.getProducts().subscribe(data => {
-      this.products = data;
-    });
+  constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService) {
   }
 
   ngOnInit(): void {

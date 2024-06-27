@@ -1,5 +1,5 @@
 <div class="form-information">
-    <form class="form" [formGroup]="productForm" #formDirective="ngForm" (ngSubmit)="addProduct(productForm.value)" novalidate>
+    <form class="form" [formGroup]="productForm" #formDirective="ngForm" (ngSubmit)="onSubmit()" novalidate>
         <h3>Agrega un producto</h3>
         <label>
             <input id="title" type="text" placeholder="Titulo" formControlName="title">
@@ -17,9 +17,8 @@
             <input id="stock" type="number" placeholder="Stock" formControlName="stock">
         </label>
         <label>
-            <input id="image" type="file" (change)="onFileChange($event)" formControlName="image">
+            <input id="image" type="file" (change)="onFileChange($event)" type="file" formControlName="imageUrl">
         </label>
-        <!-- <input (click)="isOpen = !isOpen" type="submit" value="Agregar producto" [disabled]="!productForm.valid"> -->
         <input type="submit" value="Agregar producto" [disabled]="!productForm.valid">
     </form>
 </div>

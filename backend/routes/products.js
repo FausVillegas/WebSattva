@@ -9,12 +9,14 @@ const auth = require('../middleware/auth')
 const router = express.Router();
 
 const authController = require('../controllers/auth');
+const upload = require('../middleware/upload');
 
 router.get('/', auth, productsController.fetchAll)
 
 router.post(
     // '/products',
     '/',
+    upload.single('imageUrl'),
     [
         auth,
         body('title').trim().not().isEmpty(),
@@ -22,13 +24,12 @@ router.post(
         body('price').trim().not().isEmpty(),
         body('category').trim().not().isEmpty(),
         body('stock').trim().not().isEmpty(),
-        body('image').trim().not().isEmpty(),
         // body('id_supplier').trim().not().isEmpty(),
     ], productsController.postProduct
 );
 
 router.delete(
-//     '/products/:id', productsController.deleteProduct
+    // '/products/:id', productsController.deleteProduct
     '/:id', auth, productsController.deleteProduct
 );
 

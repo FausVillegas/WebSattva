@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of getCartService().getCartItems(); let i = index">
-        <img [src]='item.image'>
+        <img [src]='item.imageUrl'>
         <td>{{ item.title }}</td>
         <td>{{ item.quantity }}</td>
         <td>{{ item.price | currency:'USD':true }}</td>
