@@ -8,7 +8,7 @@ import { ProductListComponent } from './components/products/product-list/product
 // import { ProductAlertsComponent } from './products/product-alerts/product-alerts.component';
 // import { ProductDetailsComponent } from './products/product-details/product-details.component';
 import { CartComponent } from './components/cart/cart.component';
-import { CartService } from './cart.service';
+import { CartService } from './services/cart.service';
 import { AuthGuardService } from './services/auth-guard.service';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { LogInComponent } from './components/log-in/log-in.component';
 import { AddProductComponent } from './components/products/add-product/add-product.component';
 
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { AdminGuardService } from './services/admin-guard.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
       // { path: 'products/:productId', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
-      { path: 'addProduct', component: AddProductComponent, canActivate: [AuthGuardService] },
+      { path: 'addProduct', component: AddProductComponent, canActivate: [AdminGuardService] },
       // { path: 'shipping', component: ShippingComponent },
     ]),
   ],

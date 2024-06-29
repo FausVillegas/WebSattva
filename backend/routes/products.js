@@ -4,21 +4,21 @@ const { body } = require('express-validator');
 
 const productsController = require('../controllers/products');
 
-const auth = require('../middleware/auth')
+const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
 const authController = require('../controllers/auth');
 const upload = require('../middleware/upload');
 
-router.get('/', auth, productsController.fetchAll)
+router.get('/', productsController.fetchAll)
 
 router.post(
     // '/products',
     '/',
     upload.single('imageUrl'),
     [
-        auth,
+        isAuthenticated, isAdmin,
         body('title').trim().not().isEmpty(),
         body('description').trim().not().isEmpty(),
         body('price').trim().not().isEmpty(),
@@ -30,7 +30,7 @@ router.post(
 
 router.delete(
     // '/products/:id', productsController.deleteProduct
-    '/:id', auth, productsController.deleteProduct
+    '/:id', isAuthenticated, isAdmin, productsController.deleteProduct
 );
 
 module.exports = router;

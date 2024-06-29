@@ -39,19 +39,35 @@ export class AuthService {
       );
   }
 
-  login(email: Pick<User,"email">, password: Pick<User,"password">): Observable<{ token: string, userId: Pick<User,"id"> }> {
+  login(email: Pick<User,"email">, password: Pick<User,"password">): Observable<{ token: string, userId: Pick<User,"id"> }> {    
     return this.http
-      .post<{ token: string, userId: Pick<User,"id"> }>(`${this.url}/login`, { email, password }, this.httpOptions)
+    .post<{ token: string, userId: Pick<User,"id">, role: string }>(`${this.url}/login`, { email, password }, this.httpOptions)
       .pipe(
         first(),
-        tap((tokenObject: { token: string, userId: Pick<User,"id"> }) => {
+        tap((tokenObject: { token: string, userId: Pick<User,"id">, role: string }) => {
           this.userId = tokenObject.userId;
           localStorage.setItem("token", tokenObject.token);
+          localStorage.setItem("role", tokenObject.role);
           this.isUserLoggedIn$.next(true);
           this.router.navigate(["products"]);
         }),
-        catchError(this.errorHandlerService.handleError<{ token: string, userId: Pick<User,"id"> }>("login"))
+        catchError(this.errorHandlerService.handleError<{ token: string, userId: Pick<User,"id">, role: string }>("login"))
       );
   }
 
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('administrator');
+    this.isUserLoggedIn$.next(false);
+  }
+
+  isAuthenticated(): boolean {
+    console.log("TOKEN AUTH SERVICE TS "+localStorage.getItem('token'));
+    return !!localStorage.getItem('token');
+  }
+
+  isAdmin(): boolean {
+    console.log("ADMIN AUTH SERVICE TS "+localStorage.getItem('role'));
+    return localStorage.getItem('role') === "admin";
+  }
 }

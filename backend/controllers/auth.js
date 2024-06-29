@@ -22,12 +22,12 @@ exports.signup = async (req, res, next) => {
         const userDetails = {
             name: name,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
         }
 
         const result = await User.save(userDetails);
 
-        res.status(201).json({ message: 'User registeres' })
+        res.status(201).json({ message: 'User registered' })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
         next(err);
@@ -61,12 +61,13 @@ exports.login = async (req, res, next) => {
             {
                 email: storedUser.email,
                 userId: storedUser.id,
+                role: storedUser.role
             },
             'secretfortoken',
             { expiresIn: '1h' }
         );
 
-        res.status(200).json({ token: token, userId: storedUser.id })
+        res.status(200).json({ token: token, userId: storedUser.id, role: storedUser.role })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
         next(err);

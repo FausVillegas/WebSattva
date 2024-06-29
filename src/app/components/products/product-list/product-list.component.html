@@ -1,11 +1,11 @@
 <h2>Lista de productos</h2>
-<button routerLink="/addProduct">Agregar producto nuevo</button>
+<button *ngIf="getAuthService().isAdmin()" routerLink="/addProduct">Agregar producto nuevo</button>
 
 <div id="products-list">
   <div *ngFor="let product of products$ | async" class="product"
   [title]="product.title + ' details'"  >
   
-    <button (click)="delete(product)">Borrar producto</button>
+    <button *ngIf="getAuthService().isAdmin()" (click)="delete(product)">Borrar producto</button>
 
     <h2>{{ product.title }}</h2>
     

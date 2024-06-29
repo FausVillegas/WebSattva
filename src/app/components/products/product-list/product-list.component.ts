@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CartService } from 'src/app/cart.service';
-import { ProductsData } from '../../../api-data-products/api-data';
+import { CartService } from 'src/app/services/cart.service';
 
 import { ProductService } from 'src/app/services/product.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -20,6 +19,10 @@ export class ProductListComponent implements OnInit{
   userId!: Pick<User, "id">;
 
   constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService) {
+  }
+
+  getAuthService(): AuthService {
+    return this.authService;
   }
 
   ngOnInit(): void {

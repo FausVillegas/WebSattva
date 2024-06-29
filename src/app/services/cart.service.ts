@@ -1,4 +1,3 @@
-import { ProductsData } from './api-data-products/api-data';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
