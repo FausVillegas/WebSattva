@@ -9,6 +9,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class CartComponent {
   items = this.cartService.getCartItems(); //obtener items del carrito
+  apiUrl = 'http://localhost:3000/';
 
   checkoutForm = this.formBuilder.group({
     name: '',

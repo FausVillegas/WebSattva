@@ -4,6 +4,7 @@
     <thead>
       <tr>
         <th>Producto</th>
+        <th></th>
         <th>Cantidad</th>
         <th>Precio</th>
         <th>Eliminar</th>
@@ -11,16 +12,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of getCartService().getCartItems(); let i = index">
-        <img [src]='item.imageUrl'>
-        <td>{{ item.title }}</td>
+        <img [src]='apiUrl+item.product.imageUrl'>
+        <td>{{ item.product.title }}</td>
         <td>{{ item.quantity }}</td>
-        <td>{{ item.price | currency:'USD':true }}</td>
+        <td>{{ item.product.price*item.quantity | currency:'$':true }}</td>
         <td><button (click)="getCartService().removeItem(i)">Eliminar</button></td>
       </tr>
     </tbody>
   </table>
   <div class="total">
-    <p>Total: {{ getCartService().totalPrice | currency:'USD':true }}</p>
+    <p>Total: {{ getCartService().totalPrice | currency:'$':true }}</p>
   </div>
   <button>Continuar compra</button>
 </div>

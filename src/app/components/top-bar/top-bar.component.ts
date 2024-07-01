@@ -13,18 +13,16 @@ export class TopBarComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
   
   ngOnInit(): void {
-    this.authService.isUserLoggedIn$.subscribe((isLoggedIn) => {
-      this.isAuthenticated = isLoggedIn;
-    })
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
   
   userState(): boolean {
-    return this.authService.isUserLoggedIn$.value;;
+    return this.authService.isAuthenticated();
   }
 
   logout(): void {
-    localStorage.removeItem("token");
-    this.authService.isUserLoggedIn$.next(false);
+    this.authService.logout();
+    this.isAuthenticated = this.authService.isAuthenticated();
     window.location.reload();
   }
 

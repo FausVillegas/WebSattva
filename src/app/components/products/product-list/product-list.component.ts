@@ -17,9 +17,9 @@ import { User } from 'src/app/models/User';
 export class ProductListComponent implements OnInit{
   products$!: Observable<Product[]>;
   userId!: Pick<User, "id">;
+  apiUrl: string = 'http://localhost:3000/';
 
-  constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService) {
-  }
+  constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService) { }
 
   getAuthService(): AuthService {
     return this.authService;

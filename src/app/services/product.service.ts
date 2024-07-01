@@ -30,16 +30,6 @@ export class ProductService {
       );
   }
 
-  // createProduct(formData: Partial<Product>): Observable<Product> {
-  //   console.log("product.service.ts: "+formData);
-  //   return this.http
-  //   .post<Product>(this.url, { title: formData.title, description: formData.description, price: formData.price, category: formData.category, stock: formData.stock, imageUrl: formData.imageUrl }, this.httpOptions)
-  //   .pipe(
-  //     catchError(error => {
-  //       return this.errorHandlerService.handleError<Product>("createProduct")(error);
-  //     }),
-  //   );
-  // }
   createProduct(formData: FormData): Observable<Product> {
     return this.http.post<Product>(this.url, formData).pipe(
           catchError(error => {
@@ -55,6 +45,16 @@ export class ProductService {
       first(),
       catchError(error => {
         return this.errorHandlerService.handleError<Product>("deleteProduct")(error);
+      }),
+    )
+  }
+
+  getProductById(productId: string): Observable<Product> {
+    return this.http
+    .get<Product>(`${this.url}/${productId}`)
+    .pipe(
+      catchError(error => {
+        return this.errorHandlerService.handleError<Product>("getProductById")(error);
       }),
     )
   }

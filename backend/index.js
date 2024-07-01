@@ -57,6 +57,7 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/auth', authRoutes);
 app.use('/products', productsRoutes);
+// app.use('/products/:id', productsRoutes);
 
 app.use(errorController.get404);
 app.use(errorController.get500);

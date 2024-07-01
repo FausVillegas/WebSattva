@@ -11,7 +11,9 @@ const router = express.Router();
 const authController = require('../controllers/auth');
 const upload = require('../middleware/upload');
 
-router.get('/', productsController.fetchAll)
+router.get('/', productsController.fetchAll);
+
+router.get('/:id', productsController.getProductById);
 
 router.post(
     // '/products',

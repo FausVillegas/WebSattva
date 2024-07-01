@@ -1,25 +1,44 @@
-<h2>Lista de productos</h2>
-<button *ngIf="getAuthService().isAdmin()" routerLink="/addProduct">Agregar producto nuevo</button>
-
-<div id="products-list">
-  <div *ngFor="let product of products$ | async" class="product"
-  [title]="product.title + ' details'"  >
-  
-    <button *ngIf="getAuthService().isAdmin()" (click)="delete(product)">Borrar producto</button>
-
-    <h2>{{ product.title }}</h2>
-    
-    <div [routerLink]="['/products', product.id]">
-      <img [src]="'http://localhost:3000/' + product.imageUrl" alt="{{ product.title }}" >
-    <!-- <p *ngIf='product.description!=null'>Description: {{ product.description }}</p> -->
-      <p>$ {{ product.price }}</p>
-      <button type="button" (click)="share(product)">Agregar a carrito</button>
-      <!-- <app-product-alerts [product]="product" (notify)="onNotify()">
-      </app-product-alerts> 
-
-      <p *ngIf='product.description!=null'>Description: {{ product.description }}</p>
-      <button type="button" (click)="share()">Buy</button>-->
+<!-- 
+<h2>Productos disponibles</h2>
+<button *ngIf="getAuthService().isAdmin()" class="add-product-btn" routerLink="/addProduct">Agregar producto nuevo</button>
+<div class="card-wrapper">
+  <div class="card" *ngFor="let product of products$ | async">
+    <button *ngIf="getAuthService().isAdmin()" class="delete-product-btn" (click)="delete(product)">Borrar producto</button>
+    <div class="card-image">
+      <img [src]="product.imageUrl" />
+    </div>
+    <div class="card-title">
+      <h4>{{ product.title }}</h4>
+      <div class="card-description" *ngIf="product">
+        <p>{{ product.description }}</p>
+        <p class="price">${{ product.price }}</p>
+      </div>
+    </div>
+    <div class="buttons">
+      <button type="button" class="add-to-cart-btn" (click)="share(product)">Agregar a carrito</button>
+      <i  class="fa-solid fa-plus"></i>
+      <i  class="fa-solid fa-minus"></i>
     </div>
   </div>
-</div>
+</div> -->
 
+<h2 class="title">Productos disponibles</h2>
+<button *ngIf="getAuthService().isAdmin()" class="add-product-btn" routerLink="/addProduct">Agregar producto nuevo</button>
+
+<div id="products-list">
+  <div *ngFor="let product of products$ | async" class="product-card" class="product">
+    <button *ngIf="getAuthService().isAdmin()" class="delete-product-btn" (click)="delete(product)">Borrar producto</button>
+    <div class="product-details" [routerLink]="['/products/', product.id]">
+      <h2 class="product-title">{{ product.title }}</h2>
+      <div class="product-image">
+        <img [src]="apiUrl + product.imageUrl" alt="{{ product.title }}" >
+      </div>
+      <p class="product-price">$ {{ product.price }}</p>
+      
+      <!-- <app-product-alerts [product]="product" (notify)="onNotify()"></app-product-alerts>  -->
+
+      <!-- <p *ngIf='product.description!=null'>Description: {{ product.description }}</p> -->
+    </div>
+    <button type="button" class="add-to-cart-btn" (click)="share(product)">Agregar a carrito</button>
+  </div>
+</div>

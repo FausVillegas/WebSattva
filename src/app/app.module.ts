@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 // import { ProductAlertsComponent } from './products/product-alerts/product-alerts.component';
-// import { ProductDetailsComponent } from './products/product-details/product-details.component';
+import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartService } from './services/cart.service';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -28,15 +28,17 @@ import { AdminGuardService } from './services/admin-guard.service';
     LogInComponent,
     AddProductComponent,
     // ProductAlertsComponent,
-    // ProductDetailsComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     RouterModule.forRoot([
+      { path: '', redirectTo: '/products', pathMatch: 'full'},
       { path: 'products', component: ProductListComponent },
-      // { path: 'products/:productId', component: ProductDetailsComponent },
+      { path: 'products/:id', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
       { path: 'addProduct', component: AddProductComponent, canActivate: [AdminGuardService] },

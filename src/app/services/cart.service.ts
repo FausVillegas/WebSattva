@@ -5,18 +5,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CartService {
-  // items: ProductsData[] = []; //articulos del carro
 
   constructor(private http: HttpClient) {}
-  
-  //métodos del carrito
-  // addToCart(product: ProductsData) {
-  //   this.items.push(product);
-  // }
-
-  // getItems() {
-  //   return this.items;
-  // }
 
   clearCart() {
     this.cartItems = [];
@@ -33,13 +23,21 @@ export class CartService {
   cartItems:any[] = []; 
 
   addToCart(product: any) {
-    // let item = this.cartItems.find(item => item.product.id === product.id);
-    // if (!item) {
-    //   item = { product: product, quantity: 0 };
-    //   this.cartItems.push(item);
-    // }
-    // item.quantity++;
-    this.cartItems.push(product);
+    let item = this.cartItems.find(item => item.product.id === product.id);
+    if (!item) {
+      item = { product: product, quantity: 0 };
+      this.cartItems.push(item);
+    }
+    item.quantity++;
+  }
+
+  addToCartQuatity(product: any, quantity: number) {
+    let item = this.cartItems.find(item => item.product.id === product.id);
+    if (!item) {
+      item = { product: product, quantity: 0 };
+      this.cartItems.push(item);
+    }
+    item.quantity += quantity;
   }
 
   getCartItems() {
@@ -47,8 +45,7 @@ export class CartService {
   }
   
   get totalPrice(): number {
-    // return this.cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
-    return this.cartItems.reduce((total, item) => total + item.price, 0);
+    return this.cartItems.reduce((total, item) => total + item.quantity * item.product.price, 0);
   }
 
   removeItem(index: number): void {

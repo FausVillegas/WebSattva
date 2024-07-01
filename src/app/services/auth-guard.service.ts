@@ -12,10 +12,10 @@ export class AuthGuardService {
   constructor(private authService: AuthService, private router: Router) { }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    if (!this.authService.isUserLoggedIn$.value) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
     }
-    return this.authService.isUserLoggedIn$;
+    return this.authService.isAuthenticated();
   }
 }
 

@@ -14,7 +14,6 @@ import { ErrorHandlerService } from './error-handler.service';
 export class AuthService {
   private url = "http://localhost:3000/auth"
 
-  isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
   userId!: Pick<User, "id">;
 
   httpOptions: { headers: HttpHeaders } = {
@@ -48,7 +47,6 @@ export class AuthService {
           this.userId = tokenObject.userId;
           localStorage.setItem("token", tokenObject.token);
           localStorage.setItem("role", tokenObject.role);
-          this.isUserLoggedIn$.next(true);
           this.router.navigate(["products"]);
         }),
         catchError(this.errorHandlerService.handleError<{ token: string, userId: Pick<User,"id">, role: string }>("login"))
@@ -56,9 +54,8 @@ export class AuthService {
   }
 
   logout(): void {
+    localStorage.removeItem('role');
     localStorage.removeItem('token');
-    localStorage.removeItem('administrator');
-    this.isUserLoggedIn$.next(false);
   }
 
   isAuthenticated(): boolean {

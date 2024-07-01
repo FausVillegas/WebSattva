@@ -1,8 +1,15 @@
-<h2>Product Details</h2>
+<div class="product-detail" *ngIf="product">
+  <div class="product-detail-image">
+    <img [src]="'http://localhost:3000/' + product.imageUrl" alt="{{ product.title }}">
+  </div>
+  <div class="product-info">
+    <h2 class="product-title">{{ product.title }}</h2>
+    <p class="product-description">{{ product.description }}</p>
+    <p class="product-price">$ {{ product.price }}</p>
 
-<div *ngIf="product">
-  <h3>{{ product.name }}</h3>
-  <h4>{{ product.price | currency }}</h4>
-  <p>{{ product.description }}</p>
-  <button type="button" (click)="addToCart(product)">Buy</button>
+    <label for="quantity" class="product-quantity-label">Cantidad:</label>
+    <input type="number" id="quantity" min="1" max="8" [(ngModel)]="quantity" class="product-quantity-input">
+
+    <button class="add-to-cart-btn" (click)="addToCart(product, quantity)">Agregar al carrito</button>
+  </div>
 </div>
