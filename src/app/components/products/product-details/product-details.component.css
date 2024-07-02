@@ -1,78 +1,118 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-  }
-  
-  .product-detail {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 1200px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-detail-image {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .product-detail-image img {
-    max-width: 100%;
-    border-radius: 10px;
-  }
-  
-  .product-detail-info {
-    flex: 2;
-    margin-left: 20px;
-  }
-  
-  .product-detail-title {
-    font-size: 2em;
-    margin-bottom: 10px;
-    color: #2c3e50;
-  }
-  
-  .product-detail-description {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: #7f8c8d;
-  }
-  
-  .product-detail-price {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #27ae60;
-  }
-  
-  .product-detail-quantity-label {
-    font-size: 1em;
-    margin-right: 10px;
-  }
-  
-  .product-detail-quantity-input {
-    width: 60px;
-    padding: 5px;
-    font-size: 1em;
-    margin-bottom: 20px;
-  }
-  
-  .add-to-cart-btn {
-    background-color: #2980b9;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .add-to-cart-btn:hover {
-    background-color: #1f6391;
-  }
-  
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Montserrat:300,400,700,800|Open+Sans:300');
+
+.card {
+  box-shadow: 0 6px 6px rgba(#000, 0.3);
+  transition: 200ms;
+  background: #fff;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  padding: 30px 40px;
+  flex: 1 0 10px;
+  background: #44c1d4;
+  color: #fff;
+  padding: 10px 10px;
+  margin: 6.5rem 0 2rem 0;
+  transition: 200ms;
+}
+
+.card-body {
+  padding: 0 40px;
+  display: flex;
+  flex-flow: row no-wrap;
+  margin-bottom: 25px;
+}
+
+.half {
+  box-sizing: border-box;
+  padding: 0 15px;
+  flex: 1 0 50%;
+}
+
+.title-price h1 {
+  margin: 0 0 2rem 0;
+  padding: 0;
+  font-weight: 800;
+  font-family: "Montserrat", sans-serif;
+  font-size: 64px;
+  line-height: 50px;
+  color: #181e28;
+}
+
+.title-price.price {
+  margin: 0;
+  padding: 0;
+  font-family: "Fjalla One", sans-serif;
+  color: #252525;
+  font-size: 26px;
+}
+
+.image {
+  padding-top: 15px;
+  width: 100%;
+}
+
+.image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.description {
+  margin-bottom: 25px;
+}
+
+.description p {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  line-height: 27px;
+  font-size: 16px;
+  color: #555;
+}
+
+.stock,
+.no-stock {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+
+.stock {
+  color: #a1cc16;
+}
+
+.no-stock {
+  color: #bf0606;
+}
+
+.quantity {
+  padding-top: 1rem;
+}
+
+
+.action {
+  padding: 30px 40px;
+  display: flex;
+  flex-flow: row no-wrap;
+  justify-content: center;
+  position: relative;
+}
+
+.action button {
+  cursor: pointer;
+  border: 1px solid #2b7a87;
+  padding: 14px 30px;
+  border-radius: 200px;
+  color: #fff;
+  background: #2b7a87;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  transition: 200ms;
+}
+
+.action button:hover {
+  background: #fff;
+  color: #2b7a87;
+}

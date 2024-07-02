@@ -7,22 +7,16 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.css']
 })
-export class TopBarComponent implements OnInit {
-  isAuthenticated = false;
+export class TopBarComponent{
 
   constructor(private authService: AuthService, private router: Router) { }
   
-  ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
-  }
-  
-  userState(): boolean {
+  isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
 
   logout(): void {
     this.authService.logout();
-    this.isAuthenticated = this.authService.isAuthenticated();
     window.location.reload();
   }
 

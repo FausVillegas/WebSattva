@@ -5,8 +5,8 @@
             <li><a routerLink="/">Inicio</a></li>
             <li><a routerLink="/products">Lista de productos</a></li>
             <li><a routerLink="/cart"  class="button fancy-button">Carrito</a></li>
-            <li><a *ngIf="!isAuthenticated" routerLink="/login">Iniciar Sesión</a></li>
-            <li><a *ngIf="isAuthenticated" (click)="logout()" routerLink="/login">Cerrar sesión</a></li>
+            <li><a *ngIf="!isAuthenticated()" routerLink="/login">Iniciar Sesión</a></li>
+            <li><a *ngIf="isAuthenticated()" (click)="logout()" routerLink="/login">Cerrar sesión</a></li>
         </ul>
         <div>
             <ul id="filters" hidden>

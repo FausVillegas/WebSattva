@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'e-commerce-sattva';
-  // constructor (router: Router){
-  //   router.navigate(['/products']);
-  // }
+  constructor () {
+  }
 }
