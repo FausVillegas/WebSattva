@@ -1,3 +1,4 @@
+declare var google: any;
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -53,18 +54,49 @@ export class AuthService {
       );
   }
 
+  // googleLogin(token: string): Observable<User> {
+  //   return this.http.post<User>(`${this.url}/google-login`, { token }, this.httpOptions)
+  //     .pipe(
+  //       first(),
+  //       tap(user => {
+  //         localStorage.setItem('loggedInUser', JSON.stringify(user));
+  //         this.router.navigate(['profile']);
+  //       }),
+  //       catchError(this.errorHandlerService.handleError<User>("googleLogin"))
+  //     );
+  // }
+
+  googleLogin(token: string): Observable<User> {
+    return this.http.post<User>(`${this.url}/google-login`, { token }, this.httpOptions)
+        .pipe(
+            first(),
+            tap(user => {
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                this.router.navigate(['profile']);
+            }),
+            catchError(this.errorHandlerService.handleError<User>("googleLogin"))
+        );
+  }
+
   logout(): void {
     localStorage.removeItem('role');
     localStorage.removeItem('token');
+    google.accounts.id.disableAutoSelect();
+    localStorage.removeItem('loggedInUser');
+    sessionStorage.removeItem('loggedInUser');
+    this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
-    console.log("TOKEN AUTH SERVICE TS "+localStorage.getItem('token'));
-    return !!localStorage.getItem('token');
+    return !!(localStorage.getItem('token') || sessionStorage.getItem('loggedInUser'));
   }
 
+
   isAdmin(): boolean {
-    console.log("ADMIN AUTH SERVICE TS "+localStorage.getItem('role'));
+    const loggedInUser = sessionStorage.getItem("loggedInUser");
+    if(loggedInUser){
+      return JSON.parse(loggedInUser!).role === "admin";
+    } 
     return localStorage.getItem('role') === "admin";
   }
 }

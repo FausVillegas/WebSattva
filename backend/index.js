@@ -56,6 +56,7 @@ app.use('/uploads', express.static('uploads'));
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRoutes);
+
 app.use('/products', productsRoutes);
 // app.use('/products/:id', productsRoutes);
 

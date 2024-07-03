@@ -73,3 +73,28 @@ exports.login = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.googleLogin = async (req, res, next) => {
+    const { token } = req.body;
+    const decoded = jwt.decode(token);
+
+    try {
+        let user = await User.find(decoded.email);
+        if (user[0].length === 0) {
+            const newUser = {
+                googleId: decoded.sub,
+                name: decoded.name,
+                email: decoded.email
+            };
+            await User.save(newUser);
+            user = await User.find(decoded.email);
+        }
+
+        res.status(200).send(user[0][0]);
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};

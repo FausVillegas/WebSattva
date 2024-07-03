@@ -18,6 +18,7 @@ import { AddProductComponent } from './components/products/add-product/add-produ
 
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { AdminGuardService } from './services/admin-guard.service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +26,11 @@ import { AdminGuardService } from './services/admin-guard.service';
     TopBarComponent,
     ProductListComponent,
     CartComponent,
-    LogInComponent,
+    // LogInComponent,
     AddProductComponent,
     // ProductAlertsComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,7 @@ import { AdminGuardService } from './services/admin-guard.service';
     FormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: '/products', pathMatch: 'full'},
+      { path: 'profile', component: ProfileComponent},
       { path: 'products', component: ProductListComponent },
       { path: 'products/:id', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
