@@ -58,4 +58,10 @@ export class ProductService {
       }),
     )
   }
+
+  searchProducts(searchTerm: string): Observable<Product[]> {
+    const url = `${this.url}?title_like=${searchTerm}`;
+    return this.http.get<Product[]>(url);
+  }
+  
 }

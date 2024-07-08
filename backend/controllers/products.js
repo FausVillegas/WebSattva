@@ -58,6 +58,7 @@ exports.postProduct = async (req, res, next) => {
 
 
 exports.deleteProduct = async (req, res, next) => {
+    console.log("Borrando producto "+req.params.id)
     try {
         const [product] = await Product.findById(req.params.id);
         if (product.length === 0) {

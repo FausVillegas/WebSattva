@@ -8,6 +8,10 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
+  getItemsInCart(): number {
+    return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
+
   clearCart() {
     this.cartItems = [];
     return this.cartItems;

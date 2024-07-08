@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { CartService } from 'src/app/services/cart.service';
 
@@ -8,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 import { Product } from 'src/app/models/Product';
 import { User } from 'src/app/models/User';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -16,10 +18,11 @@ import { User } from 'src/app/models/User';
 })
 export class ProductListComponent implements OnInit{
   products$!: Observable<Product[]>;
+  filteredProducts$!: Observable<Product[]>;
   userId!: Pick<User, "id">;
   apiUrl: string = 'http://localhost:3000/';
 
-  constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService) { }
+  constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService, private route: ActivatedRoute) { }
 
   getAuthService(): AuthService {
     return this.authService;
@@ -28,6 +31,26 @@ export class ProductListComponent implements OnInit{
   ngOnInit(): void {
     this.products$ = this.fetchAll();
     this.userId = this.authService.userId;
+    this.route.queryParams.subscribe(params => {
+      const searchTerm = params['search'];
+      const category = params['category'];
+      const order = params['order'];
+      this.filteredProducts$ = this.products$.pipe(
+        map(products => {
+          let filtered = products;
+          if (searchTerm) {
+            filtered = filtered.filter(product => product.title.toLowerCase().includes(searchTerm.toLowerCase()));
+          }
+          if (category) {
+            filtered = filtered.filter(product => product.category.toLowerCase() === category.toLowerCase());
+          }
+          if (order) {
+            filtered = filtered.sort((a, b) => order === 'ascendente' ? a.price - b.price : b.price - a.price);
+          }
+          return filtered;
+        })
+      );
+    });
   }
 
   fetchAll(): Observable<Product[]> {

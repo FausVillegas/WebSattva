@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -8,8 +9,22 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./top-bar.component.css']
 })
 export class TopBarComponent{
+  isProductsRoute: boolean = false;
+  searchTerm: string = '';
+  showFilterMenu: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private cartService: CartService, private router: Router) {
+    this.showFilterMenu = false;
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isProductsRoute = this.router.url.includes('/products');
+      }
+    });
+  }
+
+  getItemsInCart(): number {
+    return this.cartService.getItemsInCart();
+  }
   
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
@@ -20,40 +35,19 @@ export class TopBarComponent{
     window.location.reload();
   }
 
-  EventFilterButton():void{
-    const filterBtn = document.getElementById('filter-button')
-    const filters = document.getElementById('filters')
-    if (filters)
-          if (filters.hasAttribute('hidden')) {
-              // Si el atributo hidden está presente, quítalo para mostrar el elemento
-              filters.removeAttribute('hidden');
-          } else {
-              // Si el atributo hidden no está presente, agrégalo para ocultar el elemento
-              filters.setAttribute('hidden','true');
-          }
+  toggleFilterMenu(): void {
+    this.showFilterMenu = !this.showFilterMenu;
   }
 
-  EventCategoriesBtn():void{
-    const btnCategorias = document.getElementById('btn-categorias')
-    const categoriasMenu = document.getElementById('categorias-menu')
-    if(categoriasMenu){
-      if (categoriasMenu.hasAttribute('hidden')) {
-        categoriasMenu.removeAttribute('hidden');
-      } else {
-        categoriasMenu.setAttribute('hidden','true');
-      }
-    }
+  filterByCategory(category: string): void {
+    this.router.navigate(['/products'], { queryParams: { category } });
   }
 
-  EventPrieceBtn():void{
-    const btnPrecios = document.getElementById('btn-precios');
-    const preciosMenu = document.getElementById('precios-menu');
-    if(preciosMenu){
-      if (preciosMenu.hasAttribute('hidden')) {
-        preciosMenu.removeAttribute('hidden');
-      } else {
-        preciosMenu.setAttribute('hidden','true');
-      }
-    }
+  sortByPrice(order: string): void {
+    this.router.navigate(['/products'], { queryParams: { order } });
+  }
+
+  filterProducts(): void {
+    this.router.navigate(['/products'], { queryParams: { search: this.searchTerm } });
   }
 }

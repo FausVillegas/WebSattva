@@ -5,13 +5,13 @@
   <div class="container-add-product-btn">
     <button *ngIf="getAuthService().isAdmin()" class="add-product-btn" routerLink="/addProduct">Agregar producto nuevo</button>
   </div>
-  <div *ngFor="let product of products$ | async" class="product-card">
-    <div class="product-img" [routerLink]="['/products/', product.id]">
+  <div *ngFor="let product of filteredProducts$ | async" class="product-card">
+    <div class="product-img" [routerLink]="['/product/', product.id]">
       <img [src]="apiUrl + product.imageUrl" alt="{{ product.title }}" height="420" width="327">
     </div>
     <div class="product-info">
       <div class="product-title">
-        <button *ngIf="getAuthService().isAdmin()" class="delete-product-btn" (click)="delete(product)">Borrar producto</button>
+        <button *ngIf="getAuthService().isAdmin()" class="delete-product-btn" routerLink="/products" (click)="delete(product)">Borrar producto</button>
         <h1>{{ product.title }}</h1>
       </div>
       <div class="product-price-btn">

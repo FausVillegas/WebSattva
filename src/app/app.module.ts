@@ -43,7 +43,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
       { path: '', redirectTo: '/products', pathMatch: 'full'},
       { path: 'profile', component: ProfileComponent},
       { path: 'products', component: ProductListComponent },
-      { path: 'products/:id', component: ProductDetailsComponent },
+      { path: 'product/:id', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
       { path: 'addProduct', component: AddProductComponent, canActivate: [AdminGuardService] },
