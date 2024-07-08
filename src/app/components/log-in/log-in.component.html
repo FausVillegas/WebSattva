@@ -17,14 +17,26 @@
                         <i class='bx bx-user'></i>
                         <input type="text" formControlName="name" placeholder="Nombre Completo">
                     </label>
+                    <small *ngIf="signupForm.get('name')?.hasError('required')">Ingrese un nombre</small>
+                    <small *ngIf="signupForm.get('name')?.hasError('minlength')">El nombre debe tener al menos 5 caracteres</small>
                     <label>
                         <i class='bx bx-envelope' ></i>
                         <input type="email" formControlName="email" placeholder="Correo Electronico">
                     </label>
+                    <small *ngIf="signupForm.get('email')?.hasError('required')">Ingrese un email</small>
                     <label>
                         <i class='bx bx-lock-alt' ></i>
                         <input type="password" formControlName="password" placeholder="Contraseña">
                     </label>
+                    <small *ngIf="signupForm.get('password')?.hasError('required')">Ingrese una contraseña</small>
+                    <small *ngIf="signupForm.get('password')?.hasError('minlength')">La contraseña debe tener al menos 5 caracteres</small>
+                    <label>
+                        <i class='bx bx-lock-alt' ></i>
+                        <input type="password" formControlName="confirmPassword" placeholder="Repetir Contraseña">
+                    </label>
+                    <div *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched">
+                        <small>Las contraseñas no coinciden</small>
+                    </div>
                     <input type="submit" [disabled]="!signupForm.valid" value="Registrarse">
                 </form>
             </div>

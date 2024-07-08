@@ -1,7 +1,7 @@
 declare var google: any;
 
 import { Component, Renderer2, ElementRef, ViewChild, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -80,10 +80,11 @@ export class LogInComponent implements OnInit {
 
    createFormGroupSignup(): FormGroup {
       return new FormGroup({
-         name: new FormControl("", [Validators.required, Validators.minLength(2)]),
+         name: new FormControl("", [Validators.required, Validators.minLength(5)]),
          email: new FormControl("", [Validators.required, Validators.email]),
          password: new FormControl("", [Validators.required, Validators.minLength(5)]),
-      });
+         confirmPassword: new FormControl("", [Validators.required, Validators.minLength(5)]),
+      }, { validators: this.passwordsMatchValidator });
    }
 
    createFormGroupLogin(): FormGroup {
@@ -99,6 +100,11 @@ export class LogInComponent implements OnInit {
       });
    }
 
+   passwordsMatchValidator: ValidatorFn = (form: AbstractControl): { [key: string]: boolean } | null => {
+      const password = form.get('password')?.value;
+      const confirmPassword = form.get('confirmPassword')?.value;
+      return password === confirmPassword ? null : { mismatch: true };
+    };
 
    signup(): void {
       console.log(this.signupForm.value);
