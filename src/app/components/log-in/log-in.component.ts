@@ -18,8 +18,11 @@ import { Router } from '@angular/router';
 export class LogInComponent implements OnInit {
    signupForm: FormGroup;
    loginForm: FormGroup;
+   changePasswordForm: FormGroup;
    title = 'my-app';
    private router = inject(Router);
+   showLogin = false;
+   showChangePassword = false;
 
    ngOnInit(): void {
       // Verificar si google.accounts está disponible antes de usarlo
@@ -53,33 +56,27 @@ export class LogInComponent implements OnInit {
           });
       }
   }
-  
-
-   // handleGoogleLogin(response: any) {
-   //    if(response){
-   //       //decode the token
-   //       const payload = this.decodeToken(response.credential);
-   //       //store in session
-   //       sessionStorage.setItem("loggedInUser", JSON.stringify(payload));
-   //       //navigate to home/browesr
-   //       this.router.navigate(['profile']);
-   //    }
-   // }
 
    constructor(private el: ElementRef, private renderer: Renderer2, private authService: AuthService) {
       this.signupForm = this.createFormGroupSignup();
       this.loginForm = this.createFormGroupLogin();
+      this.changePasswordForm = this.createFormGroupChangePassword();
    }
 
    showRegisterForm() {
-      this.renderer.removeClass(this.el.nativeElement.querySelector('.signup'), 'hide');
-      this.renderer.addClass(this.el.nativeElement.querySelector('.login'), 'hide');
+      this.showLogin = false;
+      this.showChangePassword = false;
    }
 
    showLoginForm() {
-      this.renderer.removeClass(this.el.nativeElement.querySelector('.login'), 'hide');
-      this.renderer.addClass(this.el.nativeElement.querySelector('.signup'), 'hide');
+      this.showLogin = true;
+      this.showChangePassword = false;
    }
+
+   showChangePasswordForm() {
+      this.showLogin = false;
+      this.showChangePassword = true;
+  }
 
    createFormGroupSignup(): FormGroup {
       return new FormGroup({
@@ -88,12 +85,20 @@ export class LogInComponent implements OnInit {
          password: new FormControl("", [Validators.required, Validators.minLength(5)]),
       });
    }
+
    createFormGroupLogin(): FormGroup {
       return new FormGroup({
          email: new FormControl("", [Validators.required, Validators.email]),
          password: new FormControl("", [Validators.required, Validators.minLength(5)]),
       });
    }
+
+   createFormGroupChangePassword(): FormGroup {
+      return new FormGroup({
+          email: new FormControl("", [Validators.required, Validators.email]),
+      });
+   }
+
 
    signup(): void {
       console.log(this.signupForm.value);
@@ -111,6 +116,14 @@ export class LogInComponent implements OnInit {
       this.router.navigate(['profile']);
    }
 
+ changePassword(): void {
+   console.log(this.changePasswordForm.value);
+   if (this.changePasswordForm.valid) {
+     this.authService.sendEmailResetPassword(this.changePasswordForm.value)
+      .subscribe(response => console.log('Correo enviado:', response));
+   }
+ }
+ 
    googleLogin(): void {
       console.log(JSON.parse(sessionStorage.getItem("loggedInUser")!).name);
       this.authService

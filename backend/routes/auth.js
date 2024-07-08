@@ -32,4 +32,23 @@ router.post(
     '/google-login', authController.googleLogin
 );
 
+// router.post('/request-password-reset', authController.requestPasswordReset);
+router.post(
+    '/reset-password-request', 
+    [
+        body('email').isEmail().withMessage('Please enter a valid email.')
+        .custom(async (email) => {
+            const user = await User.find(email);
+            if (user[0].length === 0) {
+                return Promise.reject("Email address not exist");
+            }
+        })
+    ],
+    authController.sendPasswordResetEmail
+);
+
+router.post('/reset-password', authController.resetPassword);
+
+// router.post('/change-password', authController.changePassword);
+
 module.exports = router;

@@ -54,17 +54,31 @@ export class AuthService {
       );
   }
 
-  // googleLogin(token: string): Observable<User> {
-  //   return this.http.post<User>(`${this.url}/google-login`, { token }, this.httpOptions)
-  //     .pipe(
-  //       first(),
-  //       tap(user => {
-  //         localStorage.setItem('loggedInUser', JSON.stringify(user));
-  //         this.router.navigate(['profile']);
-  //       }),
-  //       catchError(this.errorHandlerService.handleError<User>("googleLogin"))
-  //     );
-  // }
+  sendEmailResetPassword(email: Pick<User, "email">): Observable<any> {
+    console.log("Se ejecuta sendEmailResetPassword auth.service.ts: ", email);
+    return this.http
+      .post(`${this.url}/reset-password-request`, email, this.httpOptions)
+      .pipe(
+        first(),
+        catchError(error => {
+          console.error('sendEmailResetPassword', error);
+          return this.errorHandlerService.handleError<{ email: string }>("sendEmailResetPassword")(error);
+        }),
+      );
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http
+      .post(`${this.url}/reset-password`, { token, newPassword }, this.httpOptions)
+        .pipe(
+          first(),
+          catchError(error => {
+            console.error('Error resetting password:', error);
+            return this.errorHandlerService.handleError<{ email: string }>("resetPassword")(error);
+          }),
+        );
+  }
+
 
   googleLogin(token: string): Observable<User> {
     return this.http.post<User>(`${this.url}/google-login`, { token }, this.httpOptions)

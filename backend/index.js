@@ -32,6 +32,7 @@
 // app.listen(ports, () => console.log(`Listening on port ${ports}`));
 
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
@@ -51,14 +52,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/uploads', express.static('uploads'));
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRoutes);
+// app.use('/auth/reset-password-request', authRoutes);
 
 app.use('/products', productsRoutes);
-// app.use('/products/:id', productsRoutes);
 
 app.use(errorController.get404);
 app.use(errorController.get500);

@@ -8,7 +8,6 @@
     
 }
 
-/* .logIn-signUp{ */
 .logIn-signUp {
     padding-top: 70px;
     display: flex;
@@ -138,12 +137,13 @@
     background-color: #7a7a9a;
 }
 
-.hide{
+.google-btn{
     position: absolute;
-    transform: translateY(-200%);
+    margin-top: 25rem;
+    margin-left: 20rem;
 }
 
-/* Resposive form */
+ /* Resposive form */
 
 @media screen and (max-width:750px) {
     html{

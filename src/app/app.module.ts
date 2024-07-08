@@ -19,6 +19,7 @@ import { AddProductComponent } from './components/products/add-product/add-produ
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { AdminGuardService } from './services/admin-guard.service';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     AddProductComponent,
     // ProductAlertsComponent,
     ProductDetailsComponent,
-    ProfileComponent
+    ProfileComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { ProfileComponent } from './components/profile/profile.component';
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
       { path: 'addProduct', component: AddProductComponent, canActivate: [AdminGuardService] },
+      { path: 'reset-password', component: ResetPasswordComponent }
       // { path: 'shipping', component: ShippingComponent },
     ]),
   ],

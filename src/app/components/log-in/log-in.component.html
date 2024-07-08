@@ -1,5 +1,7 @@
 <div class="logIn-signUp">
-    <div class="container-form signup">
+    <div class="google-btn">
+    </div>
+    <div *ngIf="!showLogin && !showChangePassword" class="container-form signup">
         <div class="information">
             <div class="info-childs">
                 <h2>Bienvenido</h2>
@@ -10,9 +12,6 @@
         <div class="form-information">
             <div class="form-information-childs">
                 <h2>Crear una cuenta</h2>
-                <div class="google-btn">
-                </div>
-                <p>o usa tu email para registrarte</p>
                 <form class="form" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
                     <label>
                         <i class='bx bx-user'></i>
@@ -32,7 +31,7 @@
         </div>
     </div>
 
-    <div class="container-form login hide">
+    <div *ngIf="showLogin" class="container-form login">
         <div class="information">
             <div class="info-childs">
                 <h2>Bienvenido</h2>
@@ -43,7 +42,6 @@
         <div class="form-information">
             <div class="form-information-childs">
                 <h2>Iniciar Sesión</h2>
-                <p>o usa tu email para iniciar sesión</p>
                 <form class="form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                     <label>
                         <i class='bx bx-envelope' ></i>
@@ -55,7 +53,29 @@
                     </label>
                     <input type="submit" [disabled]="!loginForm.valid" value="Iniciar Sesión">
                 </form>
+                <input type="button" value="Olvidé mi Contraseña" (click)="showChangePasswordForm()">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showChangePassword" class="container-form change-password">
+        <div class="information">
+            <div class="info-childs">
+                <h2>Restablecer Contraseña</h2>
+                <p>Ingrese su correo electrónico para restablecer la contraseña</p>
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-childs">
+                <form class="form" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()" novalidate>
+                    <label>
+                        <i class='bx bx-envelope'></i>
+                        <input type="email" formControlName="email" placeholder="Correo Electronico">
+                    </label>
+                    <input type="submit" [disabled]="!changePasswordForm.valid" value="Enviar">
+                </form>
+                <input type="button" value="Volver" (click)="showLoginForm()">
             </div>
         </div>
     </div>
 </div>
+
