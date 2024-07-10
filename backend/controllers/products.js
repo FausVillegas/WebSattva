@@ -21,17 +21,9 @@ exports.postProduct = async (req, res, next) => {
     if (!errors.isEmpty()) {
         return console.error("Error "+errors);
     }
-
-    // const title = req.body.title; 
-    // const description = req.body.description; 
-    // const price = req.body.price; 
-    // const category = req.body.category; 
-    // const stock = req.body.stock;
-    // const imageUrl = req.body.imageUrl;
-    // const idSupplier = req.body.id_supplier;
     
-    const { title, description, price, category, stock } = req.body;
-    const imageUrl = req.file.path;
+    const { title, description, sale_price, category, stock } = req.body;
+    const image_url = req.file.path;
 
     // console.info("Controllers/Products.js"+req.body);
     // console.info(idSupplier);
@@ -40,10 +32,10 @@ exports.postProduct = async (req, res, next) => {
         const product = {
             title: title, 
             description: description,
-            price: price, 
+            sale_price: sale_price, 
             category: category,
             stock: stock,
-            imageUrl: imageUrl,
+            image_url: image_url,
             // idSupplier: idSupplier,
         }
 
@@ -64,10 +56,10 @@ exports.deleteProduct = async (req, res, next) => {
         if (product.length === 0) {
             throw new Error(`No se encontró ningún producto con el id ${req.params.id}`);
         }
-        const { id: productId, imageUrl } = product[0];
+        const { id: productId, image_url } = product[0];
 
-        if (fs.existsSync(imageUrl)) {
-            fs.unlinkSync(imageUrl);
+        if (fs.existsSync(image_url)) {
+            fs.unlinkSync(image_url);
         }
 
         const deleteResponse = await Product.delete(productId);

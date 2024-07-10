@@ -1,7 +1,7 @@
 declare var google: any;
 
 import { Component, Renderer2, ElementRef, ViewChild, OnInit, inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ export class LogInComponent implements OnInit {
    private router = inject(Router);
    showLogin = false;
    showChangePassword = false;
+   errorMessage: string | null = null;
 
    ngOnInit(): void {
       // Verificar si google.accounts está disponible antes de usarlo
@@ -80,7 +81,7 @@ export class LogInComponent implements OnInit {
 
    createFormGroupSignup(): FormGroup {
       return new FormGroup({
-         name: new FormControl("", [Validators.required, Validators.minLength(5)]),
+         name: new FormControl("", [Validators.required, Validators.minLength(5), this.fullNameValidator()]),
          email: new FormControl("", [Validators.required, Validators.email]),
          password: new FormControl("", [Validators.required, Validators.minLength(5)]),
          confirmPassword: new FormControl("", [Validators.required, Validators.minLength(5)]),
@@ -105,21 +106,35 @@ export class LogInComponent implements OnInit {
       const confirmPassword = form.get('confirmPassword')?.value;
       return password === confirmPassword ? null : { mismatch: true };
     };
+    
+   fullNameValidator(): ValidatorFn {
+      return (control: AbstractControl): { [key: string]: any } | null => {
+        const value = control.value || '';
+        const valid = value.trim().split(' ').length > 1;
+        return valid ? null : { fullName: true };
+      };
+    }
 
-   signup(): void {
+    signup(): void {
+      this.errorMessage = null;
       console.log(this.signupForm.value);
-      this.authService
-         .signup(this.signupForm.value)
-         .subscribe((msg) => console.log(msg));
-      this.router.navigate(['profile']);
-   }
+      this.authService.signup(this.signupForm.value).subscribe({
+        next: (msg) => {
+          console.log(msg);
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.errorMessage = error.error.message || 'Ocurrió un error durante el registro';
+        }
+      });
+    }
+  
 
    login(): void {
       console.log(this.loginForm.value);
       this.authService
          .login(this.loginForm.value.email, this.loginForm.value.password)
          .subscribe();
-      this.router.navigate(['profile']);
    }
 
  changePassword(): void {
@@ -137,4 +152,5 @@ export class LogInComponent implements OnInit {
          .subscribe();
       this.router.navigate(['profile']);
    }
+
 }

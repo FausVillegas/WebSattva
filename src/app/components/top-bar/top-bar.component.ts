@@ -32,7 +32,6 @@ export class TopBarComponent{
 
   logout(): void {
     this.authService.logout();
-    window.location.reload();
   }
 
   toggleFilterMenu(): void {

@@ -45,7 +45,7 @@ export class ProductListComponent implements OnInit{
             filtered = filtered.filter(product => product.category.toLowerCase() === category.toLowerCase());
           }
           if (order) {
-            filtered = filtered.sort((a, b) => order === 'ascendente' ? a.price - b.price : b.price - a.price);
+            filtered = filtered.sort((a, b) => order === 'ascendente' ? a.sale_price - b.sale_price : b.sale_price - a.sale_price);
           }
           return filtered;
         })

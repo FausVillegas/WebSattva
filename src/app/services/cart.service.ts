@@ -19,7 +19,7 @@ export class CartService {
   
   //peticion get http precios de envío
   getShipingPrices() {
-    return this.http.get<{ type: string; price: number }[]>(
+    return this.http.get<{ type: string; sale_price: number }[]>(
       '/assets/shipping.json'
     );
   }
@@ -49,7 +49,7 @@ export class CartService {
   }
   
   get totalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + item.quantity * item.product.price, 0);
+    return this.cartItems.reduce((total, item) => total + item.quantity * item.product.sale_price, 0);
   }
 
   removeItem(index: number): void {

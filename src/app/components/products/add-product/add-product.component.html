@@ -8,7 +8,7 @@
             <input id="description" type="text" placeholder="descripción" formControlName="description">
         </label>
         <label>
-            <input id="price" type="number" placeholder="Precio" formControlName="price">
+            <input id="price" type="number" placeholder="Precio" formControlName="sale_price">
         </label>
         <label>
             <input id="category" type="text" placeholder="Categoria" formControlName="category">
@@ -17,7 +17,7 @@
             <input id="stock" type="number" placeholder="Stock" formControlName="stock">
         </label>
         <label>
-            <input id="image" type="file" (change)="onFileChange($event)" type="file" formControlName="imageUrl">
+            <input id="image" type="file" (change)="onFileChange($event)" type="file" formControlName="image_url">
         </label>
         <input type="submit" value="Agregar producto" [disabled]="!productForm.valid">
     </form>

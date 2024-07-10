@@ -1,6 +1,6 @@
 {
     "host": "localhost",
     "user": "root",
-    "database": "sattva_db",
+    "database": "trainingcentersattva",
     "password": "tato0412"
 }

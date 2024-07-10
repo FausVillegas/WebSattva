@@ -2,8 +2,9 @@ declare var google: any;
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import jwtEncode from 'jwt-encode';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { first, catchError, tap } from 'rxjs/operators';
 
 import { User } from '../models/User';
@@ -14,7 +15,7 @@ import { ErrorHandlerService } from './error-handler.service';
 })
 export class AuthService {
   private url = "http://localhost:3000/auth"
-
+  private secretKey = 'secretfortoken1205';
   userId!: Pick<User, "id">;
 
   httpOptions: { headers: HttpHeaders } = {
@@ -27,28 +28,45 @@ export class AuthService {
     private router: Router
   ) { }
 
-  signup(user: Omit<User,"id">): Observable<User> {
+  encodeToken(payload: any): string {
+    return jwtEncode(payload, this.secretKey);
+  }
+
+  updateProfile(email: string, updatedProfile: any): Observable<any> {
+    return this.http
+      .post<any>(`${this.url}/update-profile`, { email, updatedProfile }, this.httpOptions)
+      .pipe(
+        first(),
+        catchError(error => {
+          console.error('Update profile error', error);
+          return throwError(() => error);
+        })
+      );
+}
+
+
+  signup(user: Omit<User, "id">): Observable<User> {
     return this.http
       .post<User>(`${this.url}/signup`, user, this.httpOptions)
       .pipe(
         first(),
         catchError(error => {
           console.error('Signup error', error);
-          return this.errorHandlerService.handleError<User>("signup")(error);
-        }),
+          return throwError(() => error); // Propaga el error
+        })
       );
   }
 
   login(email: Pick<User,"email">, password: Pick<User,"password">): Observable<{ token: string, userId: Pick<User,"id"> }> {    
     return this.http
-    .post<{ token: string, userId: Pick<User,"id">, role: string }>(`${this.url}/login`, { email, password }, this.httpOptions)
+    .post<{ token: string, userId: Pick<User,"id">, name: string, email: string, role: string }>(`${this.url}/login`, { email, password }, this.httpOptions)
       .pipe(
         first(),
-        tap((tokenObject: { token: string, userId: Pick<User,"id">, role: string }) => {
+        tap((tokenObject: { token: string, userId: Pick<User,"id">, name: string, email: string, role: string }) => {
           this.userId = tokenObject.userId;
           localStorage.setItem("token", tokenObject.token);
           localStorage.setItem("role", tokenObject.role);
-          this.router.navigate(["products"]);
+          this.router.navigate(['profile']);
         }),
         catchError(this.errorHandlerService.handleError<{ token: string, userId: Pick<User,"id">, role: string }>("login"))
       );

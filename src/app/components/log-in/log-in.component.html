@@ -14,24 +14,20 @@
                 <h2>Crear una cuenta</h2>
                 <form class="form" [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
                     <label>
-                        <i class='bx bx-user'></i>
                         <input type="text" formControlName="name" placeholder="Nombre Completo">
                     </label>
-                    <small *ngIf="signupForm.get('name')?.hasError('required')">Ingrese un nombre</small>
-                    <small *ngIf="signupForm.get('name')?.hasError('minlength')">El nombre debe tener al menos 5 caracteres</small>
+                    <small *ngIf="signupForm.get('name')?.hasError('required') || signupForm.get('name')?.hasError('fullName')">Ingrese un nombre completo (nombre y apellido)</small>
+                    <small *ngIf="signupForm.get('name')?.hasError('minlength') && !(signupForm.get('name')?.hasError('required') || signupForm.get('name')?.hasError('fullName'))">El nombre debe tener al menos 5 caracteres</small>
                     <label>
-                        <i class='bx bx-envelope' ></i>
                         <input type="email" formControlName="email" placeholder="Correo Electronico">
                     </label>
                     <small *ngIf="signupForm.get('email')?.hasError('required')">Ingrese un email</small>
                     <label>
-                        <i class='bx bx-lock-alt' ></i>
                         <input type="password" formControlName="password" placeholder="Contraseña">
                     </label>
                     <small *ngIf="signupForm.get('password')?.hasError('required')">Ingrese una contraseña</small>
                     <small *ngIf="signupForm.get('password')?.hasError('minlength')">La contraseña debe tener al menos 5 caracteres</small>
                     <label>
-                        <i class='bx bx-lock-alt' ></i>
                         <input type="password" formControlName="confirmPassword" placeholder="Repetir Contraseña">
                     </label>
                     <div *ngIf="signupForm.hasError('mismatch') && signupForm.get('confirmPassword')?.touched">
@@ -39,6 +35,9 @@
                     </div>
                     <input type="submit" [disabled]="!signupForm.valid" value="Registrarse">
                 </form>
+            </div>
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
             </div>
         </div>
     </div>
@@ -56,11 +55,9 @@
                 <h2>Iniciar Sesión</h2>
                 <form class="form" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                     <label>
-                        <i class='bx bx-envelope' ></i>
                         <input type="email" formControlName="email" placeholder="Correo Electronico">
                     </label>
                     <label>
-                        <i class='bx bx-lock-alt' ></i>
                         <input type="password" formControlName="password" placeholder="Contraseña">
                     </label>
                     <input type="submit" [disabled]="!loginForm.valid" value="Iniciar Sesión">
@@ -80,7 +77,6 @@
             <div class="form-information-childs">
                 <form class="form" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()" novalidate>
                     <label>
-                        <i class='bx bx-envelope'></i>
                         <input type="email" formControlName="email" placeholder="Correo Electronico">
                     </label>
                     <input type="submit" [disabled]="!changePasswordForm.valid" value="Enviar">

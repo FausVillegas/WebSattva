@@ -18,12 +18,12 @@ router.get('/:id', productsController.getProductById);
 router.post(
     // '/products',
     '/',
-    upload.single('imageUrl'),
+    upload.single('image_url'),
     [
         isAuthenticated, isAdmin,
         body('title').trim().not().isEmpty(),
         body('description').trim().not().isEmpty(),
-        body('price').trim().not().isEmpty(),
+        body('sale_price').trim().not().isEmpty(),
         body('category').trim().not().isEmpty(),
         body('stock').trim().not().isEmpty(),
         // body('id_supplier').trim().not().isEmpty(),

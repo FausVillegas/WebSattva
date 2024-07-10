@@ -1,13 +1,13 @@
 const db = require('../util/database');
 
 module.exports = class Product {
-    constructor(title, description, price, category, stock, imageUrl){
+    constructor(title, description, sale_price, category, stock, image_url){
         this.title = title;
-        this.description = description;
-        this.price = price;
+        this.description = description;s
+        this.sale_price = sale_price;
         this.category = category;
         this.stock = stock;
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
         // this.idSupplier = idSupplier;
     }
 
@@ -17,8 +17,8 @@ module.exports = class Product {
 
     static save(product) {
         return db.execute(
-            'INSERT INTO products (title, description, price, category, stock, imageUrl) VALUES (?, ?, ?, ?, ?, ?)', 
-            [product.title, product.description, product.price, product.category, product.stock, product.imageUrl]
+            'INSERT INTO products (title, description, sale_price, category, stock, image_url) VALUES (?, ?, ?, ?, ?, ?)', 
+            [product.title, product.description, product.sale_price, product.category, product.stock, product.image_url]
         );
     }
 

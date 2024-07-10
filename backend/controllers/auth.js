@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const transporter = nodemailer.createTransport({
-    service: 'Gmail', // Puedes cambiar esto por cualquier otro servicio de correo
+    service: 'Gmail', 
     auth: {
       user: process.env.MAIL_USERNAME,
       pass: process.env.MAIL_PASSWORD,
@@ -101,14 +101,17 @@ exports.resetPassword = async (req, res) => {
 exports.signup = async (req, res, next) => {
     const errors = validationResult(req);
     
-    if (!errors.isEmpty()) {
-        return console.error("Error "+errors);
-    }
-
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
     
+    const user = await User.find(email);        
+    if (user[0].length > 0) {
+        return res.status(400).json({ message: 'El usuario con el email '+email+' ya existe' });
+    } else if (!errors.isEmpty()) {
+        return res.status(500).json({ error: errors });
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -152,11 +155,14 @@ exports.login = async (req, res, next) => {
 
         const token = jwt.sign(
             {
-                email: storedUser.email,
                 userId: storedUser.id,
-                role: storedUser.role
+                name: storedUser.name,
+                email: storedUser.email,
+                role: storedUser.role,
+                phone: storedUser.phone,
+                address: storedUser.address
             },
-            'secretfortoken',
+            'secretfortoken1205',
             { expiresIn: '1h' }
         );
 
@@ -175,7 +181,7 @@ exports.googleLogin = async (req, res, next) => {
         let user = await User.find(decoded.email);
         if (user[0].length === 0) {
             const newUser = {
-                googleId: decoded.sub,
+                google_id: decoded.sub,
                 name: decoded.name,
                 email: decoded.email
             };
@@ -191,6 +197,38 @@ exports.googleLogin = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.updateProfile = async (req, res, next) => {
+    const { email, updatedProfile } = req.body;
+
+    try {
+        let [user] = await User.find(email);
+        if (user.length === 0) {
+            return res.status(400).json({ message: 'El usuario con el email ' + email + ' no se encontró' });
+        }
+        
+        // await User.updateProfile(user[0].id, updatedProfile);
+
+        if(updatedProfile.name) {
+            await User.updateName(user[0].id, updatedProfile.name);
+        }
+        if(updatedProfile.phone) {
+            await User.updatePhone(user[0].id, updatedProfile.phone);
+        }
+        if(updatedProfile.address) {
+            await User.updateAddress(user[0].id, updatedProfile.address);
+        }
+
+        res.status(200).json({ message: "Perfil actualizado con éxito", email: user[0].email });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+
 
 
 
