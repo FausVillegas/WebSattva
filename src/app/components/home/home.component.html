@@ -1,0 +1,63 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>    
+    <section id="inicio">
+        <div class="titleSattva">
+            <h1>Sattva</h1>
+            <h2>Espacio de Salud y Bienestar</h2>
+            <p>"La verdadera disciplina no se impone. <br> Solo puede venir de nuestro interior".<br>Dalia Lama</p>
+            <div class="imgTitle">
+                <img src="../../../assets/fondo.jpg" alt="Mujer practicando yoga">
+            </div>
+        </div>        
+    </section>
+    <section id="clases">
+        <h2>Clases</h2>
+        <button *ngIf="getAuthService().isAdmin()" routerLink="/addClass">Agregar clase</button>
+        <div class="classEvents">
+            <div class="containerClassEvent" *ngFor="let class of classes">
+                <h3>{{ class.title }}</h3>
+                <p>{{ class.description }}</p>
+                <img [src]="apiUrl + class.imageUrl" width="400" />
+                <p>Texto del artículo que hay acá y es texto de prueba.</p>
+                <button *ngIf="getAuthService().isAdmin()" (click)="updateClass(class)">Modificar</button><br>
+                <button *ngIf="getAuthService().isAdmin()" (click)="deleteClass(class)">Eliminar clase</button>
+            </div>
+            <!-- <div class="class-list">
+                <h2>Clases</h2>
+                <div *ngFor="let class of classes">
+                  <h3>{{ class.title }}</h3>
+                  <p>{{ class.description }}</p>
+                  <img [src]="class.imageUrl" alt="{{ class.title }}">
+                  <button (click)="deleteClass(class.id)">Eliminar</button>
+                </div>
+              </div>               -->
+        </div>
+    </section>
+    <section id="eventos">
+        <h2>Eventos</h2>
+        <button *ngIf="getAuthService().isAdmin()" routerLink="/addEvent">Agregar evento</button>
+        <p>Informacionn de esto</p>
+        <div class="classEvents" id="events">
+            <div class="classEvents" id="events">
+                <div class="containerClassEvent" *ngFor="let event of events">
+                    <h3>{{ event.title }}</h3>
+                    <p>{{ event.description }}</p>
+                    <!-- <img [src]="apiUrl + class.imageUrl" width="400" /> -->
+                    <p>Texto del artículo que hay acá y es texto de prueba.</p>
+                    <button *ngIf="getAuthService().isAdmin()" (click)="updateEvent(event)">Modificar</button><br>
+                    <button *ngIf="getAuthService().isAdmin()" (click)="deleteEvent(event)">Eliminar evento</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="horarios">
+        <h2>Horarios</h2>
+        <div class="imgHorarios">
+            <img src="../../../assets/horario.png" alt="Horarios">
+        </div>
+    </section>
+</body>

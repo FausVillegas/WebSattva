@@ -1,0 +1,44 @@
+.class-add {
+    max-width: 600px;
+    margin: 7rem auto 0 auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .class-add h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .class-add form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .class-add label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .class-add input,
+  .class-add textarea,
+  .class-add button {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .class-add button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .class-add button:hover {
+    background-color: #0056b3;
+  }
+  

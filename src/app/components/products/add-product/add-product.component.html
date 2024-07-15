@@ -17,7 +17,7 @@
             <input id="stock" type="number" placeholder="Stock" formControlName="stock">
         </label>
         <label>
-            <input id="image" type="file" (change)="onFileChange($event)" type="file" formControlName="image_url">
+            <input id="image" type="file" (change)="onFileChange($event)" formControlName="image_url">
         </label>
         <input type="submit" value="Agregar producto" [disabled]="!productForm.valid">
     </form>

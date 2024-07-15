@@ -1,0 +1,44 @@
+.event-add {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-add h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .event-add form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-add label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .event-add input,
+  .event-add textarea,
+  .event-add button {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .event-add button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .event-add button:hover {
+    background-color: #0056b3;
+  }
+  

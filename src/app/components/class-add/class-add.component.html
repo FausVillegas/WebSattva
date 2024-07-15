@@ -1,0 +1,29 @@
+<div class="class-add">
+    <h2>Agregar Nueva Clase</h2>
+    <form (ngSubmit)="addClass()">
+      <label for="title">Título</label>
+      <input id="title" [(ngModel)]="newClass.title" name="title" required>
+  
+      <label for="description">Descripción</label>
+      <textarea id="description" [(ngModel)]="newClass.description" name="description" required></textarea>
+  
+      <label for="monthlyFee">Cuuota mensual</label>
+      <textarea id="monthlyFee" [(ngModel)]="newClass.monthlyFee" name="monthlyFee" required></textarea>
+
+      <!-- <label for="imageUrl">Imagen</label>
+      <input id="imageUrl" type="file" [(ngModel)]="newClass.imageUrl" name="imageUrl" required> -->
+
+      <label for="instructor">Instructor</label>
+      <input id="instructor" type="number" [(ngModel)]="newClass.instructor_id" name="instructor" required>
+
+      <label for="imageUrl">Imagen</label>
+      <input id="imageUrl" type="file" (change)="onFileChange($event)" name="imageUrl" required>
+
+
+      <!-- <label for="date">Fecha</label>
+      <input id="date" type="date" [(ngModel)]="newClass." name="date" required> -->
+  
+      <button type="submit">Agregar</button>
+    </form>
+  </div>
+  

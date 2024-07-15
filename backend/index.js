@@ -37,9 +37,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const productsRoutes = require('./routes/products');
+const classesRoutes = require('./routes/classes');
+const eventsRoutes = require('./routes/events');
 const errorController = require('./controllers/error');
 const cors = require('cors');
 const path = require('path');
+
+const sequelize = require('./config/database');
 
 const app = express();
 const ports = process.env.PORT || 3000;
@@ -60,7 +64,19 @@ app.use('/auth', authRoutes);
 
 app.use('/products', productsRoutes);
 
+app.use('/classes', classesRoutes);
+
+app.use('/events', eventsRoutes);
+
 app.use(errorController.get404);
 app.use(errorController.get500);
 
 app.listen(ports, () => console.log(`Listening on port ${ports}`));
+
+// sequelize.sync().then(() => {
+//     app.listen(ports, () => {
+//         console.log(`Server is running on port ${ports}`);
+//     });
+// }).catch(err => {
+//     console.log('Unable to connect to the database:', err);
+// });

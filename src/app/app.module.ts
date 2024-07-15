@@ -20,6 +20,9 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { AdminGuardService } from './services/admin-guard.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { HomeComponent } from './components/home/home.component';
+import { ClassAddComponent } from './components/class-add/class-add.component';
+import { EventAddComponent } from './components/event-add/event-add.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     // ProductAlertsComponent,
     ProductDetailsComponent,
     ProfileComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    HomeComponent,
+    ClassAddComponent,
+    EventAddComponent
   ],
   imports: [
     BrowserModule,
@@ -40,14 +46,17 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: '/products', pathMatch: 'full'},
+      // { path: '', redirectTo: '/products', pathMatch: 'full'},
+      { path: '', component: HomeComponent},
       { path: 'profile', component: ProfileComponent},
       { path: 'products', component: ProductListComponent },
       { path: 'product/:id', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LogInComponent },
       { path: 'addProduct', component: AddProductComponent, canActivate: [AdminGuardService] },
-      { path: 'reset-password', component: ResetPasswordComponent }
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'addClass', component: ClassAddComponent },
+      { path: 'addEvent', component: EventAddComponent },
       // { path: 'shipping', component: ShippingComponent },
     ]),
   ],

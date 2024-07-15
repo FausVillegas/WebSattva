@@ -1,13 +1,8 @@
 const express = require('express');
-
 const { body } = require('express-validator');
-
 const productsController = require('../controllers/products');
-
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
-
 const router = express.Router();
-
 const authController = require('../controllers/auth');
 const upload = require('../middleware/upload');
 
@@ -16,7 +11,6 @@ router.get('/', productsController.fetchAll);
 router.get('/:id', productsController.getProductById);
 
 router.post(
-    // '/products',
     '/',
     upload.single('image_url'),
     [

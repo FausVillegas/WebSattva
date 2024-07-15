@@ -1,0 +1,25 @@
+<div class="event-add">
+    <h2>Agregar Nuevo Evento</h2>
+    <form (ngSubmit)="addEvent()">
+      <label for="title">Título</label>
+      <input id="title" [(ngModel)]="newEvent.title" name="title" required>
+  
+      <label for="description">Descripción</label>
+      <textarea id="description" [(ngModel)]="newEvent.description" name="description" required></textarea>
+  
+      <label for="date">Fecha</label>
+      <input id="date" type="date" [(ngModel)]="newEvent.dateTime" name="date" required>
+      
+      <label for="price">Precio</label>
+      <input id="price" type="number" [(ngModel)]="newEvent.price" name="price" required>
+
+      <label for="instructor">Instructor</label>
+      <input id="instructor" type="number" [(ngModel)]="newEvent.instructor_id" name="instructor" required>
+      
+      <label for="imageUrl">Imagen</label>
+      <input id="imageUrl" type="file" (change)="onFileChange($event)" name="imageUrl" required>
+
+      <button type="submit">Agregar</button>
+    </form>
+  </div>
+  
