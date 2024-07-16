@@ -4,5 +4,5 @@ export interface Class {
     description: string;
     imageUrl: string;
     instructor_id: number;
-    monthlyFee: number;
+    monthly_fee: number;
 }

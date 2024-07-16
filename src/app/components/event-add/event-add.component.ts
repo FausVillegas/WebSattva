@@ -1,23 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { Event } from 'src/app/models/Event';
+import { Instructor } from 'src/app/models/Instructor';
+import { InstructorService } from 'src/app/services/instructor.service';
 
 @Component({
   selector: 'app-event-add',
   templateUrl: './event-add.component.html',
   styleUrls: ['./event-add.component.css']
 })
-export class EventAddComponent {
+export class EventAddComponent implements OnInit{
   newEvent = { title: '', description: '', imageUrl: '', dateTime: new Date(), instructor_id: 0, price: 0};
   selectedFile: File | undefined;
+  instructors: Instructor[] = [];
 
-  constructor(private eventService: EventService, private router: Router) { }
+  constructor(private eventService: EventService, private router: Router, private instructorService: InstructorService) { }
 
   onFileChange(event: any) {
     this.selectedFile = event.target.files[0];
   }
   
+  ngOnInit() {
+    this.instructorService.getInstructors().subscribe(data => {
+      this.instructors = data;
+    });
+  }
+
   addEvent(): void {
     const formData = new FormData();
     formData.append('title', this.newEvent.title);

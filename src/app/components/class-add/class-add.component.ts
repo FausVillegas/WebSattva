@@ -21,24 +21,33 @@
 //   }
 // }
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClassService } from 'src/app/services/class.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { InstructorService } from 'src/app/services/instructor.service';
+import { Instructor } from 'src/app/models/Instructor';
 
 @Component({
   selector: 'app-class-add',
   templateUrl: './class-add.component.html',
   styleUrls: ['./class-add.component.css']
 })
-export class ClassAddComponent {
+export class ClassAddComponent implements OnInit{
   newClass = { title: '', description: '', monthlyFee: 0, instructor_id: 0 };
   selectedFile: File | undefined;
+  instructors: Instructor[] = [];
 
-  constructor(private classService: ClassService, private http: HttpClient, private router: Router) {}
+  constructor(private classService: ClassService, private http: HttpClient, private router: Router, private instructorService: InstructorService) {}
 
   onFileChange(event: any) {
     this.selectedFile = event.target.files[0];
+  }
+
+  ngOnInit() {
+    this.instructorService.getInstructors().subscribe(data => {
+      this.instructors = data;
+    });
   }
 
   addClass() {

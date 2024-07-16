@@ -21,34 +21,27 @@
             <div class="containerClassEvent" *ngFor="let class of classes">
                 <h3>{{ class.title }}</h3>
                 <p>{{ class.description }}</p>
-                <img [src]="apiUrl + class.imageUrl" width="400" />
-                <p>Texto del artículo que hay acá y es texto de prueba.</p>
-                <button *ngIf="getAuthService().isAdmin()" (click)="updateClass(class)">Modificar</button><br>
+                <p>Cuota: ${{ class.monthly_fee }}</p>
+                <img *ngIf="class.imageUrl" [src]="apiUrl + class.imageUrl" width="400" />
+                <!-- <p>Texto del artículo que hay acá y es texto de prueba.</p> -->
+                <!-- <button *ngIf="getAuthService().isAdmin()" (click)="updateClass(class)">Modificar</button><br> -->
                 <button *ngIf="getAuthService().isAdmin()" (click)="deleteClass(class)">Eliminar clase</button>
             </div>
-            <!-- <div class="class-list">
-                <h2>Clases</h2>
-                <div *ngFor="let class of classes">
-                  <h3>{{ class.title }}</h3>
-                  <p>{{ class.description }}</p>
-                  <img [src]="class.imageUrl" alt="{{ class.title }}">
-                  <button (click)="deleteClass(class.id)">Eliminar</button>
-                </div>
-              </div>               -->
         </div>
     </section>
     <section id="eventos">
         <h2>Eventos</h2>
         <button *ngIf="getAuthService().isAdmin()" routerLink="/addEvent">Agregar evento</button>
-        <p>Informacionn de esto</p>
+        <p>Eventos que se realizan un día y horario específico</p>
         <div class="classEvents" id="events">
             <div class="classEvents" id="events">
                 <div class="containerClassEvent" *ngFor="let event of events">
                     <h3>{{ event.title }}</h3>
                     <p>{{ event.description }}</p>
-                    <!-- <img [src]="apiUrl + class.imageUrl" width="400" /> -->
-                    <p>Texto del artículo que hay acá y es texto de prueba.</p>
-                    <button *ngIf="getAuthService().isAdmin()" (click)="updateEvent(event)">Modificar</button><br>
+                    <p>${{ event.price }}</p>
+                    <img *ngIf="event.imageUrl" [src]="apiUrl + event.imageUrl" width="400" />
+                    <!-- <p>Texto del artículo que hay acá y es texto de prueba.</p> -->
+                    <!-- <button *ngIf="getAuthService().isAdmin()" (click)="updateEvent(event)">Modificar</button><br> -->
                     <button *ngIf="getAuthService().isAdmin()" (click)="deleteEvent(event)">Eliminar evento</button>
                 </div>
             </div>

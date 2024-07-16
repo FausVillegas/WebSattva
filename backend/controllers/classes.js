@@ -1,46 +1,3 @@
-// const Class = require('../models/class');
-
-// exports.getAllClasses = async (req, res) => {
-//     try {
-//         const classes = await Class.findAll();
-//         res.json(classes);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// };
-
-// exports.createClass = async (req, res) => {
-//     try {
-//         console.log("creando clase "+req.body.title);
-//         const newClass = await Class.create(req.body);
-//         res.status(201).json(newClass);
-//     } catch (err) {
-//         res.status(400).json({ message: err.message });
-//     }
-// };
-
-// exports.updateClass = async (req, res) => {
-//     try {
-//         const updatedClass = await Class.findByPk(req.params.id);
-//         if (!updatedClass) {
-//             return res.status(404).json({ message: 'Class not found' });
-//         }
-//         await updatedClass.update(req.body);
-//         res.json(updatedClass);
-//     } catch (err) {
-//         res.status(400).json({ message: err.message });
-//     }
-// };
-
-// exports.deleteClass = async (req, res) => {
-//     try {
-//         await Class.destroy({ where: { id: req.params.id } });
-//         res.json({ message: 'Class deleted' });
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// };
-
 const db = require('../config/database');
 const fs = require('fs')
 const SattvaClass = require('../models/class');
@@ -48,11 +5,6 @@ const path = require('path');
 const { validationResult } = require('express-validator');
 
 exports.getAllClasses = async (req, res, next) => {
-  // const sql = 'SELECT * FROM Classes';
-  // db.query(sql, (err, results) => {
-  //   if (err) throw err;
-  //   res.json(results);
-  // });
   try {
     const [allClasses] = await SattvaClass.fetchAll();
     res.status(200).json(allClasses);

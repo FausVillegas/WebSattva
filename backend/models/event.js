@@ -29,7 +29,7 @@ const db = require('../util/database');
 module.exports = class SattvaEvent {
     constructor(title, description, instructor_id, imageUrl, dateTime, price){
         this.title = title;
-        this.description = description;s
+        this.description = description;
         this.instructor_id = instructor_id;
         this.imageUrl = imageUrl;
         this.dateTime = dateTime;
