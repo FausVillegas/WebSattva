@@ -31,6 +31,14 @@ module.exports = class SattvaClass {
     static updateClass(classData) {
         return db.execute('SELECT * FROM classes WHERE id = ?',[id]);
     }
+
+    static saveSchedule(schedule) {
+        return db.execute('INSERT INTO Schedules (day_of_week, time) VALUES (?, ?)', [schedule.day_of_week, schedule.time]);
+    }
+
+    static saveClassSchedule(classId, scheduleId) {
+        return db.execute('INSERT INTO ClassSchedule (class_id, schedule_id) VALUES (?, ?)', [classId, scheduleId]);
+    }
 };
 
 // const { DataTypes } = require('sequelize');

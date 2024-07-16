@@ -64,7 +64,8 @@ exports.addEvent = async (req, res, next) => {
     }
     
     const { title, description, instructor_id, dateTime, price } = req.body;
-    const imageUrl = req.file.path;
+    
+    const imageUrl = req.file ? req.file.path : null;
     try {
         const newEvent = {
             title: title, 

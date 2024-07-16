@@ -1,4 +1,3 @@
-const db = require('../config/database');
 const fs = require('fs')
 const SattvaClass = require('../models/class');
 const path = require('path');
@@ -14,6 +13,7 @@ exports.getAllClasses = async (req, res, next) => {
 }
 };
 
+
 exports.addClass = async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -21,8 +21,11 @@ exports.addClass = async (req, res, next) => {
         return console.error("Error "+errors);
     }
 
-    const { title, description, instructor_id, monthlyFee } = req.body;
-    const imageUrl = req.file.path;
+    const { title, description, instructor_id, monthlyFee, schedules } = req.body;
+    
+    // imageUrl = null;
+    if(req.file)
+        imageUrl = req.file.path;
 
     try {
         const newClass = {
@@ -33,7 +36,17 @@ exports.addClass = async (req, res, next) => {
             imageUrl: imageUrl
         }
 
-        const result = await SattvaClass.save(newClass);
+        const [result] = await SattvaClass.save(newClass);
+        const classId = result.insertId;
+
+        // Inserta los horarios y la relación con la clase
+        const schedulesArray = JSON.parse(schedules);
+
+        for (let schedule of schedulesArray) {
+            const [scheduleResult] = await SattvaClass.saveSchedule(schedule);
+            const scheduleId = scheduleResult.insertId;
+            await SattvaClass.saveClassSchedule(classId, scheduleId);
+        }
 
         res.status(201).json({ message: 'The class was added', class: newClass })
     } catch (err) {

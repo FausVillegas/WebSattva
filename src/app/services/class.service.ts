@@ -27,14 +27,22 @@ export class ClassService {
     );
   }
 
+  // addClass(classData: any): Observable<Class> {
+  //   return this.http.post<Class>(this.apiUrl, classData)
+  //   .pipe(
+  //         catchError(error => {
+  //           return this.errorHandlerService.handleError<Class>("addClass")(error);
+  //         }),
+  //       );
+  // }  
   addClass(classData: any): Observable<Class> {
-    return this.http.post<Class>(this.apiUrl, classData)
-    .pipe(
-          catchError(error => {
-            return this.errorHandlerService.handleError<Class>("addClass")(error);
-          }),
-        );
-  }  
+    return this.http.post<Class>(this.apiUrl, classData).pipe(
+      catchError(error => {
+        return this.errorHandlerService.handleError<Class>("addClass")(error);
+      })
+    );
+  }
+  
 
   updateClass(id: number, classData: Class): Observable<Class> {
     return this.http.put<Class>(`${this.apiUrl}/${id}`, classData);

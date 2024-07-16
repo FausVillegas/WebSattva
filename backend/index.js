@@ -69,6 +69,8 @@ app.use('/events', eventsRoutes);
 
 app.use('/instructors', instructorsRoutes);
 
+// app.use('/schedules', schedulesRoutes);
+
 app.use(errorController.get404);
 app.use(errorController.get500);
 

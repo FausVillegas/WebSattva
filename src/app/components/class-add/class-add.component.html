@@ -20,6 +20,24 @@
       <label for="imageUrl">Imagen</label>
       <input id="imageUrl" type="file" (change)="onFileChange($event)" name="imageUrl" required>
   
+      <!-- <label for="days">Días de la Semana</label>
+    <select multiple [(ngModel)]="newClass.days" name="days" required>
+      <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+    </select> -->
+
+    <label for="schedules">Horarios</label>
+    <div *ngFor="let schedule of newClass.schedules; let i = index">
+      <select [(ngModel)]="schedule.day_of_week" name="day_of_week_{{i}}" required>
+        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+      </select>
+      <input type="time" [(ngModel)]="schedule.time" name="time_{{i}}" required>
+      <button type="button" (click)="removeSchedule(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="addSchedule()">Añadir Horario</button>
+
+    <!-- <label for="times">Horarios</label>
+    <input id="times" type="time" [(ngModel)]="newClass.time" name="time" required> -->
+
       <button type="submit">Agregar</button>
     </form>
   </div>

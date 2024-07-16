@@ -38,9 +38,6 @@ export class HomeComponent implements OnInit {
     this.classService.updateClass(classData.id, classData).subscribe(() => this.loadClasses());
   }
 
-  // deleteClass(id: number): void {
-  //   this.classService.deleteClass(id).subscribe(() => this.loadClasses());
-  // }
   deleteClass(classId: Pick<Class, "id">): void {
     console.log("Borrando clase: "+classId.id);
     this.classService.deleteClass(classId).subscribe(() => this.loadClasses());

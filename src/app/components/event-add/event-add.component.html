@@ -7,8 +7,8 @@
       <label for="description">Descripción</label>
       <textarea id="description" [(ngModel)]="newEvent.description" name="description" required></textarea>
   
-      <label for="date">Fecha</label>
-      <input id="date" type="date" [(ngModel)]="newEvent.dateTime" name="date" required>
+      <label for="dateTime">Fecha y Hora</label>
+      <input id="dateTime" type="datetime-local" [(ngModel)]="newEvent.dateTime" name="dateTime" required>      
       
       <label for="price">Precio</label>
       <input id="price" type="number" [(ngModel)]="newEvent.price" name="price" required>
