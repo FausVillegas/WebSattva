@@ -1,0 +1,22 @@
+.event-details-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.event-card {
+  max-width: 600px;
+  margin: 20px;
+}
+
+.event-card img {
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.price {
+  font-size: 1.5em;
+  color: #ff4081;
+  margin: 10px 0;
+}

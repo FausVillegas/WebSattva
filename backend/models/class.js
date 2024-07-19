@@ -1,6 +1,6 @@
-const db = require('../util/database');
+import db from '../util/database.js';
 
-module.exports = class SattvaClass {
+export default class SattvaClass {
     constructor(title, description, instructor_id, imageUrl, monthlyFee){
         this.title = title;
         this.description = description;s

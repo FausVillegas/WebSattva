@@ -44,7 +44,6 @@ export class AuthService {
       );
 }
 
-
   signup(user: Omit<User, "id">): Observable<User> {
     return this.http
       .post<User>(`${this.url}/signup`, user, this.httpOptions)
@@ -123,12 +122,15 @@ export class AuthService {
     return !!(localStorage.getItem('token') || sessionStorage.getItem('loggedInUser'));
   }
 
-
   isAdmin(): boolean {
     const loggedInUser = sessionStorage.getItem("loggedInUser");
     if(loggedInUser){
       return JSON.parse(loggedInUser!).role === "admin";
     } 
     return localStorage.getItem('role') === "admin";
+  }
+
+  getUserId() {
+    return this.userId;
   }
 }
