@@ -58,6 +58,7 @@ import { body } from 'express-validator';
 
 import User from '../models/user.js';
 import * as authController from '../controllers/auth.js';
+import db from '../util/database.js';
 
 const router = express.Router();
 
@@ -100,7 +101,33 @@ router.post(
 );
 
 router.post('/reset-password', authController.resetPassword);
+
 router.post('/update-profile', authController.updateProfile);
+
+router.get("/user-registrations/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        
+        const [events] = await db.query(
+            `SELECT e.id, e.title, e.event_datetime, e.description, e.price, e.imageUrl 
+             FROM Events e
+             JOIN EventRegistrations er ON e.id = er.event_id
+             WHERE er.user_id = ?`, [userId]
+        );
+
+        const [classes] = await db.query(
+            `SELECT c.id, c.title, c.description, c.imageUrl, c.monthly_fee 
+             FROM Classes c
+             JOIN Enrollment en ON c.id = en.class_id
+             WHERE en.user_id = ?`, [userId]
+        );
+
+        res.json({ events, classes });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching user registrations" });
+    }
+});
+
 
 export default router;
 

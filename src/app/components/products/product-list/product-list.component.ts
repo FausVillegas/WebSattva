@@ -19,7 +19,8 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductListComponent implements OnInit{
   products$!: Observable<Product[]>;
   filteredProducts$!: Observable<Product[]>;
-  userId!: Pick<User, "id">;
+  // userId!: Pick<User, "id">;
+  userId!: number;
   apiUrl: string = 'http://localhost:3000/';
 
   constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService, private route: ActivatedRoute) { }

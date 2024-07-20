@@ -7,6 +7,13 @@ const client = new MercadoPagoConfig({ accessToken: 'APP_USR-6309124147034951-07
 import { Router } from 'express';
 const router = Router();
 
+// ELIMINAR
+router.post("/register-for-event", async (req,res) => {   
+    // Esta linea de codigo es para que el usuario quede registrado en el evento a pesar de no haber finalzado el pago
+    // ya que para eso se querieren urls de dominios reales. back_urls no permite urls de servidores locales
+    await SattvaEvent.registerForEvent(req.body.userId, req.body.eventId);    
+});
+
 router.post("/create-preference", async (req,res) => {
     try {
         const body = {
@@ -35,6 +42,7 @@ router.post("/create-preference", async (req,res) => {
 
         const preference = new Preference(client);
         const result = await preference.create({body});
+
         res.json({
             id: result.id,
         });

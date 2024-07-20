@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { UserRegistrationsComponent } from './components/user-registrations/user-registrations.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
     ClassAddComponent,
     EventAddComponent,
     ClassEventDetailsComponent,
+    UserRegistrationsComponent,
   ],
   imports: [
     MatCardModule,
@@ -57,6 +59,7 @@ import { MatButtonModule } from '@angular/material/button';
     RouterModule.forRoot([
       // { path: '', redirectTo: '/products', pathMatch: 'full'},
       { path: '', component: HomeComponent},
+      { path: 'my-registrations', component: UserRegistrationsComponent },
       { path: 'profile', component: ProfileComponent},
       { path: 'products', component: ProductListComponent },
       { path: 'product/:id', component: ProductDetailsComponent },
