@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./class-event-details.component.css']
 })
 export class ClassEventDetailsComponent {
-  apiUrl = "http://localhost:3000/payment";
+  apiUrl = "http://localhost:3000/";
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService) {
     this.initializeMercadoPago();
@@ -28,7 +28,7 @@ export class ClassEventDetailsComponent {
           eventId: this.data.id // Obtain eventId from the selected event
         };
 
-        const response = await fetch(`${this.apiUrl}/create-preference`, {
+        const response = await fetch(`${this.apiUrl}payment/create-preference`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
