@@ -60,7 +60,7 @@ export class ProductListComponent implements OnInit{
   
   share(product : any) {
     window.alert('The product has been shared!');
-    this.cartService.addToCart(product);
+    this.cartService.addToCart(product,1);
   }
 
   createProduct(): void {
