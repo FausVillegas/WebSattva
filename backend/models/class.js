@@ -39,30 +39,8 @@ export default class SattvaClass {
     static saveClassSchedule(classId, scheduleId) {
         return db.execute('INSERT INTO ClassSchedule (class_id, schedule_id) VALUES (?, ?)', [classId, scheduleId]);
     }
+
+    static registerForClass(classId, userId) {
+        return db.execute('INSERT INTO FeePayments (user_id, class_id) VALUES (?, ?)', [userId, classId]);
+    }
 };
-
-// const { DataTypes } = require('sequelize');
-// const sequelize = require('../config/database');
-
-// const Class = sequelize.define('Class', {
-//     title: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     description: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     imageUrl: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     instructor_id: {
-//         type: DataTypes.INTEGER,
-//         allowNull: false
-//     }
-// }, {
-//     timestamps: false
-// });
-
-// module.exports = Class;

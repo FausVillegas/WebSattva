@@ -51,7 +51,7 @@ export async function sendPasswordResetEmail(req, res, next) {
         storedUser.resetPasswordToken = resetToken;
         storedUser.resetPasswordExpiry = resetTokenExpiry;
 
-        await User.saveResetToken(storedUser.id, resetToken, resetTokenExpiry); // Esta función debe guardar el token y su expiración en la base de datos
+        await User.saveResetToken(storedUser.id, resetToken, resetTokenExpiry); 
 
         // URL de restablecimiento de contraseña
         const resetUrl = `http://localhost:4200/reset-password?token=${resetToken}`;

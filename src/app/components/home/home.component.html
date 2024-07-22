@@ -18,7 +18,7 @@
         <h2>Clases</h2>
         <button *ngIf="getAuthService().isAdmin()" routerLink="/addClass">Agregar clase</button>
         <div class="classEvents">
-            <div class="containerClassEvent" *ngFor="let class of classes">
+            <div class="containerClassEvent" (click)="openEventDetails(class)" *ngFor="let class of classes">
                 <h3>{{ class.title }}</h3>
                 <p>{{ class.description }}</p>
                 <p>Cuota: ${{ class.monthly_fee }}</p>

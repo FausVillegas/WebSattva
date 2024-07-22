@@ -1,18 +1,11 @@
 // SDK de Mercado Pago
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import SattvaEvent from '../models/event.js';
-// Agrega credenciales
-const client = new MercadoPagoConfig({ accessToken: 'APP_USR-6309124147034951-071622-1fe6aeff731e3d4420af8183484da2ec-1903347735' });
-
+import SattvaClass from '../models/class.js';
 import { Router } from 'express';
-const router = Router();
 
-// ELIMINAR
-router.post("/register-for-event", async (req,res) => {   
-    // Esta linea de codigo es para que el usuario quede registrado en el evento a pesar de no haber finalzado el pago
-    // ya que para eso se querieren urls de dominios reales. back_urls no permite urls de servidores locales
-    await SattvaEvent.registerForEvent(req.body.userId, req.body.eventId);    
-});
+const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
+const router = Router();
 
 router.post("/create-preference", async (req,res) => {
     try {
@@ -26,9 +19,6 @@ router.post("/create-preference", async (req,res) => {
                 }
             ],
             back_urls: {
-                // success: "http://localhost:4200/",
-                // failure: "http://localhost:4200/",
-                // pending: "",
                 success: "https://www.youtube.com/",
                 failure: "https://www.youtube.com/",
                 pending: "https://www.youtube.com/",
@@ -36,8 +26,10 @@ router.post("/create-preference", async (req,res) => {
             auto_return: "approved",
             metadata: {
                 userId: req.body.userId, // Get user ID from request body
-                eventId: req.body.eventId // Get event ID from request body
-            }
+                classEventId: req.body.classEventId, // Get event ID from request body
+                activityType: req.body.activityType 
+            },
+            notification_url: "https://fc7d-181-170-144-157.ngrok-free.app/payment/webhook"
         }
 
         const preference = new Preference(client);
@@ -54,19 +46,46 @@ router.post("/create-preference", async (req,res) => {
 });
 
 router.post("/webhook", async (req, res) => {
+    // try {
+    //     const payment = req.body;
+    //     console.log(payment.metadata);
+    //     if (payment.type === 'payment' && payment.data.status === 'approved') {
+    //         const { userId, classEventId, activityType } = payment.data.metadata;
+
+    //         if(activityType === 'event')
+    //             await SattvaEvent.registerForEvent(classEventId, userId);
+    //         else
+    //             await SattvaClass.registerForClass(classEventId, userId);
+    //     }
+
+    //     res.status(200).send('OK');
+    // } catch (error) {
+    //     res.status(500).send('Error processing webhook');
+    // }
+
+    const paymentId = req.query.id;
     try {
-        const payment = req.body;
+        const respose = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
+            }
+        });
 
-        if (payment.type === 'payment' && payment.data.status === 'approved') {
-            const userId = payment.data.metadata.userId; // Assuming you pass the user ID in metadata
-            const eventId = payment.data.metadata.eventId; // Assuming you pass the event ID in metadata
-
-            await SattvaEvent.registerForEvent(eventId, userId);
+        if(respose.ok) {
+            const data = await respose.json();
+            const { user_id, activity_type, class_event_id } = data.metadata;
+            console.log(activity_type);
+            if(activity_type === 'event')
+                await SattvaEvent.registerForEvent(class_event_id, user_id);
+            else
+                await SattvaClass.registerForClass(class_event_id, user_id);
         }
 
-        res.status(200).send('OK');
-    } catch (error) {
-        res.status(500).send('Error processing webhook');
+        res.sendStatus(200);
+    } catch(error) {
+        console.log("Error: "+error);
+        res.sendStatus(500);
     }
 });
 

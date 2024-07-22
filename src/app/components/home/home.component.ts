@@ -104,10 +104,10 @@ export class HomeComponent implements OnInit {
 
   constructor(private classService: ClassService, private eventService: EventService, private authService: AuthService, private dialog: MatDialog) {}
 
-  openEventDetails(event: Event): void {
+  openEventDetails(data: any): void {
     const dialogRef = this.dialog.open(ClassEventDetailsComponent, {
       width: '500px',
-      data: event,
+      data: data,
       // panelClass: 'custom-dialog-container',
       autoFocus: false,
       // position: { top: "auto", left: "auto", bottom: "auto", right: "auto" },

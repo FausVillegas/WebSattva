@@ -150,20 +150,6 @@ app.use('/events', eventsRoutes);
 app.use('/instructors', instructorsRoutes);
 app.use('/payment', paymentRoutes);
 
-// app.post("/cart", async (req, res) => {
-//     const { userId, productId, quantity } = req.body;
-//     try {
-//         await db.query(
-//             `INSERT INTO CartItems (user_id, product_id, quantity) VALUES (?, ?, ?) 
-//              ON DUPLICATE KEY UPDATE quantity = ?`, 
-//             [userId, productId, quantity, quantity]
-//         );
-//         res.status(200).json({ message: "Item added to cart" });
-//     } catch (error) {
-//         res.status(500).json({ error: "Error adding item to cart" });
-//     }
-// });
-
 app.post("/cart", async (req, res) => {
     const { userId, productId, quantity } = req.body;
     try {

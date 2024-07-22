@@ -11,21 +11,31 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ClassEventDetailsComponent {
   apiUrl = "http://localhost:3000/";
+  price = null;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService) {
     this.initializeMercadoPago();
+    if(this.data.price)
+      this.price = this.data.price;
+    else
+      this.price = this.data.monthly_fee;
   }
 
   async createPreference(): Promise<void> {
     console.log("checkout-btn--------------------");
       try {
+        let activityType
+        if(this.data.price)
+          activityType = "event"
+        else
+          activityType = "class"
         const orderData = {
           title: this.data.title || '',
           quantity: 1,
-          // price: this.data.price,
-          price: 100,
-          userId: this.authService.getUserId(), // Obtain userId from your authentication context
-          eventId: this.data.id // Obtain eventId from the selected event
+          price: this.price,
+          userId: this.authService.getUserId(), 
+          classEventId: this.data.id,
+          activityType: activityType 
         };
 
         const response = await fetch(`${this.apiUrl}payment/create-preference`, {
@@ -59,6 +69,7 @@ export class ClassEventDetailsComponent {
         await bricksBuilder?.create("wallet", "wallet_container", {
           initialization: {
             preferenceId: preferenceId,
+            redirectMode: 'modal', // se abre como un cuadro dentro de la página
           },
           customization: {
             texts: {
