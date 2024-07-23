@@ -38,6 +38,9 @@ export async function addEvent(req, res, next) {
         res.status(201).json({ message: 'The event was added', class: newEvent })
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        if (existsSync(imageUrl)) {
+            unlinkSync(imageUrl);
+        }
         next(err);
     }
 }

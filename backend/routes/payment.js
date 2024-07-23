@@ -19,9 +19,9 @@ router.post("/create-preference", async (req,res) => {
                 }
             ],
             back_urls: {
-                success: "https://www.youtube.com/",
-                failure: "https://www.youtube.com/",
-                pending: "https://www.youtube.com/",
+                success: "https://www.google.com/",
+                failure: "https://www.google.com/",
+                pending: "https://www.google.com/",
             },
             auto_return: "approved",
             metadata: {
@@ -29,7 +29,7 @@ router.post("/create-preference", async (req,res) => {
                 classEventId: req.body.classEventId, // Get event ID from request body
                 activityType: req.body.activityType 
             },
-            notification_url: "https://fc7d-181-170-144-157.ngrok-free.app/payment/webhook"
+            notification_url: "https://fc47-181-170-144-157.ngrok-free.app/payment/webhook"
         }
 
         const preference = new Preference(client);

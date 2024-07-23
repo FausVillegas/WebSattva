@@ -23,7 +23,7 @@ export async function addClass(req, res, next) {
 
     const { title, description, instructor_id, monthlyFee, schedules } = req.body;
     
-    // imageUrl = null;
+    let imageUrl = null;
     if(req.file)
         imageUrl = req.file.path;
 
@@ -51,6 +51,9 @@ export async function addClass(req, res, next) {
         res.status(201).json({ message: 'The class was added', class: newClass })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        if (existsSync(imageUrl)) {
+            unlinkSync(imageUrl);
+        }
         next(err);
     }
 }

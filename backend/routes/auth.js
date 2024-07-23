@@ -116,7 +116,7 @@ router.get("/user-registrations/:userId", async (req, res) => {
         );
 
         const [classes] = await db.query(
-            `SELECT c.id, c.title, c.description, c.imageUrl, c.monthly_fee 
+            `SELECT c.id, c.title, c.description, c.imageUrl, c.monthly_fee, en.payment_status
              FROM Classes c
              JOIN Enrollment en ON c.id = en.class_id
              WHERE en.user_id = ?`, [userId]

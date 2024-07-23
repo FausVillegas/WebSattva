@@ -7,7 +7,7 @@
         <p class="price">${{price}}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button id="checkout-btn" (click)="createPreference()" [disabled]="message!=''">Inscribirse y Pagar</button>
+        <button mat-raised-button id="checkout-btn" (click)="createPreference()" [disabled]="message!=''">Pagar e Inscribirse</button>
       </mat-card-actions>
       <div id="wallet_container"></div>
       <div *ngIf="message" class="message">{{ message }}</div> 

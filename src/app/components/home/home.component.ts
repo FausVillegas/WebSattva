@@ -108,10 +108,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(ClassEventDetailsComponent, {
       width: '500px',
       data: data,
-      // panelClass: 'custom-dialog-container',
       autoFocus: false,
-      // position: { top: "auto", left: "auto", bottom: "auto", right: "auto" },
-      // position: { left: '35%' },
     });
   }
 
