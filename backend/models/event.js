@@ -1,29 +1,3 @@
-// const { DataTypes } = require('sequelize');
-// const sequelize = require('../config/database');
-
-// const Event = sequelize.define('Event', {
-//     title: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     description: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     imageUrl: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     datetime: {
-//         type: DataTypes.DATE,
-//         allowNull: false
-//     }
-// }, {
-//     timestamps: false
-// });
-
-// module.exports = Event;
-
 import db from '../util/database.js';
 
 export default class SattvaEvent {
@@ -62,4 +36,9 @@ export default class SattvaEvent {
     static registerForEvent(eventId, userId) {
         return db.execute('INSERT INTO EventRegistrations (event_id, user_id) VALUES (?, ?)', [eventId, userId]);
     }
+
+    static async isUserEnrolled(eventId, userId) {
+        const [rows] = await db.execute('SELECT 1 FROM EventRegistrations WHERE event_id = ? AND user_id = ?', [eventId, userId]);
+        return rows.length > 0;
+    }    
 };

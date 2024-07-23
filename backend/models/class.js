@@ -43,4 +43,9 @@ export default class SattvaClass {
     static registerForClass(classId, userId) {
         return db.execute('INSERT INTO FeePayments (user_id, class_id) VALUES (?, ?)', [userId, classId]);
     }
+
+    static async isUserEnrolled(classId, userId) {
+        const [rows] = await db.execute('SELECT 1 FROM Enrollment WHERE class_id = ? AND user_id = ? AND payment_status = 1', [classId, userId]);
+        return rows.length > 0;
+    }    
 };
