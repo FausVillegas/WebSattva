@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import { existsSync, unlinkSync } from 'fs';
 import Product from '../models/product.js';
+import User from '../models/user.js';
 import path from 'path';
 
 export async function fetchAll(req, res, next) {
@@ -84,6 +85,7 @@ export async function getProductById(req, res, next) {
   }
 
 import { MercadoPagoConfig, Preference } from 'mercadopago';
+import Order from '../models/order.js';
 
 const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
 
@@ -125,34 +127,103 @@ export const createPreference = async (req, res) => {
 export const handleWebhook = async (req, res) => {
   const paymentId = req.query.id;
   try {
-      const respose = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-          method: 'GET',
-          headers: {
-              'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
-          }
-      });
-
-      if(respose.ok) {
-          const data = await respose.json();
-          const { items, user_id } = data.metadata;
-          const transaction_amount = data.transaction_amount;
-          
-          const [orderResult] = await Product.insertOrder(user_id, transaction_amount);
-          
-          const newOrderId = orderResult.insertId;
-          
-          for (const item of items) {
-            const productId = item.product_id;
-            const quantity = item.quantity;
-            await Product.insertOrderProductRelation(newOrderId, productId, quantity);
-          }
+    const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
+      }
+    });
+    const data = await response.json();
+    // console.log(data);
+    if (response.status !== 200) {
+      throw Error(data.message)
+    };
+    if (response.ok) {
+      const { items, user_id } = data.metadata;
+      const transaction_amount = data.transaction_amount;
+      
+      const [orderResult] = await Order.insertOrder(user_id, transaction_amount);
+      const newOrderId = orderResult.insertId;
+      
+      for (const item of items) {
+        const productId = item.product_id;
+        const quantity = item.quantity;
+        await Order.insertOrderProductRelation(newOrderId, productId, quantity);
+        
+        // Actualizar el inventario
+        // await Order.updateInventory(productId, -quantity);
       }
 
+      // Enviar correo de confirmación
+      await sendConfirmationEmail(user_id, newOrderId);
+
       res.sendStatus(200);
-  } catch(error) {
-      console.error('Error processing webhook:', error);
-      res.status(500).json({ error: 'Error processing webhook' });
+    } else {
+      console.error(`Error fetching payment: ${response.status} ${response.statusText}`);
+      res.status(response.status).json({ error: 'Error fetching payment' });
+    }
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    res.status(500).json({ error: 'Error processing webhook' });
   }
 };
+
+import { createTransport } from 'nodemailer';
+const transporter = createTransport({
+  service: 'Gmail', 
+  auth: {
+    user: process.env.MAIL_USERNAME,
+    pass: process.env.MAIL_PASSWORD,
+  },
+});
+
+async function sendConfirmationEmail(userId, orderId) {
+  try {
+    const u = await User.findById(userId);
+    const user = u[0][0];
+    // console.log("USER ",user);
+
+    if (!user || !user.email) {
+      throw new Error('User email is missing');
+    }
+
+    const o = await Order.findById(orderId);
+    const order = o[0][0];
+    if (!order) {
+      throw new Error('Order not found');
+    }
+    // console.log("ORDEN",order);
+
+    const op = await Order.getOrderProducts(orderId);
+    const orderProducts = op[0];
+    // console.log(orderProducts);
+    const productDetails = orderProducts.map(product => `
+      <li>${product.title} - Cantidad: ${product.quantity} - Precio: $${product.sale_price}</li>
+    `).join('');
+
+    // console.log(process.env.MAIL_USERNAME+" "+user.email+" "+user.name+" "+order.id+" "+productDetails+" "+order.total_value+" "+order.order_date)
+    const mailOptions = {
+      from: process.env.MAIL_USERNAME,
+      to: user.email,
+      subject: 'Confirmación de Compra - Sattva',
+      html: `
+          <p>Estimado ${user.name},</p>
+          <p>Gracias por tu compra. Aquí están los detalles de tu orden:</p>
+          <p>Orden ID: ${order.id}</p>
+          <p>Productos comprados:</p>
+          <ul>${productDetails}</ul>
+          <p>Total: $${order.total_value}</p>
+          <p>Fecha de compra: ${order.order_date}</p>
+          <p>Atentamente,</p>
+          <p>Sattva Espacio de Salud y Bienestar</p>
+      `,
+    };
+    await transporter.sendMail(mailOptions);
+    console.log('Confirmation email sent to:', user.email);
+  } catch (error) {
+    console.error('Error sending confirmation email:', error);
+  }
+}
+
 
 
