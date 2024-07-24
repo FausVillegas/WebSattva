@@ -82,3 +82,77 @@ export async function getProductById(req, res, next) {
       next(error);
     }
   }
+
+import { MercadoPagoConfig, Preference } from 'mercadopago';
+
+const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
+
+export const createPreference = async (req, res) => {
+  try {
+    const { items, userId } = req.body;
+    
+    // console.log("ITEMS:", userId);
+    // items.forEach(item => console.log(item.sale_price));
+
+    const body = {
+      items: items.map(item => ({
+        title: item.title,
+        quantity: item.quantity,
+        unit_price: Number(item.sale_price),
+        currency_id: 'ARS'
+      })),
+      back_urls: {
+        success: 'https://www.google.com/',
+        failure: 'https://www.google.com/',
+        pending: 'https://www.google.com/'
+      },
+      auto_return: 'approved',
+      metadata: { userId: userId, items: items },
+      notification_url: "https://fc47-181-170-144-157.ngrok-free.app/products/webhook"
+    };
+
+    const preference = new Preference(client);
+    const result = await preference.create({ body });
+    // console.log("Preference created:", result);
+    res.json({ id: result.id });
+  } catch (error) {
+    console.log("Error:", error);
+    console.error("Error creating preference:", error);
+    res.status(500).json({ error: 'Error creating preference' });
+  }
+};
+
+export const handleWebhook = async (req, res) => {
+  const paymentId = req.query.id;
+  try {
+      const respose = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
+          }
+      });
+
+      if(respose.ok) {
+          const data = await respose.json();
+          const { items, user_id } = data.metadata;
+          const transaction_amount = data.transaction_amount;
+          
+          const [orderResult] = await Product.insertOrder(user_id, transaction_amount);
+          
+          const newOrderId = orderResult.insertId;
+          
+          for (const item of items) {
+            const productId = item.product_id;
+            const quantity = item.quantity;
+            await Product.insertOrderProductRelation(newOrderId, productId, quantity);
+          }
+      }
+
+      res.sendStatus(200);
+  } catch(error) {
+      console.error('Error processing webhook:', error);
+      res.status(500).json({ error: 'Error processing webhook' });
+  }
+};
+
+
