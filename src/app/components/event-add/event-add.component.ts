@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
-import { Event } from 'src/app/models/Event';
+import { SattvaEvent } from 'src/app/models/Event';
 import { Instructor } from 'src/app/models/Instructor';
 import { InstructorService } from 'src/app/services/instructor.service';
 import { AuthService } from 'src/app/services/auth.service';

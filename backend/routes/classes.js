@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { getAllClasses, addClass, deleteClass } from '../controllers/classes.js';
+import { getAllClasses, addClass, deleteClass, getClassById, updateClass } from '../controllers/classes.js';
 import upload from '../middleware/upload.js';
 
 
@@ -11,11 +11,13 @@ import upload from '../middleware/upload.js';
 
 router.get('/', getAllClasses);
 
+router.get('/:id', getClassById);
+
 router.post('/', upload('imageUrl'), addClass);
 
-// router.put('/:id', classesController.updateClass);
-
 router.delete('/:id', deleteClass);
+
+router.put('/:id', updateClass);
 
 export default router;
 

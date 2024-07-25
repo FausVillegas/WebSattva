@@ -30,6 +30,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { UserRegistrationsComponent } from './components/user-registrations/user-registrations.component';
 import { AddInstructorComponent } from './components/add-instructor/add-instructor.component';
+import { EditClassComponent } from './components/class-event/edit-class/edit-class.component';
+import { EditEventComponent } from './components/class-event/edit-event/edit-event.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { AddInstructorComponent } from './components/add-instructor/add-instruct
     ClassEventDetailsComponent,
     UserRegistrationsComponent,
     AddInstructorComponent,
+    EditClassComponent,
+    EditEventComponent,
   ],
   imports: [
     MatCardModule,
@@ -72,6 +76,8 @@ import { AddInstructorComponent } from './components/add-instructor/add-instruct
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'addClass', component: ClassAddComponent, canActivate: [AdminGuardService] },
       { path: 'addEvent', component: EventAddComponent, canActivate: [AdminGuardService] },
+      { path: 'edit-class/:id', component: EditClassComponent, canActivate: [AdminGuardService] },
+      { path: 'edit-event/:id', component: EditEventComponent, canActivate: [AdminGuardService] },
       // { path: 'shipping', component: ShippingComponent },
     ]),
     BrowserAnimationsModule,

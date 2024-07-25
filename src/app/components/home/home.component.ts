@@ -85,8 +85,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ClassService } from 'src/app/services/class.service';
 import { EventService } from 'src/app/services/event.service';
-import { Class } from 'src/app/models/Class';
-import { Event } from 'src/app/models/Event';
+import { SattvaClass } from 'src/app/models/Class';
+import { SattvaEvent } from 'src/app/models/Event';
 import { AuthService } from 'src/app/services/auth.service';
 import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 import { ClassEventDetailsComponent } from '../class-event-details/class-event-details.component';
@@ -100,8 +100,8 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   apiUrl = "http://localhost:3000/";
-  classes: Class[] = [];
-  events: Event[] = [];
+  classes: SattvaClass[] = [];
+  events: SattvaEvent[] = [];
   isAdmin = false;
   
   constructor(private classService: ClassService, private eventService: EventService, private authService: AuthService, private dialog: MatDialog, private router: Router) {}
@@ -134,28 +134,28 @@ export class HomeComponent implements OnInit {
     this.eventService.getEvents().subscribe(events => this.events = events);
   }
 
-  addClass(classData: Class): void {
+  addClass(classData: SattvaClass): void {
     this.classService.addClass(classData).subscribe(() => this.loadClasses());
   }
 
-  updateClass(classData: Class): void {
-    this.classService.updateClass(classData.id, classData).subscribe(() => this.loadClasses());
+  updateClass(classData: SattvaClass): void {
+    this.router.navigate(['/edit-class', classData.id]);
   }
 
-  deleteClass(classId: Pick<Class, "id">): void {
+  deleteClass(classId: Pick<SattvaClass, "id">): void {
     console.log("Borrando clase: "+classId.id);
     this.classService.deleteClass(classId).subscribe(() => this.loadClasses());
   }
 
-  addEvent(eventData: Event): void {
+  addEvent(eventData: SattvaEvent): void {
     this.eventService.addEvent(eventData).subscribe(() => this.loadEvents());
   }
 
-  updateEvent(eventData: Event): void {
-    this.eventService.updateEvent(eventData.id, eventData).subscribe(() => this.loadEvents());
+  updateEvent(eventData: SattvaEvent): void {
+    this.router.navigate(['/edit-event', eventData.id]);
   }
 
-  deleteEvent(eventId: Pick<Event, "id">): void {
+  deleteEvent(eventId: Pick<SattvaEvent, "id">): void {
     console.log("Borrando evento: "+eventId.id);
     this.eventService.deleteEvent(eventId).subscribe(() => this.loadEvents());
   }

@@ -19,7 +19,7 @@
     </section>
     <section id="clases">
         <h2>Clases</h2>
-        <button *ngIf="getAuthService().isAdmin()" routerLink="/addClass">Agregar clase</button>
+        <button *ngIf="isAdmin" routerLink="/addClass">Agregar clase</button>
         <div class="classEvents">
             <div class="containerClassEvent" (click)="openEventDetails(class)" *ngFor="let class of classes">
                 <h3>{{ class.title }}</h3>
@@ -27,14 +27,14 @@
                 <p>Cuota: ${{ class.monthly_fee }}</p>
                 <img *ngIf="class.imageUrl" [src]="apiUrl + class.imageUrl" width="400" />
                 <strong *ngIf="!class.instructor_id">CLASE SIN INSTRUCTOR</strong>
-                <!-- <button *ngIf="getAuthService().isAdmin()" (click)="updateClass(class)">Modificar</button><br> -->
-                <button *ngIf="getAuthService().isAdmin()" (click)="deleteClass(class)">Eliminar clase</button>
+                <button *ngIf="isAdmin" (click)="updateClass(class)">Modificar</button><br>
+                <button *ngIf="isAdmin" (click)="deleteClass(class)">Eliminar clase</button>
             </div>
         </div>
     </section>
     <section id="eventos">
         <h2>Eventos</h2>
-        <button *ngIf="getAuthService().isAdmin()" routerLink="/addEvent">Agregar evento</button>
+        <button *ngIf="isAdmin" routerLink="/addEvent">Agregar evento</button>
         <p>Eventos que se realizan un día y horario específico</p>
         <div class="classEvents" id="events">
             <div class="classEvents" id="events">
@@ -44,8 +44,8 @@
                     <p>${{ event.price }}</p>
                     <img *ngIf="event.imageUrl" [src]="apiUrl + event.imageUrl" width="400" />
                     <strong *ngIf="!event.instructor_id">EVENTO SIN INSTRUCTOR</strong>
-                    <!-- <button *ngIf="getAuthService().isAdmin()" (click)="updateEvent(event)">Modificar</button><br> -->
-                    <button *ngIf="getAuthService().isAdmin()" (click)="deleteEvent(event)">Eliminar evento</button>
+                    <button *ngIf="isAdmin" (click)="updateEvent(event)">Modificar</button><br>
+                    <button *ngIf="isAdmin" (click)="deleteEvent(event)">Eliminar evento</button>
                 </div>
             </div>
         </div>

@@ -66,3 +66,34 @@ export async function deleteEvent(req, res, next) {
         next(err);
     }
 }
+
+export async function getEventById(req, res) {
+    try {
+        const eventData = (await SattvaEvent.findById(req.params.id))[0];
+        
+        if (!eventData) {
+            throw new Error(`No se encontró ningún evento con el id ${req.params.id}`);
+        }
+
+        var localDate = eventData[0].event_datetime.toString();
+        eventData[0].event_datetime = localDate;
+        // console.log(eventData[0].event_datetime);
+        res.status(200).json(eventData[0]);
+    } catch (err) {
+        if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
+    }
+}
+
+export async function updateEvent(req, res) {
+    const eventId = req.body.id;
+    const updatedData = req.body;
+    try {
+        const [result] = await SattvaEvent.update(updatedData, eventId);
+        res.status(200).json({ message: 'Clase actualizada correctamente: '+result });
+    } catch (err) {
+        if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
+        next(err);
+    }
+}
