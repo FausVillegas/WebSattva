@@ -71,6 +71,10 @@ section h2 {
     text-align: center;
     margin-bottom: 2rem;
   }
+
+  .containerClassEvent strong {
+    color: #cb0000;
+  }
   
   .containerClassEvent:hover {
     transform: translateY(-5px);

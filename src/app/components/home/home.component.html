@@ -26,7 +26,7 @@
                 <!-- <p>{{ class.description }}</p> -->
                 <p>Cuota: ${{ class.monthly_fee }}</p>
                 <img *ngIf="class.imageUrl" [src]="apiUrl + class.imageUrl" width="400" />
-                <!-- <p>Texto del artículo que hay acá y es texto de prueba.</p> -->
+                <strong *ngIf="!class.instructor_id">CLASE SIN INSTRUCTOR</strong>
                 <!-- <button *ngIf="getAuthService().isAdmin()" (click)="updateClass(class)">Modificar</button><br> -->
                 <button *ngIf="getAuthService().isAdmin()" (click)="deleteClass(class)">Eliminar clase</button>
             </div>
@@ -43,6 +43,7 @@
                     <!-- <p>{{ event.description }}</p> -->
                     <p>${{ event.price }}</p>
                     <img *ngIf="event.imageUrl" [src]="apiUrl + event.imageUrl" width="400" />
+                    <strong *ngIf="!event.instructor_id">EVENTO SIN INSTRUCTOR</strong>
                     <!-- <button *ngIf="getAuthService().isAdmin()" (click)="updateEvent(event)">Modificar</button><br> -->
                     <button *ngIf="getAuthService().isAdmin()" (click)="deleteEvent(event)">Eliminar evento</button>
                 </div>

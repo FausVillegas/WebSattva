@@ -28,7 +28,7 @@ export default class Instructor {
         return db.execute('SELECT * FROM instructors WHERE id = ?',[id]);
     }
 
-    static updateInstructor(instructorData) {
-        return db.execute('SELECT * FROM instructors WHERE id = ?',[id]);
+    static update(instructorData, instructorId) {
+        return db.execute('UPDATE instructors SET first_name = ?, last_name = ?, email = ?, dni = ?, salary = ? WHERE id = ?',[instructorData.first_name, instructorData.last_name, instructorData.email, instructorData.dni, instructorData.salary, instructorId]);
     }
 };

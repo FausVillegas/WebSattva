@@ -45,7 +45,7 @@ export class ClassAddComponent implements OnInit{
 
   navigateToAddInstructor() {
     if (this.isAdmin) {
-      this.router.navigate(['/add-instructor']);
+      this.router.navigate(['/instructors']);
     }
   }
 

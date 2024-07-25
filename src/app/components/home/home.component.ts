@@ -103,12 +103,12 @@ export class HomeComponent implements OnInit {
   classes: Class[] = [];
   events: Event[] = [];
   isAdmin = false;
-
+  
   constructor(private classService: ClassService, private eventService: EventService, private authService: AuthService, private dialog: MatDialog, private router: Router) {}
 
   navigateToAddInstructor() {
     if (this.isAdmin) {
-      this.router.navigate(['/add-instructor']);
+      this.router.navigate(['/instructors']);
     }
   }
 

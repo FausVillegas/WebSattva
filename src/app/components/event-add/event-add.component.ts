@@ -14,14 +14,14 @@ import { AuthService } from 'src/app/services/auth.service';
 export class EventAddComponent implements OnInit{
   newEvent = { title: '', description: '', imageUrl: '', dateTime: new Date(), instructor_id: 0, price: 0};
   selectedFile: File | undefined;
-  instructors: Instructor[] = [];
+  instructors: any[] = [];
   isAdmin = false;
 
   constructor(private eventService: EventService, private router: Router, private instructorService: InstructorService, private authService: AuthService) { }
 
   navigateToAddInstructor() {
     if (this.isAdmin) {
-      this.router.navigate(['/add-instructor']);
+      this.router.navigate(['/instructors']);
     }
   }
 
