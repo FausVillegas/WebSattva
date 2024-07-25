@@ -110,61 +110,67 @@ export const createPreference = async (req, res) => {
       },
       auto_return: 'approved',
       metadata: { userId: userId, items: items },
-      notification_url: "https://fc47-181-170-144-157.ngrok-free.app/products/webhook"
+      notification_url: "https://fc47-181-170-144-157.ngrok-free.app/products/order/webhook"
     };
 
     const preference = new Preference(client);
     const result = await preference.create({ body });
-    // console.log("Preference created:", result);
+    
     res.json({ id: result.id });
   } catch (error) {
-    console.log("Error:", error);
     console.error("Error creating preference:", error);
     res.status(500).json({ error: 'Error creating preference' });
   }
 };
 
-export const handleWebhook = async (req, res) => {
+export const orderWebhook = async (req, res) => {
   const paymentId = req.query.id;
-  try {
-    const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
-      }
-    });
-    const data = await response.json();
-    // console.log(data);
-    if (response.status !== 200) {
-      throw Error(data.message)
-    };
-    if (response.ok) {
-      const { items, user_id } = data.metadata;
-      const transaction_amount = data.transaction_amount;
+  if(paymentId){
+    try {
+      console.log("fectching payment "+paymentId);
+      const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
+        }
+      });
       
-      const [orderResult] = await Order.insertOrder(user_id, transaction_amount);
-      const newOrderId = orderResult.insertId;
-      
-      for (const item of items) {
-        const productId = item.product_id;
-        const quantity = item.quantity;
-        await Order.insertOrderProductRelation(newOrderId, productId, quantity);
+      const data = await response.json();
+      console.log(data);
+      if (response.status !== 200) {
+        throw Error(data.message)
+      };
+      if (response.ok) {
+        const { items, user_id } = data.metadata;
+        const transaction_amount = data.transaction_amount;
         
-        // Actualizar el inventario
-        // await Order.updateInventory(productId, -quantity);
+        const [orderResult] = await Order.insertOrder(user_id, transaction_amount);
+        const newOrderId = orderResult.insertId;
+        
+        for (const item of items) {
+          const productId = item.product_id;
+          const quantity = item.quantity;
+          await Order.insertOrderProductRelation(newOrderId, productId, quantity);
+          
+          // Actualizar el inventario
+          // await Order.updateInventory(productId, -quantity);
+        }
+
+        // Enviar correo de confirmación
+        await sendConfirmationEmail(user_id, newOrderId);
+
+        res.sendStatus(200);
+      } else {
+        console.error(`Error fetching payment: ${response.status} ${response.statusText}`);
+        res.status(response.status).json({ error: 'Error fetching payment' });
       }
-
-      // Enviar correo de confirmación
-      await sendConfirmationEmail(user_id, newOrderId);
-
-      res.sendStatus(200);
-    } else {
-      console.error(`Error fetching payment: ${response.status} ${response.statusText}`);
-      res.status(response.status).json({ error: 'Error fetching payment' });
+      
+    } catch (error) {
+      console.error('Error processing webhook:', error);
+      res.status(500).json({ error: 'Error processing webhook' });
     }
-  } catch (error) {
-    console.error('Error processing webhook:', error);
-    res.status(500).json({ error: 'Error processing webhook' });
+  } else {
+    console.error("Error PaymentId "+paymentId);
   }
 };
 

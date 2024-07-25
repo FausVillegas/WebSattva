@@ -1,9 +1,9 @@
 import db from '../util/database.js';
 
 export default class Instructor {
-    constructor(firstName, lastName, email, dni, salary){
-        this.firstName = firstName;
-        this.lastName = lastName;
+    constructor(first_name, last_name, email, dni, salary){
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.dni = dni;
         this.salary = salary;
@@ -15,7 +15,7 @@ export default class Instructor {
 
     static save(instructor) {
         return db.execute(
-            'INSERT INTO instructors (first_name, last_name, email, dni, salary) VALUES (?, ?, ?, ?, ?, ?)', 
+            'INSERT INTO instructors (first_name, last_name, email, dni, salary) VALUES (?, ?, ?, ?, ?)', 
             [instructor.firstName, instructor.lastName, instructor.email, instructor.dni, instructor.salary]
         );
     }

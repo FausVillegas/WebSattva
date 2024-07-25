@@ -29,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { UserRegistrationsComponent } from './components/user-registrations/user-registrations.component';
+import { AddInstructorComponent } from './components/add-instructor/add-instructor.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { UserRegistrationsComponent } from './components/user-registrations/user
     EventAddComponent,
     ClassEventDetailsComponent,
     UserRegistrationsComponent,
+    AddInstructorComponent,
   ],
   imports: [
     MatCardModule,
@@ -60,6 +62,7 @@ import { UserRegistrationsComponent } from './components/user-registrations/user
       // { path: '', redirectTo: '/products', pathMatch: 'full'},
       { path: '', component: HomeComponent},
       { path: 'my-registrations', component: UserRegistrationsComponent },
+      { path: 'add-instructor', component: AddInstructorComponent },
       { path: 'profile', component: ProfileComponent},
       { path: 'products', component: ProductListComponent },
       { path: 'product/:id', component: ProductDetailsComponent },

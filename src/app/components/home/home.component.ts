@@ -91,6 +91,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 import { ClassEventDetailsComponent } from '../class-event-details/class-event-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -101,8 +102,15 @@ export class HomeComponent implements OnInit {
   apiUrl = "http://localhost:3000/";
   classes: Class[] = [];
   events: Event[] = [];
+  isAdmin = false;
 
-  constructor(private classService: ClassService, private eventService: EventService, private authService: AuthService, private dialog: MatDialog) {}
+  constructor(private classService: ClassService, private eventService: EventService, private authService: AuthService, private dialog: MatDialog, private router: Router) {}
+
+  navigateToAddInstructor() {
+    if (this.isAdmin) {
+      this.router.navigate(['/add-instructor']);
+    }
+  }
 
   openEventDetails(data: any): void {
     const dialogRef = this.dialog.open(ClassEventDetailsComponent, {
@@ -115,6 +123,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadClasses();
     this.loadEvents();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   loadClasses(): void {

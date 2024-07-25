@@ -1,0 +1,19 @@
+<form (ngSubmit)="onSubmit()">
+    <label for="firstName">Nombre:</label>
+    <input type="text" id="firstName" [(ngModel)]="instructor.firstName" name="firstName" required>
+    
+    <label for="lastName">Apellido:</label>
+    <input type="text" id="lastName" [(ngModel)]="instructor.lastName" name="lastName" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="instructor.email" name="email" required>
+    
+    <label for="dni">DNI:</label>
+    <input type="text" id="dni" [(ngModel)]="instructor.dni" name="dni" required>
+    
+    <label for="salary">Salario:</label>
+    <input type="number" id="salary" [(ngModel)]="instructor.salary" name="salary" required>
+  
+    <button type="submit">Agregar Instructor</button>
+  </form>
+  

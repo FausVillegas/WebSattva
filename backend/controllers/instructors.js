@@ -14,13 +14,15 @@ export async function getAllInstructors(req, res, next) {
 }
 
 export async function addInstructor(req, res, next) {
-  const errors = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return console.error("Error "+errors);
     }
 
+    console.log(req.body);
     const { firstName, lastName, email, dni, salary } = req.body;
+    // const { first_name, last_name, email, dni, salary } = req.body;
 
     try {
         const newInstructor = {
@@ -30,12 +32,14 @@ export async function addInstructor(req, res, next) {
             dni: dni, 
             salary: salary
         }
+        console.log(newInstructor);
 
         const result = await Instructor.save(newInstructor);
 
         res.status(201).json({ message: 'The instructor was added', class: newInstructor })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.log("Error creating instructor: "+err);
         next(err);
     }
 }

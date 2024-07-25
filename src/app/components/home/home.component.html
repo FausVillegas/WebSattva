@@ -14,6 +14,9 @@
             </div>
         </div>        
     </section>
+    <section id="instructors">
+        <button class="instructor-btn" (click)="navigateToAddInstructor()" *ngIf="isAdmin">Agregar o Eliminar Instructor</button>
+    </section>
     <section id="clases">
         <h2>Clases</h2>
         <button *ngIf="getAuthService().isAdmin()" routerLink="/addClass">Agregar clase</button>

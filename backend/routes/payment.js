@@ -46,23 +46,6 @@ router.post("/create-preference", async (req,res) => {
 });
 
 router.post("/webhook", async (req, res) => {
-    // try {
-    //     const payment = req.body;
-    //     console.log(payment.metadata);
-    //     if (payment.type === 'payment' && payment.data.status === 'approved') {
-    //         const { userId, classEventId, activityType } = payment.data.metadata;
-
-    //         if(activityType === 'event')
-    //             await SattvaEvent.registerForEvent(classEventId, userId);
-    //         else
-    //             await SattvaClass.registerForClass(classEventId, userId);
-    //     }
-
-    //     res.status(200).send('OK');
-    // } catch (error) {
-    //     res.status(500).send('Error processing webhook');
-    // }
-
     const paymentId = req.query.id;
     try {
         const respose = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
