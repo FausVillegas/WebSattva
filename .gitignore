@@ -3,15 +3,17 @@
 .env
 
 # Compiled output
-/dist
-/tmp
-/out-tsc
+/frontend/dist
+/frontend/tmp
+/frontend/out-tsc
 /bazel-out
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+/frontend/node_modules
+/frontend/npm-debug.log
+/frontend/yarn-error.log
+
+/backend/node_modules
 
 # IDEs and editors
 .idea/
@@ -31,8 +33,8 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
+/frontend/.angular/cache
+/frontend.sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log

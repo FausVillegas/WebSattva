@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="bar"></div>
+  <div class="card-body">
+    <div class="half">
+      <div class="title-price">
+        <h1>{{ product.title }}</h1>
+        <p class="price">{{ product.sale_price }} $</p>
+      </div>
+      <div class="image">
+        <img [src]="'http://localhost:3000/' + product.image_url" alt="{{ product.title }}">
+      </div>
+    </div>
+    <div class="half">
+      <h3>Drescripción</h3>
+      <div class="description">
+        <p>{{ product.description }}</p>
+      </div>
+      <span class="stock" *ngIf="product.stock>0"> En stock</span>
+      <span class="no-stock" *ngIf="product.stock===0"> No hay stock</span>
+      <div class="quantity">
+        <label for="quantity" class="product-quantity-label">Cantidad:</label>
+        <input type="number" id="quantity" [(ngModel)]="quantity" class="product-quantity-input" min="0" max="8">
+        <div *ngIf="quantity < 0" class="error">
+          Valor negativo no permitido.
+        </div>
+      </div>
+      <div class="action">
+        <button type="button" (click)="addToCart(product, quantity)">Agregar al carrito</button>
+      </div>
+    </div>
+  </div>
+</div>

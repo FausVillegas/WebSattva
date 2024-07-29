@@ -1,0 +1,119 @@
+<!-- <div class="flex items-center h-screen w-full justify-center">
+    <div class="max-w-xs">
+        <div class="bg-white shadow-xl rounded-lg py-3">
+            <div class="p-2">
+                <h3 class="text-center text-xl text-gray-900 font-medium leading-8">{{ name }}</h3>
+                <div class="text-center text-gray-400 text-xs font-semibold">
+                    <p>User Profile</p>
+                </div>
+                <table class="text-xs my-3">
+                    <tbody>
+                        <tr>
+                            <td class="px-2 py-2 text-gray-500 font-semibold">Nombre completo</td>
+                            <td class="px-2 py-2">{{ name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 text-gray-500 font-semibold">Email</td>
+                            <td class="px-2 py-2">{{ email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 text-gray-500 font-semibold">Telefono</td>
+                            <td class="px-2 py-2">{{ phone }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 text-gray-500 font-semibold">Localidad</td>
+                            <td class="px-2 py-2">{{ location }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 text-gray-500 font-semibold">Dirección</td>
+                            <td class="px-2 py-2">{{ address }}</td>
+                        </tr>
+                        <tr>
+                            <td class="px-2 py-2 text-gray-500 font-semibold">DNI</td>
+                            <td class="px-2 py-2">{{ dni }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center my-3" *ngIf="authService.isAuthenticated()">
+                    <a (click)="logout()" class="text-xs cursor-pointer text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium">Cerrar sesión</a>
+                </div>
+                <div class="text-center my-3" *ngIf="authService.isAuthenticated()">
+                    <button (click)="toggleEdit()" class="text-xs cursor-pointer text-indigo-500 italic hover:underline hover:text-indigo-600 font-medium">Editar perfil</button>
+                </div>
+                <div class="edit-profile" *ngIf="isEditing" class="text-center my-3">
+                    <form id="edit-profile-form" (ngSubmit)="updateProfile()" [formGroup]="profileForm" class="space-y-4">
+                      <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                        <input id="name" formControlName="name" name="name" type="text" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
+                      <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                        <input id="phone" formControlName="phone" name="phone" type="text" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
+                      <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700">Localidad</label>
+                        <input id="address" formControlName="address" name="address" type="text" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Guardar cambios</button>
+                      </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="flex items-center h-screen w-full justify-center">
+    <div class="max-w-xs">
+      <div class="bg-white shadow-xl rounded-lg py-3">
+        <div class="p-2">
+          <h3 class="text-center text-xl text-gray-900 font-medium leading-8">Perfil de Usuario</h3>
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <table class="text-xs my-3">
+              <tbody>
+                <tr>
+                  <td class="px-2 py-2 text-gray-500 font-semibold">Nombre completo</td>
+                  <td class="px-2 py-2">
+                    <input formControlName="name" type="text" placeholder="Nombre completo" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-2 text-gray-500 font-semibold">Email</td>
+                  <td class="px-2 py-2">{{ email }}</td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-2 text-gray-500 font-semibold">Teléfono</td>
+                  <td class="px-2 py-2">
+                    <input formControlName="phone" type="text" placeholder="Teléfono" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-2 text-gray-500 font-semibold">Localidad</td>
+                  <td class="px-2 py-2">
+                    <input formControlName="location" type="text" placeholder="Localidad" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-2 text-gray-500 font-semibold">Dirección</td>
+                  <td class="px-2 py-2">
+                    <input formControlName="address" type="text" placeholder="Dirección" />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2 py-2 text-gray-500 font-semibold">DNI</td>
+                  <td class="px-2 py-2">
+                    <input formControlName="dni" type="text" placeholder="DNI" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center">
+              <button type="submit" class="bg-blue-500 text-white rounded px-4 py-2">Guardar cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

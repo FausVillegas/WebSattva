@@ -1,0 +1,34 @@
+<div class="form-information">
+    <form class="form" [formGroup]="productForm" #formDirective="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <h3>Agrega un producto</h3>
+        <label>
+            <input id="title" type="text" placeholder="Titulo" formControlName="title">
+        </label>
+        <label>
+            <input id="description" type="text" placeholder="descripción" formControlName="description">
+        </label>
+        <label>
+            <input id="price" type="number" placeholder="Precio" formControlName="sale_price" min="0">
+            <div *ngIf="this.productForm.get('sale_price')?.value < 0" class="error">
+              El precio del producto no puede ser negativo.
+            </div>
+        </label>
+
+        <label for="category">Categoría</label>
+        <select id="category" formControlName="category" required>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+
+        <label>
+            <input id="stock" type="number" placeholder="Stock" formControlName="stock" min="0">
+            <div *ngIf="this.productForm.get('stock')?.value < 0" class="error">
+              El stock del producto no puede ser negativo.
+            </div>
+        </label>
+        
+        <label>
+            <input id="image" type="file" (change)="onFileChange($event)" formControlName="image_url">
+        </label>
+        <input type="submit" value="Agregar producto" [disabled]="!productForm.valid">
+    </form>
+</div>

@@ -1,0 +1,20 @@
+   <div class="event-details-container">
+    <mat-card class="event-card">
+      <img mat-card-image *ngIf="apiUrl+data.imageUrl" [src]="apiUrl + data.imageUrl" alt="Image">
+      <mat-card-content>
+        <h2>{{data.title}}</h2>
+        <p>{{data.description}}</p>
+        <p class="price">${{price}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngIf="getAuthService().isAuthenticated()" mat-raised-button id="checkout-btn" (click)="createPreference()" [disabled]="message!=''">Pagar e Inscribirse</button>
+        <div class="not-authenticated" *ngIf="!getAuthService().isAuthenticated()">
+          <p>Para inscribirte inicia sesión con tu cuenta</p>
+          <button routerLink="/login">Iniciar Sesión</button>
+        </div>
+      </mat-card-actions>
+      <div id="wallet_container"></div>
+      <div *ngIf="message" class="message">{{ message }}</div> 
+    </mat-card>
+  </div>
+  
