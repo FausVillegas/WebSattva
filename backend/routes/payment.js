@@ -29,7 +29,7 @@ router.post("/create-preference", async (req,res) => {
                 classEventId: req.body.classEventId, // Get event ID from request body
                 activityType: req.body.activityType 
             },
-            notification_url: "https://fc47-181-170-144-157.ngrok-free.app/payment/webhook"
+            notification_url: `${process.env.BACKEND_API}/payment/webhook`
         }
 
         const preference = new Preference(client);

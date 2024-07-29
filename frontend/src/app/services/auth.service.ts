@@ -11,13 +11,14 @@ import { User } from '../models/User';
 import { ErrorHandlerService } from './error-handler.service';
 import { jwtDecode } from 'jwt-decode';
 import { Location } from '@angular/common';
+import { env } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private url = "http://localhost:3000/auth"
-  private secretKey = 'secretfortoken12052004';
+  private url = `${env.apiUrl}/auth`
+  private secretKey = env.secretKeyForToken;
   token = localStorage.getItem("token");
   userId!: number;
   decodedToken: any;
@@ -36,18 +37,6 @@ export class AuthService {
   encodeToken(payload: any): string {
     return jwtEncode(payload, this.secretKey);
   }
-
-//   updateProfile(email: string, updatedProfile: any): Observable<any> {
-//     return this.http
-//       .put<any>(`${this.url}/update-profile`, { email, updatedProfile }, this.httpOptions)
-//       .pipe(
-//         first(),
-//         catchError(error => {
-//           console.error('Update profile error', error);
-//           return throwError(() => error);
-//         })
-//       );
-// }
 
 updateProfile(email: string, updatedProfile: any): Observable<any> {
   return this.http

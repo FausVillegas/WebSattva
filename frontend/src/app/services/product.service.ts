@@ -5,14 +5,14 @@ import { Observable, first } from 'rxjs';
 import { catchError } from 'rxjs';
 
 import { Product } from '../models/Product';
-import { User } from '../models/User';
 import { ErrorHandlerService } from './error-handler.service';
+import { env } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private url = "http://localhost:3000/products"
+  private url = env.apiUrl+'/products';
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })

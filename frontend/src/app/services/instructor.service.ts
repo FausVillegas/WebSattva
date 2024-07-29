@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { Instructor } from '../models/Instructor';
 import { catchError, first } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
+import { env } from 'src/environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstructorService {
-  private apiUrl = 'http://localhost:3000/instructors';
+  private apiUrl = `${env.apiUrl}/instructors`;
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })

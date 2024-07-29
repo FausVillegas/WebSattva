@@ -27,9 +27,6 @@ export async function postProduct(req, res, next) {
     const { title, description, sale_price, category, stock } = req.body;
     const image_url = req.file.path;
 
-    // console.info("Controllers/Products.js"+req.body);
-    // console.info(idSupplier);
-
     try {
         const product = {
             title: title, 
@@ -38,7 +35,6 @@ export async function postProduct(req, res, next) {
             category: category,
             stock: stock,
             image_url: image_url,
-            // idSupplier: idSupplier,
         }
 
         const result = await Product.save(product);
@@ -143,7 +139,7 @@ export const createPreference = async (req, res) => {
       },
       auto_return: 'approved',
       metadata: { userId: userId, items: items },
-      notification_url: "https://fc47-181-170-144-157.ngrok-free.app/products/webhook"
+      notification_url: `${process.env.BACKEND_API}/products/webhook`
     };
 
     const preference = new Preference(client);
