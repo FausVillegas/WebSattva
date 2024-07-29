@@ -89,7 +89,7 @@ import { SattvaClass } from 'src/app/models/Class';
 import { SattvaEvent } from 'src/app/models/Event';
 import { AuthService } from 'src/app/services/auth.service';
 import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
-import { ClassEventDetailsComponent } from '../class-event-details/class-event-details.component';
+import { ClassEventDetailsComponent } from '../class-event/class-event-details/class-event-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
