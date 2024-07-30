@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-class-event-details',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./class-event-details.component.css']
 })
 export class ClassEventDetailsComponent implements OnInit {
-  apiUrl = "http://localhost:3000/";
+  apiUrl = environment.apiUrl;
   price = null;
   message = '';  // Variable para mostrar mensajes al usuario
   userId: string | null;
@@ -37,7 +38,7 @@ export class ClassEventDetailsComponent implements OnInit {
   async checkEnrollment(): Promise<void> {
     const activityType = this.data.price ? 'event' : 'class';
 
-    const response = await fetch(`${this.apiUrl}is-enrolled?userId=${this.userId}&classEventId=${this.data.id}&activityType=${activityType}`, {
+    const response = await fetch(`${this.apiUrl}/is-enrolled?userId=${this.userId}&classEventId=${this.data.id}&activityType=${activityType}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +68,7 @@ export class ClassEventDetailsComponent implements OnInit {
         activityType: activityType
       };
 
-      const response = await fetch(`${this.apiUrl}payment/create-preference`, {
+      const response = await fetch(`${this.apiUrl}/payment/create-preference`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
 import { SattvaEvent } from 'src/app/models/Event';
 import { InstructorService } from 'src/app/services/instructor.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-event',
@@ -11,7 +12,7 @@ import { InstructorService } from 'src/app/services/instructor.service';
 })
 export class EditEventComponent implements OnInit {
   eventData: any = {};
-  apiUrl = 'http://localhost:3000/';
+  apiUrl = environment.apiUrl;
   selectedFile: File | undefined;
   instructors: any[] = [];
   formattedDateTime: any;

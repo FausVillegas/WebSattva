@@ -92,6 +92,7 @@ import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mer
 import { ClassEventDetailsComponent } from '../class-event/class-event-details/class-event-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -99,7 +100,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  apiUrl = "http://localhost:3000/";
+  apiUrl = environment.apiUrl;
   classes: SattvaClass[] = [];
   events: SattvaEvent[] = [];
   isAdmin = false;

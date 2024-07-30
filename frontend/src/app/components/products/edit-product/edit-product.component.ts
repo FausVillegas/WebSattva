@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/models/Product';
 import { ProductService } from 'src/app/services/product.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-product',
@@ -10,7 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./edit-product.component.css']
 })
 export class EditProductComponent implements OnInit {
-  apiUrl = 'http://localhost:3000/';
+  apiUrl = environment.apiUrl;
   selectedImage: File | undefined;
   productId: string | undefined;
   productData!: Product;

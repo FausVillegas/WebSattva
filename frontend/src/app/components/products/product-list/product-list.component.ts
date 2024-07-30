@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Product } from 'src/app/models/Product';
 import { User } from 'src/app/models/User';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-list',
@@ -21,7 +22,7 @@ export class ProductListComponent implements OnInit{
   filteredProducts$!: Observable<Product[]>;
   // userId!: Pick<User, "id">;
   userId!: number;
-  apiUrl: string = 'http://localhost:3000/';
+  apiUrl: string = environment.apiUrl;
 
   constructor(private cartService: CartService, private productService: ProductService, private authService: AuthService, private route: ActivatedRoute) { }
 

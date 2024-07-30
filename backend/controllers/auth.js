@@ -54,7 +54,7 @@ export async function sendPasswordResetEmail(req, res, next) {
         await User.saveResetToken(storedUser.id, resetToken, resetTokenExpiry); 
 
         // URL de restablecimiento de contraseña
-        const resetUrl = `http://localhost:4200/reset-password?token=${resetToken}`;
+        const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
         
         // Configura el correo
         const mailOptions = {

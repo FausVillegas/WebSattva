@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClassEventDetailsComponent } from '../class-event/class-event-details/class-event-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-registrations',
@@ -11,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class UserRegistrationsComponent implements OnInit{
   events: any[] = [];
   classes: any[] = [];
-  apiUrl = "http://localhost:3000/";
+  apiUrl = environment.apiUrl;
 
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 

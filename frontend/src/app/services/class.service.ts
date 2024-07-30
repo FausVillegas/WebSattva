@@ -4,13 +4,13 @@ import { first, Observable } from 'rxjs';
 import { SattvaClass } from '../models/Class';
 import { catchError } from 'rxjs';
 import { ErrorHandlerService } from './error-handler.service';
-import { env } from '../../environments/environments';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassService {
-  private apiUrl = `${env.apiUrl}/classes`;
+  private apiUrl = `${environment.apiUrl}/classes`;
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })

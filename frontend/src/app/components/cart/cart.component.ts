@@ -54,6 +54,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cart',
@@ -62,7 +63,7 @@ import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mer
 })
 export class CartComponent implements OnInit {
   items: any[] = [];
-  apiUrl = 'http://localhost:3000/';
+  apiUrl = environment.apiUrl;
   // checkoutForm = this.formBuilder.group({ name: '', address: '' });
 
   constructor(
@@ -89,7 +90,7 @@ export class CartComponent implements OnInit {
         userId: this.authService.getUserId()
       };
 
-      const response = await fetch(`${this.apiUrl}products/create-preference`, {
+      const response = await fetch(`${this.apiUrl}/products/create-preference`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)

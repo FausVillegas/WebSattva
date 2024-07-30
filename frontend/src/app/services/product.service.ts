@@ -6,13 +6,13 @@ import { catchError } from 'rxjs';
 
 import { Product } from '../models/Product';
 import { ErrorHandlerService } from './error-handler.service';
-import { env } from '../../environments/environments';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private url = env.apiUrl+'/products';
+  private url = environment.apiUrl+'/products';
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
