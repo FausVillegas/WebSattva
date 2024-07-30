@@ -176,10 +176,12 @@ export async function googleLogin(req, res, next) {
     try {
         let user = await User.find(decoded.email);
         if (user[0].length === 0) {
+            const hashedPassword = await hash(Math.random().toString(36).substring(0, 12), 12);
             const newUser = {
                 google_id: decoded.sub,
                 name: decoded.name,
                 email: decoded.email,
+                password: hashedPassword,
                 phone: decoded.phone,     
                 address: decoded.address,
                 location: decoded.location,

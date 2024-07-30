@@ -79,6 +79,10 @@ export class CartComponent implements OnInit {
   }
 
   async createPreference(): Promise<void> {
+    if (!this.authService.isAuthenticated()) {
+      alert('Inicia sesión para realizar esta acción.');
+      return;
+    }
     try {
       const orderData = {
         items: this.items,

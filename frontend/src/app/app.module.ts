@@ -5,7 +5,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
-// import { ProductAlertsComponent } from './products/product-alerts/product-alerts.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartService } from './services/cart.service';
@@ -41,9 +40,7 @@ import { OrdersListComponent } from './components/orders-list/orders-list.compon
     TopBarComponent,
     ProductListComponent,
     CartComponent,
-    // LogInComponent,
     AddProductComponent,
-    // ProductAlertsComponent,
     ProductDetailsComponent,
     ProfileComponent,
     ResetPasswordComponent,
