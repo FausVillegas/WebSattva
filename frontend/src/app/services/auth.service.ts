@@ -11,14 +11,14 @@ import { User } from '../models/User';
 import { ErrorHandlerService } from './error-handler.service';
 import { jwtDecode } from 'jwt-decode';
 import { Location } from '@angular/common';
-import { env } from '../../environments/environments';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private url = `${env.apiUrl}/auth`
-  private secretKey = env.secretKeyForToken;
+  private url = `${environment.apiUrl}/auth`
+  private secretKey = environment.secretKeyForToken;
   token = localStorage.getItem("token");
   userId!: number;
   decodedToken: any;

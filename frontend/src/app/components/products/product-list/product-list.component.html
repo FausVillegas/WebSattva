@@ -8,7 +8,7 @@
 <div class="product-list">
   <div *ngFor="let product of filteredProducts$ | async" class="product-card">
     <div class="product-img" [routerLink]="['/product/', product.id]">
-      <img [src]="apiUrl + product.image_url" alt="{{ product.title }}" height="420" width="327">
+      <img [src]="apiUrl+'/'+product.image_url" alt="{{ product.title }}" height="420" width="327">
     </div>
     <div class="product-info">
       <div class="product-title">

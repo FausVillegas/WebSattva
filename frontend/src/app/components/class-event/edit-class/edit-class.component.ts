@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Instructor } from "src/app/models/Instructor";
 import { ClassService } from "src/app/services/class.service";
 import { InstructorService } from "src/app/services/instructor.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-edit-class',
@@ -11,7 +12,7 @@ import { InstructorService } from "src/app/services/instructor.service";
 })
 export class EditClassComponent implements OnInit {
   classData: any = {};
-  apiUrl = 'http://localhost:3000/';
+  apiUrl = environment.apiUrl;
   selectedFile: File | undefined;
   instructors: Instructor[] = [];
   days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

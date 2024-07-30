@@ -6,6 +6,7 @@ import { CartService } from 'src/app/services/cart.service';
 
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/Product';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -36,6 +37,7 @@ import { Product } from 'src/app/models/Product';
 export class ProductDetailsComponent implements OnInit {
   product!: Product;
   quantity: number = 1;
+  apiUrl = environment.apiUrl;
 
   constructor(
     private route: ActivatedRoute,

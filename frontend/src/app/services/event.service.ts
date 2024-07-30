@@ -5,13 +5,13 @@ import { SattvaEvent } from '../models/Event';
 import { catchError } from 'rxjs';
 import { ErrorHandlerService } from './error-handler.service';
 import { AuthService } from './auth.service';
-import { env } from '../../environments/environments';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-  private apiUrl = `${env.apiUrl}/events`;
+  private apiUrl = `${environment.apiUrl}/events`;
   
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
