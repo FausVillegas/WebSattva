@@ -55,7 +55,7 @@ export default class User {
             );
         } else {
             return db.execute(
-                'INSERT INTO users (name, email, password, google_id) VALUES (?, ?, ?, ?)', [user.name, user.email, Math.random().toString(36).substring(0, 50), user.google_id]
+                'INSERT INTO users (name, email, password, google_id) VALUES (?, ?, ?, ?)', [user.name, user.email, user.password, user.google_id]
             );
         }
     }

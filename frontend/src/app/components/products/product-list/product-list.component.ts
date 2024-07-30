@@ -59,6 +59,10 @@ export class ProductListComponent implements OnInit{
   }
   
   addToCart(product : any) {
+    if(!this.authService.isAuthenticated()) {
+      alert('Inicia sesión para agregar productos del carrito.');
+      return;
+    }
     this.cartService.addToCart(product,1);
   }
 

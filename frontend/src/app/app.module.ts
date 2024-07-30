@@ -5,7 +5,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
-// import { ProductAlertsComponent } from './products/product-alerts/product-alerts.component';
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartService } from './services/cart.service';
@@ -21,9 +20,9 @@ import { AdminGuardService } from './services/admin-guard.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { HomeComponent } from './components/home/home.component';
-import { ClassAddComponent } from './components/class-add/class-add.component';
-import { EventAddComponent } from './components/event-add/event-add.component';
-import { ClassEventDetailsComponent } from './components/class-event-details/class-event-details.component';
+import { ClassAddComponent } from './components/class-event/class-add/class-add.component';
+import { EventAddComponent } from './components/class-event/event-add/event-add.component';
+import { ClassEventDetailsComponent } from './components/class-event/class-event-details/class-event-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -41,9 +40,7 @@ import { OrdersListComponent } from './components/orders-list/orders-list.compon
     TopBarComponent,
     ProductListComponent,
     CartComponent,
-    // LogInComponent,
     AddProductComponent,
-    // ProductAlertsComponent,
     ProductDetailsComponent,
     ProfileComponent,
     ResetPasswordComponent,
@@ -67,7 +64,6 @@ import { OrdersListComponent } from './components/orders-list/orders-list.compon
     ReactiveFormsModule,
     FormsModule,
     RouterModule.forRoot([
-      // { path: '', redirectTo: '/products', pathMatch: 'full'},
       { path: '', component: HomeComponent},
       { path: 'edit-product/:id', component: EditProductComponent, canActivate: [AdminGuardService] },
       { path: 'orders-list', component: OrdersListComponent, canActivate: [AdminGuardService] },
@@ -84,7 +80,6 @@ import { OrdersListComponent } from './components/orders-list/orders-list.compon
       { path: 'addEvent', component: EventAddComponent, canActivate: [AdminGuardService] },
       { path: 'edit-class/:id', component: EditClassComponent, canActivate: [AdminGuardService] },
       { path: 'edit-event/:id', component: EditEventComponent, canActivate: [AdminGuardService] },
-      // { path: 'shipping', component: ShippingComponent },
     ]),
     BrowserAnimationsModule,
   ],
