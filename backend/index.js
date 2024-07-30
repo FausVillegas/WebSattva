@@ -17,8 +17,13 @@ import { title } from 'process';
 import db from './util/database.js';
 import SattvaEvent from './models/event.js';
 import SattvaClass from './models/class.js';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+// // resolving dirname for ES module
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -71,6 +76,12 @@ app.get('/is-enrolled', async (req, res) => {
 
 app.use(errorController.get404);
 app.use(errorController.get500);
+
+// // Use the client app
+// app.use(express.static(path.join(__dirname, '/client/dist')));
+
+// // Render client
+// app.get('*', (req, res) => res.sendFile('/client/dist/index.html'))
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
