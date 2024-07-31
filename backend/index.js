@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import path from 'path';
 import morgan from 'morgan';
 
 import authRoutes from './routes/auth.js';
@@ -13,39 +12,32 @@ import instructorsRoutes from './routes/instructors.js';
 import paymentRoutes from './routes/payment.js';
 import cartRoutes from './routes/cart.js';
 import * as errorController from './controllers/error.js';
-import { title } from 'process';
 import db from './util/database.js';
-import SattvaEvent from './models/event.js';
-import SattvaClass from './models/class.js';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
-
-// // resolving dirname for ES module
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Configuración de CORS
 const corsOptions = {
-    origin: process.env.FRONTEND_URL, // frontend
+    origin: process.env.FRONTEND_URL,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization']
 };
-
 app.use(cors(corsOptions));
+
+// Otros middlewares
 app.use(bodyParser.json());
 app.use(express.json());
-
 app.use(morgan('dev'));
 
+// Rutas
 app.get("/", (req, res) => {
     res.send("backend server open");
 });
 
 app.use('/uploads', express.static('uploads'));
-
 app.use('/auth', authRoutes);
 app.use('/products', productsRoutes);
 app.use('/classes', classesRoutes);
@@ -63,7 +55,7 @@ app.get('/is-enrolled', async (req, res) => {
         } else {
             isEnrolled = await SattvaClass.isUserEnrolled(classEventId, userId);
         }
-        if(isEnrolled)
+        if (isEnrolled)
             res.json('Ya estás inscrito en esta actividad.');
         else
             res.json('');
@@ -72,16 +64,8 @@ app.get('/is-enrolled', async (req, res) => {
     }
 });
 
-
-
+// Manejo de errores
 app.use(errorController.get404);
 app.use(errorController.get500);
 
-// // Use the client app
-// app.use(express.static(path.join(__dirname, '/client/dist')));
-
-// // Render client
-// app.get('*', (req, res) => res.sendFile('/client/dist/index.html'))
-
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
