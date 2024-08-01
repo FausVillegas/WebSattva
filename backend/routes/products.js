@@ -12,7 +12,7 @@ router.get('/:id', getProductById);
 
 router.post(
     '/',
-    upload('image_url'),
+    // upload('image_url'),
     [
         isAuthenticated, isAdmin,
         body('title').trim().not().isEmpty(),
@@ -27,7 +27,9 @@ router.delete(
     '/:id', isAuthenticated, isAdmin, deleteProduct
 );
 
-router.put('/:id', upload('image_url'), updateProduct);
+router.put('/:id', 
+    upload('image_url'), 
+    updateProduct);
 
 router.post('/create-preference', createPreference);
 

@@ -18,34 +18,62 @@ export async function fetchAll(req, res, next) {
     }
 }
 
-export async function postProduct(req, res, next) {
-    const errors = validationResult(req);
+// export async function postProduct(req, res, next) {
+//     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        return console.error("Error "+errors);
-    }
+//     if (!errors.isEmpty()) {
+//         return console.error("Error "+errors);
+//     }
     
-    const { title, description, sale_price, category, stock } = req.body;
-    const image_url = req.file.path;
+//     const { title, description, sale_price, category, stock } = req.body;
+//     const image_url = req.file.path;
 
-    try {
-        const product = {
-            title: title, 
-            description: description,
-            sale_price: sale_price, 
-            category: category,
-            stock: stock,
-            image_url: image_url,
-        }
+//     try {
+//         const product = {
+//             title: title, 
+//             description: description,
+//             sale_price: sale_price, 
+//             category: category,
+//             stock: stock,
+//             image_url: image_url,
+//         }
 
-        const result = await Product.save(product);
+//         const result = await Product.save(product);
 
-        res.status(201).json({ message: 'The product was added', product: product })
-    } catch (err) {
-        if (!err.statusCode) {err.statusCode = 500;}
-        console.error("Error creating product: "+err);
-        next(err);
-    }
+//         res.status(201).json({ message: 'The product was added', product: product })
+//     } catch (err) {
+//         if (!err.statusCode) {err.statusCode = 500;}
+//         console.error("Error creating product: "+err);
+//         next(err);
+//     }
+// }
+export async function postProduct(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+      return console.error("Error "+errors);
+  }
+  
+  const { title, description, sale_price, category, stock, image_url } = req.body;
+
+  try {
+      const product = {
+          title: title, 
+          description: description,
+          sale_price: sale_price, 
+          category: category,
+          stock: stock,
+          image_url: image_url,
+      }
+
+      const result = await Product.save(product);
+
+      res.status(201).json({ message: 'The product was added', product: product })
+  } catch (err) {
+      if (!err.statusCode) {err.statusCode = 500;}
+      console.error("Error creating product: "+err);
+      next(err);
+  }
 }
 
 
