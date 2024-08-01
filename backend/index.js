@@ -37,6 +37,16 @@ app.get("/", (req, res) => {
     res.send("backend server open");
 });
 
+app.get('/test-db', async (req, res) => {
+    try {
+      const [rows] = await db.query('SELECT 1 + 1 AS result'); // Simple query
+      res.json({ message: 'Database connection successful!', result: rows[0].result });
+    } catch (err) {
+      console.error('Database error:', err);
+      res.status(500).json({ error: 'Error connecting to database' });
+    }
+  });
+
 app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRoutes);
 app.use('/products', productsRoutes);
@@ -60,6 +70,7 @@ app.get('/is-enrolled', async (req, res) => {
         else
             res.json('');
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Error al verificar la inscripción' });
     }
 });

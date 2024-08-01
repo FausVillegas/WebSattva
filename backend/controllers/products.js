@@ -13,6 +13,7 @@ export async function fetchAll(req, res, next) {
         res.status(200).json(allProducts);
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         next(err);
     }
 }
@@ -42,6 +43,7 @@ export async function postProduct(req, res, next) {
         res.status(201).json({ message: 'The product was added', product: product })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error("Error creating product: "+err);
         next(err);
     }
 }
@@ -65,6 +67,7 @@ export async function deleteProduct(req, res, next) {
         res.status(200).json(deleteResponse);
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         next(err);
     }
 }
@@ -109,6 +112,7 @@ export async function getProductById(req, res, next) {
       }
       res.status(200).json(product[0]);
     } catch (error) {
+      console.error(err);
       next(error);
     }
   }
@@ -133,9 +137,9 @@ export const createPreference = async (req, res) => {
         currency_id: 'ARS'
       })),
       back_urls: {
-        success: 'https://www.google.com/',
-        failure: 'https://www.google.com/',
-        pending: 'https://www.google.com/'
+        success: 'https://web-sattva.vercel.app/',
+        failure: 'https://web-sattva.vercel.app/',
+        pending: 'https://web-sattva.vercel.app/'
       },
       auto_return: 'approved',
       metadata: { userId: userId, items: items },
@@ -151,59 +155,6 @@ export const createPreference = async (req, res) => {
     res.status(500).json({ error: 'Error creating preference' });
   }
 };
-
-// export const orderWebhook = async (req, res) => {
-//   const paymentId = req.query.id;
-//   if(paymentId){
-//     try {
-//       console.log("fectching payment "+paymentId);
-//       const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-//         method: 'GET',
-//         headers: {
-//           'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
-//         }
-//       });
-      
-//       // console.log(data);
-//       // if (response.status !== 200) {
-//         //   throw Error(data.message)
-//         // };
-//         try{
-//         const data = await response.json();
-//         const { items, user_id } = data.metadata;
-//         const transaction_amount = data.transaction_amount;
-        
-//         const [orderResult] = await Order.insertOrder(user_id, transaction_amount);
-//         const newOrderId = orderResult.insertId;
-        
-//         for (const item of items) {
-//           const productId = item.product_id;
-//           const quantity = item.quantity;
-//           await Order.insertOrderProductRelation(newOrderId, productId, quantity);
-          
-//           // Actualizar el inventario
-//           await Order.updateInventory(productId, quantity);
-//         }
-
-//         // Enviar correo de confirmación
-//         await sendConfirmationEmail(user_id, newOrderId);
-
-//         await Product.deleteItemsFromCart(user_id);
-
-//         res.status(200).json({ response:'Order placed successfully' });
-//       } catch (err) {
-//         console.error(`Error fetching payment: ${err}`);
-//         res.status(response.status).json({ error: 'Error fetching payment' });
-//       }
-      
-//     } catch (error) {
-//       console.error('Error processing webhook:', error);
-//       res.status(500).json({ error: 'Error processing webhook' });
-//     }
-//   } else {
-//     console.error("Error PaymentId "+paymentId);
-//   }
-// };
 
 export const orderWebhook = async (req, res) => {
   const paymentId = req.query.id;

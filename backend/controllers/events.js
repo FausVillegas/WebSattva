@@ -10,6 +10,7 @@ export async function getAllEvents(req, res, next) {
         res.status(200).json(allEvents);
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        console.error(err);
         next(err);
     }
 }
@@ -39,6 +40,7 @@ export async function addEvent(req, res, next) {
         res.status(201).json({ message: 'The event was added', class: newEvent })
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        console.error(err);
         if (existsSync(imageUrl)) {
             unlinkSync(imageUrl);
         }
@@ -64,6 +66,7 @@ export async function deleteEvent(req, res, next) {
         res.status(200).json(deleteResponse);
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        console.error(err);
         next(err);
     }
 }
@@ -82,6 +85,7 @@ export async function getEventById(req, res) {
         res.status(200).json(eventData[0]);
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         console.error(err);
     }
 }

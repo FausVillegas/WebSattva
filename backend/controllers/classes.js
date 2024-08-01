@@ -10,6 +10,7 @@ export async function getAllClasses(req, res, next) {
     res.status(200).json(allClasses);
   } catch (err) {
     if (!err.statusCode) {err.statusCode = 500;}
+    console.error(err);
     next(err);
 }
 }
@@ -52,6 +53,7 @@ export async function addClass(req, res, next) {
         res.status(201).json({ message: 'The class was added', class: newClass })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         if (existsSync(imageUrl)) {
             unlinkSync(imageUrl);
         }
@@ -80,6 +82,7 @@ export async function deleteClass(req, res, next) {
         res.status(200).json(deleteResponse);
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         next(err);
     }
 }

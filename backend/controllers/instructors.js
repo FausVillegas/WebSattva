@@ -10,8 +10,9 @@ export async function getAllInstructors(req, res, next) {
     res.status(200).json(allInstructor);
   } catch (err) {
     if (!err.statusCode) {err.statusCode = 500;}
+    console.error(err);
     next(err);
-}
+    }
 }
 
 export async function addInstructor(req, res, next) {

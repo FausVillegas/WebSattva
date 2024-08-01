@@ -19,9 +19,9 @@ router.post("/create-preference", async (req,res) => {
                 }
             ],
             back_urls: {
-                success: "https://www.google.com/",
-                failure: "https://www.google.com/",
-                pending: "https://www.google.com/",
+                success: "https://web-sattva.vercel.app/",
+                failure: "https://web-sattva.vercel.app/",
+                pending: "https://web-sattva.vercel.app/",
             },
             auto_return: "approved",
             metadata: {
@@ -39,6 +39,7 @@ router.post("/create-preference", async (req,res) => {
             id: result.id,
         });
     } catch(error) {
+        console.error(error);
         res.status(500).json({
             error: "Error al crear la preferencia"
         });

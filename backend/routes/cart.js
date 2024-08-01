@@ -28,6 +28,7 @@ router.post("/", async (req, res) => {
 
         res.status(200).json({ message: "Item added to cart" });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Error adding item to cart" });
     }
 });
@@ -44,6 +45,7 @@ router.get("/:userId", async (req, res) => {
         );
         res.status(200).json(cartItems);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Error fetching cart items" });
     }
 });
@@ -57,6 +59,7 @@ router.delete("/:userId/:productId", async (req, res) => {
         );
         res.status(200).json({ message: "Item removed from cart" });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Error removing item from cart" });
     }
 });
@@ -80,7 +83,7 @@ router.put('/:userId/:productId', async (req, res) => {
     
       res.json({ message: "Item quantity updated", cartItem });
     } catch (error) {
-        console.error(error);
+      console.error(error);
       res.status(500).json({ message: "Server error", error });
     }
   });
