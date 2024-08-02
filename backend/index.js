@@ -14,6 +14,8 @@ import cartRoutes from './routes/cart.js';
 import filesRoutes from './routes/files.js'
 import * as errorController from './controllers/error.js';
 import db from './util/database.js';
+import SattvaEvent from './models/event.js';
+import SattvaClass from './models/class.js';
 
 dotenv.config();
 
@@ -60,6 +62,23 @@ app.use('/events', eventsRoutes);
 app.use('/instructors', instructorsRoutes);
 app.use('/payment', paymentRoutes);
 app.use('/cart', cartRoutes);
+app.get('/is-enrolled', async (req, res) => {
+  const { userId, classEventId, activityType } = req.query;
+  try {
+      let isEnrolled = false;
+      if (activityType === 'event') {
+          isEnrolled = await SattvaEvent.isUserEnrolled(classEventId, userId);
+      } else {
+          isEnrolled = await SattvaClass.isUserEnrolled(classEventId, userId);
+      }
+      if (isEnrolled)
+          res.json('Ya estás inscrito en esta actividad.');
+      else
+          res.json('');
+  } catch (error) {
+      res.status(500).json({ error: 'Error al verificar la inscripción' });
+  }
+});
 
 // Manejo de errores
 app.use(errorController.get404);

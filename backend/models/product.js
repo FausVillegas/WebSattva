@@ -8,7 +8,6 @@ export default class Product {
         this.category = category;
         this.stock = stock;
         this.image_url = image_url;
-        // this.idSupplier = idSupplier;
     }
 
     static fetchAll() {

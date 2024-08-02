@@ -17,19 +17,19 @@ export default class Order {
     }
 
     static insertOrder(userId, totalValue, paymentId) {
-        return db.execute('INSERT INTO Orders (user_id, order_date, total_value, payment_id) VALUES (?, NOW(), ?, ?)', [userId, totalValue, paymentId]);
+        return db.execute('INSERT INTO orders (user_id, order_date, total_value, payment_id) VALUES (?, NOW(), ?, ?)', [userId, totalValue, paymentId]);
     }
 
     static insertOrderProductRelation(newOrderId, productId, quantity) {
-        return db.execute('INSERT INTO OrderProduct (order_id, product_id, quantity) VALUES (?, ?, ?)', [newOrderId, productId, quantity]);
+        return db.execute('INSERT INTO orderproduct (order_id, product_id, quantity) VALUES (?, ?, ?)', [newOrderId, productId, quantity]);
     }
 
     static getOrderProducts(orderId) {
-        return db.execute('SELECT p.id, p.title, p.description, p.sale_price, p.category, op.quantity FROM OrderProduct op JOIN Products p ON op.product_id = p.id WHERE order_id = ?;', [orderId]);
+        return db.execute('SELECT p.id, p.title, p.description, p.sale_price, p.category, op.quantity FROM orderproduct op JOIN products p ON op.product_id = p.id WHERE order_id = ?;', [orderId]);
     }
 
     static updateInventory(productId, quantity) {
-        return db.execute('UPDATE Products SET stock = stock - ? WHERE id = ?', [quantity, productId]);
+        return db.execute('UPDATE products SET stock = stock - ? WHERE id = ?', [quantity, productId]);
     }
 
     static deleteItemsFromCart(userId) {
