@@ -20,13 +20,6 @@ export class ProductService {
 
   constructor(private http: HttpClient, private errorHandlerService: ErrorHandlerService) { }
 
-  uploadImage(file: File): Promise<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/api/upload`, formData));
-  }
-
   fetchAll(): Observable<Product[]> {
     return this.http
       .get<Product[]>(this.url, { responseType: "json" })
@@ -37,10 +30,11 @@ export class ProductService {
       );
   }
 
-  createProduct(formData: FormData): Observable<Product> {
-    return this.http.post<Product>(this.url, formData).pipe(
+  createProduct(formData: any): Observable<Product> {
+    console.log("Form Data "+formData.get('image_url'));
+    return this.http.post<any>(this.url, formData).pipe(
           catchError(error => {
-            return this.errorHandlerService.handleError<Product>("createProduct")(error);
+            return this.errorHandlerService.handleError<any>("createProduct",error)(error);
           }),
         );
   }

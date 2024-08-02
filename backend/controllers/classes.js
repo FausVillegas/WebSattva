@@ -23,11 +23,11 @@ export async function addClass(req, res, next) {
         return console.error("Error "+errors);
     }
 
-    const { title, description, instructor_id, monthlyFee, schedules } = req.body;
+    const { title, description, instructor_id, monthlyFee, schedules, imageUrl } = req.body;
     
-    let imageUrl = null;
-    if(req.file)
-        imageUrl = req.file.path;
+    // let imageUrl = null;
+    // if(req.file)
+    //     imageUrl = req.file.path;
 
     try {
         const newClass = {
@@ -35,7 +35,7 @@ export async function addClass(req, res, next) {
             description: description,
             instructor_id: instructor_id,
             monthlyFee: monthlyFee,
-            imageUrl: imageUrl
+            imageUrl: imageUrl || ''
         }
 
         const [result] = await SattvaClass.save(newClass);
@@ -109,25 +109,24 @@ export async function getClassById(req, res) {
   export async function updateClass(req, res) {
     const classId = req.body.id;
     const updatedData = req.body;
-    let imageUrl = req.file ? req.file.path : null;
     // console.log("Actualizando datos class "+classId + " " +updatedData.title, updatedData.description, updatedData.monthly_fee, updatedData.instructor_id);
     try {
       const [classData] = await SattvaClass.findById(classId); // Método hipotético para obtener la clase por ID
       const oldImageUrl = classData[0].imageUrl;
   
       // Actualiza los datos de la clase
-      updatedData.imageUrl = imageUrl || oldImageUrl;
+      updatedData.imageUrl = updatedData.imageUrl || oldImageUrl;
 
       await SattvaClass.update(updatedData, classId);
       // console.log("SCHEDULES ------------"+updatedData.schedules);
     //   await SattvaClass.updateSchedules(updatedData.schedules, classId);
 
         // Elimina la imagen antigua si hay una nueva imagen
-        if (imageUrl && oldImageUrl) {
-          fs.unlink(oldImageUrl, (err) => {
-            if (err) console.error(`Error deleting old image: ${err}`);
-          });
-        }
+        // if (imageUrl && oldImageUrl) {
+        //   fs.unlink(oldImageUrl, (err) => {
+        //     if (err) console.error(`Error deleting old image: ${err}`);
+        //   });
+        // }
 
         console.log("IIIDDD"+classId);
         const [existingSchedules] = await SattvaClass.findClassSchedules(classId);

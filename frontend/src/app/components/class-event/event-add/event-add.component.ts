@@ -5,6 +5,7 @@ import { SattvaEvent } from 'src/app/models/Event';
 import { Instructor } from 'src/app/models/Instructor';
 import { InstructorService } from 'src/app/services/instructor.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { FilesService } from 'src/app/services/files.service';
 
 @Component({
   selector: 'app-event-add',
@@ -17,7 +18,7 @@ export class EventAddComponent implements OnInit{
   instructors: any[] = [];
   isAdmin = false;
 
-  constructor(private eventService: EventService, private router: Router, private instructorService: InstructorService, private authService: AuthService) { }
+  constructor(private eventService: EventService, private router: Router, private instructorService: InstructorService, private authService: AuthService, private filesService: FilesService) { }
 
   navigateToAddInstructor() {
     if (this.isAdmin) {
@@ -36,10 +37,14 @@ export class EventAddComponent implements OnInit{
     this.isAdmin = this.authService.isAdmin();
   }
 
-  addEvent(): void {
+  async addEvent() {
     if (this.newEvent.price < 0) {
       alert("El precio del evento no puede ser negativo.");
       return;
+    }
+    let imageUrl = null;
+    if (this.selectedFile) {
+      imageUrl = await this.filesService.uploadImage(this.selectedFile);
     }
     const formData = new FormData();
     formData.append('title', this.newEvent.title);
@@ -47,8 +52,7 @@ export class EventAddComponent implements OnInit{
     formData.append('dateTime', this.newEvent.dateTime.toString());
     formData.append('price', this.newEvent.price.toString());
     formData.append('instructor_id', this.newEvent.instructor_id.toString());
-    if(this.selectedFile)
-      formData.append('imageUrl', this.selectedFile);
+    formData.append('imageUrl', imageUrl.url);
     
     this.eventService.addEvent(formData).subscribe(() => {
             this.router.navigate(['/addEvent']);

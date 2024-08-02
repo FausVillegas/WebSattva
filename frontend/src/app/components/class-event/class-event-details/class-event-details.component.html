@@ -1,6 +1,6 @@
    <div class="event-details-container">
     <mat-card class="event-card">
-      <img mat-card-image *ngIf="apiUrl+'/'+data.imageUrl" [src]="apiUrl+'/'+data.imageUrl" alt="Image">
+      <img mat-card-image *ngIf="data.imageUrl" [src]="data.imageUrl" alt="Image">
       <mat-card-content>
         <h2>{{data.title}}</h2>
         <p>{{data.description}}</p>

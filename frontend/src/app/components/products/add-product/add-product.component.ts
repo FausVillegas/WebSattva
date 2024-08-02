@@ -83,6 +83,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
 import { put } from '@vercel/blob';
 import { environment } from 'src/environments/environment';
+import { FilesService } from 'src/app/services/files.service';
 
 @Component({
   selector: 'app-add-product',
@@ -95,7 +96,7 @@ export class AddProductComponent implements OnInit {
   productForm: FormGroup;
   selectedImage: File | undefined;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private filesService: FilesService) {
     this.productForm = this.createFormGroup();
   }
 
@@ -143,7 +144,7 @@ export class AddProductComponent implements OnInit {
     }
 
     if (this.productForm.valid) {
-      const imageUrl = await this.productService.uploadImage(this.selectedImage);  // Wait for image upload
+      const imageUrl = await this.filesService.uploadImage(this.selectedImage);  // Wait for image upload
       if (imageUrl) {
         const formData = new FormData();
         formData.append('title', this.productForm.get('title')?.value);

@@ -18,63 +18,43 @@ export async function fetchAll(req, res, next) {
     }
 }
 
-// export async function postProduct(req, res, next) {
-//     const errors = validationResult(req);
-
-//     if (!errors.isEmpty()) {
-//         return console.error("Error "+errors);
-//     }
-    
-//     const { title, description, sale_price, category, stock } = req.body;
-//     const image_url = req.file.path;
-
-//     try {
-//         const product = {
-//             title: title, 
-//             description: description,
-//             sale_price: sale_price, 
-//             category: category,
-//             stock: stock,
-//             image_url: image_url,
-//         }
-
-//         const result = await Product.save(product);
-
-//         res.status(201).json({ message: 'The product was added', product: product })
-//     } catch (err) {
-//         if (!err.statusCode) {err.statusCode = 500;}
-//         console.error("Error creating product: "+err);
-//         next(err);
-//     }
-// }
 export async function postProduct(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-      return console.error("Error "+errors);
+      console.error("Error "+errors.array().forEach((err)=>console.error(err)));
+      return res.status(400).json({ errors: errors.array() });
   }
-  
+
   const { title, description, sale_price, category, stock, image_url } = req.body;
 
+  // Log to check the values received
+  console.log("Received values:", { title, description, sale_price, category, stock, image_url });
+
+  if (!title || !description || !sale_price || !category || !stock || !image_url) {
+      return res.status(400).json({ error: 'All fields are required' });
+  }
+  
   try {
       const product = {
-          title: title, 
-          description: description,
-          sale_price: sale_price, 
-          category: category,
-          stock: stock,
-          image_url: image_url,
-      }
+        title: title || null, 
+        description: description || null,
+        sale_price: (sale_price !== undefined && sale_price !== 'null') ? parseFloat(sale_price) : null, 
+        category: category || null,
+        stock: (stock !== undefined && stock !== 'null') ? parseInt(stock) : null,
+        image_url: image_url || null,
+      };
 
       const result = await Product.save(product);
 
-      res.status(201).json({ message: 'The product was added', product: product })
+      res.status(201).json({ message: 'The product was added', product: product });
   } catch (err) {
       if (!err.statusCode) {err.statusCode = 500;}
-      console.error("Error creating product: "+err);
+      console.error("Error creating product: ", err);
       next(err);
   }
 }
+
 
 
 export async function deleteProduct(req, res, next) {
@@ -104,7 +84,7 @@ export async function updateProduct(req, res, next) {
   console.log("Actualizando producto "+req.params.id);
   const productId = req.params.id;
   const updatedData = req.body;
-  let imageUrl = req.file ? req.file.path : null;
+
   try {
     const [product] = await Product.findById(productId);
     if (product.length === 0) {
@@ -112,17 +92,17 @@ export async function updateProduct(req, res, next) {
     }
     const oldImageUrl = product[0].image_url;
     
-    updatedData.image_url = imageUrl || oldImageUrl;
+    updatedData.image_url = updatedData.image_url || oldImageUrl;
     
     // console.log("PRODD "+updatedData.title, updatedData.description, updatedData.sale_price, updatedData.category, updatedData.stock, updatedData.image_url, productId);
     
       const [result] = await Product.update(productId, updatedData);
 
-      if (imageUrl && oldImageUrl) {
-        fs.unlink(oldImageUrl, (err) => {
-          console.error(`Error deleting old image: ${err}`);
-        });
-      }
+      // if (imageUrl && oldImageUrl) {
+      //   fs.unlink(oldImageUrl, (err) => {
+      //     console.error(`Error deleting old image: ${err}`);
+      //   });
+      // }
 
       res.status(200).json({ message: 'Producto actualizado correctamente: '+result });
   } catch (err) {
@@ -246,6 +226,7 @@ export const orderWebhook = async (req, res) => {
 
 
 import { createTransport } from 'nodemailer';
+import { toString } from 'express-validator/src/utils.js';
 const transporter = createTransport({
   service: 'Gmail', 
   auth: {

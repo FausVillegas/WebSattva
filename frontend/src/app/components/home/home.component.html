@@ -25,7 +25,7 @@
                 <h3>{{ class.title }}</h3>
                 <!-- <p>{{ class.description }}</p> -->
                 <p>Cuota: ${{ class.monthly_fee }}</p>
-                <img *ngIf="class.imageUrl" [src]="apiUrl+'/'+class.imageUrl" width="400" />
+                <img *ngIf="class.imageUrl" [src]="class.imageUrl" width="400" />
                 <strong *ngIf="!class.instructor_id && isAdmin">CLASE SIN INSTRUCTOR</strong>
                 <button *ngIf="isAdmin" (click)="updateClass(class)">Modificar</button><br>
                 <button *ngIf="isAdmin" (click)="deleteClass(class)">Eliminar clase</button>
@@ -42,7 +42,7 @@
                     <h3 class="event-title">{{ event.title }}</h3>
                     <!-- <p>{{ event.description }}</p> -->
                     <p>${{ event.price }}</p>
-                    <img *ngIf="event.imageUrl" [src]="apiUrl+'/'+event.imageUrl" width="400" />
+                    <img *ngIf="event.imageUrl" [src]="event.imageUrl" width="400" />
                     <strong *ngIf="!event.instructor_id && isAdmin">EVENTO SIN INSTRUCTOR</strong>
                     <button *ngIf="isAdmin" (click)="updateEvent(event)">Modificar</button><br>
                     <button *ngIf="isAdmin" (click)="deleteEvent(event)">Eliminar evento</button>
