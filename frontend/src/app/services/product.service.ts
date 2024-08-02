@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, first } from 'rxjs';
+import { Observable, first, lastValueFrom } from 'rxjs';
 import { catchError } from 'rxjs';
 
 import { Product } from '../models/Product';
@@ -19,6 +19,13 @@ export class ProductService {
   };
 
   constructor(private http: HttpClient, private errorHandlerService: ErrorHandlerService) { }
+
+  uploadImage(file: File): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return lastValueFrom(this.http.post('/api/upload', formData));
+  }
 
   fetchAll(): Observable<Product[]> {
     return this.http

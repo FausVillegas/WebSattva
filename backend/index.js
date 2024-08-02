@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+import multer from 'multer';
 
 import authRoutes from './routes/auth.js';
 import productsRoutes from './routes/products.js';
@@ -19,6 +20,30 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// Ruta para manejar la carga de archivos
+app.post('/api/upload', upload.single('file'), async (req, res) => {
+    const file = req.file;
+    
+    if (!file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+  
+    try {
+      const { url } = await put(file.originalname, file.buffer, {
+        access: 'public',
+        token: process.env.VERCEL_BLOB_WRITE_TOKEN,
+      });
+  
+      res.status(200).json({ url });
+    } catch (error) {
+      console.error('Error uploading file', error);
+      res.status(500).json({ error: 'Error uploading file' });
+    }
+  });
+
 // Configuración de CORS
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
@@ -31,6 +56,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan('dev'));
+
+app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.get("/", (req, res) => {

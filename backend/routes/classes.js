@@ -7,10 +7,12 @@ router.get('/', getAllClasses);
 
 router.get('/:id', getClassById);
 
-router.post('/', upload('imageUrl'), addClass);
+// router.post('/', upload('imageUrl'), addClass);
+router.post('/', addClass);
 
 router.delete('/:id', deleteClass);
 
-router.put('/:id', upload('imageUrl'), updateClass);
+// router.put('/:id', upload('imageUrl'), updateClass);
+router.put('/:id', updateClass);
 
 export default router;

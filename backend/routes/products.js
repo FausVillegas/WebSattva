@@ -27,9 +27,8 @@ router.delete(
     '/:id', isAuthenticated, isAdmin, deleteProduct
 );
 
-router.put('/:id', 
-    upload('image_url'), 
-    updateProduct);
+// router.put('/:id', upload('image_url'), updateProduct);
+router.put('/:id', updateProduct);
 
 router.post('/create-preference', createPreference);
 

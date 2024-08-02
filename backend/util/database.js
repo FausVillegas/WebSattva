@@ -2,7 +2,6 @@ import { createPool } from 'mysql2/promise';
 
 // import config from '../config/config.json' assert { type: 'json' };
 
-// localhost
 // const pool = createPool({
 //     host: config.host,
 //     user: config.user,

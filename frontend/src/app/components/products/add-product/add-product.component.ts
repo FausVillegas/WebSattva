@@ -82,6 +82,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
 import { put } from '@vercel/blob';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-product',
@@ -117,18 +118,18 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  async uploadImage(): Promise<string | undefined> {
-    if (this.selectedImage) {
-      try {
-        const { url } = await put('images', this.selectedImage, { access: 'public' });
-        console.log('Image URL:', url);
-        return url;
-      } catch (error) {
-        console.error('Error uploading image', error);
-      }
-    }
-    return undefined;
-  }
+  // async uploadImage(): Promise<string | undefined> {
+  //   if (this.selectedImage) {
+  //     try {
+  //       const { url } = await put('images', this.selectedImage, { access: 'public' });
+  //       console.log('Image URL:', url);
+  //       return url;
+  //     } catch (error) {
+  //       console.error('Error uploading image', error);
+  //     }
+  //   }
+  //   return undefined;
+  // }
 
   async onSubmit(): Promise<void> {
     if (this.productForm.get('sale_price')?.value < 0 || this.productForm.get('stock')?.value < 0) {
@@ -142,7 +143,7 @@ export class AddProductComponent implements OnInit {
     }
 
     if (this.productForm.valid) {
-      const imageUrl = await this.uploadImage();  // Wait for image upload
+      const imageUrl = await this.productService.uploadImage(this.selectedImage);  // Wait for image upload
       if (imageUrl) {
         const formData = new FormData();
         formData.append('title', this.productForm.get('title')?.value);
@@ -150,7 +151,7 @@ export class AddProductComponent implements OnInit {
         formData.append('sale_price', this.productForm.get('sale_price')?.value);
         formData.append('category', this.productForm.get('category')?.value);
         formData.append('stock', this.productForm.get('stock')?.value);
-        formData.append('image_url', imageUrl);  // Use uploaded image URL
+        formData.append('image_url', imageUrl.url);  // Use uploaded image URL
 
         this.productService.createProduct(formData).subscribe({
           next: (response) => {
