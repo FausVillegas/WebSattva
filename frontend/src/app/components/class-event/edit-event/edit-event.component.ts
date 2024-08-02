@@ -63,7 +63,7 @@ export class EditEventComponent implements OnInit {
 
     if (this.selectedFile) {
       const imageUrl = await this.filesService.uploadImage(this.selectedFile);
-      formData.append('image_url', imageUrl.url);
+      formData.append('imageUrl', imageUrl.url);
     }
 
     this.eventService.updateEvent(this.eventData.id, formData).subscribe(() => {
@@ -72,8 +72,9 @@ export class EditEventComponent implements OnInit {
   }
   
   onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile);
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
   }
 
   cancel() {

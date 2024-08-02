@@ -109,13 +109,14 @@ export async function getClassById(req, res) {
   export async function updateClass(req, res) {
     const classId = req.body.id;
     const updatedData = req.body;
-    // console.log("Actualizando datos class "+classId + " " +updatedData.title, updatedData.description, updatedData.monthly_fee, updatedData.instructor_id);
+    console.log("Actualizando datos class "+updatedData.id + " " +updatedData.title, updatedData.description, updatedData.monthly_fee, updatedData.instructor_id, updatedData.imageUrl);
     try {
       const [classData] = await SattvaClass.findById(classId); // Método hipotético para obtener la clase por ID
       const oldImageUrl = classData[0].imageUrl;
   
       // Actualiza los datos de la clase
-      updatedData.imageUrl = updatedData.imageUrl || oldImageUrl;
+      if(!updatedData.imageUrl)
+        updatedData.imageUrl = oldImageUrl;
 
       await SattvaClass.update(updatedData, classId);
       // console.log("SCHEDULES ------------"+updatedData.schedules);
@@ -130,7 +131,7 @@ export async function getClassById(req, res) {
 
         console.log("IIIDDD"+classId);
         const [existingSchedules] = await SattvaClass.findClassSchedules(classId);
-        const newSchedules = updatedData.schedules;
+        const newSchedules = Array.isArray(updatedData.schedules) ? updatedData.schedules : [];
 
         function areSchedulesEqual(schedule1, schedule2) {
             return schedule1.day_of_week === schedule2.day_of_week && schedule1.time === schedule2.time;

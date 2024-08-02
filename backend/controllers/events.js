@@ -103,7 +103,8 @@ export async function updateEvent(req, res, next) {
         const [eventData] = await SattvaEvent.findById(eventId);
         const oldImageUrl = eventData[0].imageUrl;
 
-        updatedData.imageUrl = updatedData.imageUrl || oldImageUrl;
+        if(!updatedData.imageUrl)
+            updatedData.imageUrl = oldImageUrl;
 
         if(!isValidDatetime(updatedData.event_datetime)) {
             updatedData.event_datetime = eventData[0].event_datetime;

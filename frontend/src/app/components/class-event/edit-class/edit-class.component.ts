@@ -43,6 +43,7 @@ export class EditClassComponent implements OnInit {
       return;
     }
     const formData = new FormData();
+    formData.append('id', this.classData.id);
     formData.append('title', this.classData.title);
     formData.append('description', this.classData.description);
     formData.append('monthly_fee', this.classData.monthly_fee.toString());
@@ -51,7 +52,7 @@ export class EditClassComponent implements OnInit {
     
     if (this.selectedFile) {
       const imageUrl = await this.filesService.uploadImage(this.selectedFile);
-      formData.append('image_url', imageUrl.url);
+      formData.append('imageUrl', imageUrl.url);
     }
   
     this.classService.updateClass(this.classData.id, formData).subscribe(() => {

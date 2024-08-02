@@ -69,8 +69,10 @@ router.get("/user-registrations/:userId", async (req, res) => {
 
         res.json({ events, classes });
     } catch (error) {
+        console.error("Error fetching user registrations:", error);  // Mejora el registro de errores
         res.status(500).json({ error: "Error fetching user registrations" });
     }
 });
+
 
 export default router;
