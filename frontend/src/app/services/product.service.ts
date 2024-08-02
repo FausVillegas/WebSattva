@@ -24,7 +24,7 @@ export class ProductService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return lastValueFrom(this.http.post('/api/upload', formData));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/api/upload`, formData));
   }
 
   fetchAll(): Observable<Product[]> {

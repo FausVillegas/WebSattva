@@ -47,6 +47,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
 // Configuración de CORS
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
+    // origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization']
 };
