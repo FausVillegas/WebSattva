@@ -151,7 +151,7 @@ export const createPreference = async (req, res) => {
       },
       auto_return: 'approved',
       metadata: { userId: userId, items: items },
-      notification_url: `${process.env.BACKEND_API}/products/webhook`
+      notification_url: `https://sattva-website-backend.vercel.app/products/webhook`
     };
 
     const preference = new Preference(client);
@@ -187,6 +187,9 @@ export const orderWebhook = async (req, res) => {
 
     const data = await response.json();
     const { metadata } = data;
+
+    console.log('Data '+data);
+    console.log('MetaData '+metadata);
 
     if (!metadata || !metadata.items || !metadata.user_id) {
       console.error('Error: metadata incompleta en la respuesta');

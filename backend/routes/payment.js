@@ -29,7 +29,7 @@ router.post("/create-preference", async (req,res) => {
                 classEventId: req.body.classEventId, // Get event ID from request body
                 activityType: req.body.activityType 
             },
-            notification_url: `${process.env.BACKEND_API}/payment/webhook`
+            notification_url: `https://sattva-website-backend.vercel.app/payment/webhook`
         }
 
         const preference = new Preference(client);
