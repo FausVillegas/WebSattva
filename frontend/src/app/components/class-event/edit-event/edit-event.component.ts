@@ -4,6 +4,7 @@ import { EventService } from 'src/app/services/event.service';
 import { SattvaEvent } from 'src/app/models/Event';
 import { InstructorService } from 'src/app/services/instructor.service';
 import { environment } from 'src/environments/environment';
+import { FilesService } from 'src/app/services/files.service';
 
 @Component({
   selector: 'app-edit-event',
@@ -21,7 +22,8 @@ export class EditEventComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private eventService: EventService,
-    private instructorService: InstructorService
+    private instructorService: InstructorService,
+    private filesService: FilesService
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class EditEventComponent implements OnInit {
     console.log(this.eventData.event_datetime);
   }
 
-  onSave() {
+  async onSave() {
     if (this.eventData.price < 0) {
       alert("El precio del evento no puede ser negativo.");
       return;
@@ -60,7 +62,8 @@ export class EditEventComponent implements OnInit {
     formData.append('event_datetime', this.eventData.event_datetime);
 
     if (this.selectedFile) {
-      formData.append('imageUrl', this.selectedFile);
+      const imageUrl = await this.filesService.uploadImage(this.selectedFile);
+      formData.append('imageUrl', imageUrl.url);
     }
 
     this.eventService.updateEvent(this.eventData.id, formData).subscribe(() => {
@@ -69,8 +72,9 @@ export class EditEventComponent implements OnInit {
   }
   
   onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile);
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
   }
 
   cancel() {

@@ -1,20 +1,36 @@
-   <div class="event-details-container">
-    <mat-card class="event-card">
-      <img mat-card-image *ngIf="apiUrl+'/'+data.imageUrl" [src]="apiUrl+'/'+data.imageUrl" alt="Image">
-      <mat-card-content>
-        <h2>{{data.title}}</h2>
-        <p>{{data.description}}</p>
-        <p class="price">${{price}}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button *ngIf="getAuthService().isAuthenticated()" mat-raised-button id="checkout-btn" (click)="createPreference()" [disabled]="message!=''">Pagar e Inscribirse</button>
-        <div class="not-authenticated" *ngIf="!getAuthService().isAuthenticated()">
-          <p>Para inscribirte inicia sesión con tu cuenta</p>
-          <button routerLink="/login">Iniciar Sesión</button>
-        </div>
-      </mat-card-actions>
-      <div id="wallet_container"></div>
-      <div *ngIf="message" class="message">{{ message }}</div> 
-    </mat-card>
-  </div>
-  
+<div class="event-details-container">
+  <mat-card class="event-card">
+    <img mat-card-image *ngIf="data.imageUrl" [src]="data.imageUrl" alt="Image">
+    <mat-card-content>
+      <h2>{{data.title}}</h2>
+      <p>{{data.description}}</p>
+      <p class="price">${{price}}</p>
+
+      <!-- Mostrar horarios si es una clase -->
+      <div *ngIf="data.schedules && data.schedules.length > 0">
+        <h3>Horarios</h3>
+        <ul>
+          <li *ngFor="let schedule of data.schedules">
+            {{schedule.day_of_week}} a las {{schedule.time}}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Mostrar la fecha y hora si es un evento -->
+      <div *ngIf="data.event_datetime">
+        <h3>Fecha y Hora</h3>
+        <p>{{ data.event_datetime | date:'fullDate' }} a las {{ data.event_datetime | date:'shortTime' }}</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="getAuthService().isAuthenticated()" mat-raised-button id="checkout-btn"
+        (click)="createPreference()" [disabled]="message!=''">Pagar e Inscribirse</button>
+      <div class="not-authenticated" *ngIf="!getAuthService().isAuthenticated()">
+        <p>Para inscribirte inicia sesión con tu cuenta</p>
+        <button routerLink="/login">Iniciar Sesión</button>
+      </div>
+    </mat-card-actions>
+    <div id="wallet_container"></div>
+    <div *ngIf="message" class="message">{{ message }}</div>
+  </mat-card>
+</div>

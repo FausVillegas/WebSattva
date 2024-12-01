@@ -37,7 +37,7 @@ export default class SattvaClass {
     }
 
     static saveSchedule(schedule) {
-        return db.execute('INSERT INTO Schedules (day_of_week, time) VALUES (?, ?)', [schedule.day_of_week, schedule.time]);
+        return db.execute('INSERT INTO schedules (day_of_week, time) VALUES (?, ?)', [schedule.day_of_week, schedule.time]);
     }
 
     static deleteSchedule(id) {
@@ -45,7 +45,7 @@ export default class SattvaClass {
     }
 
     static saveClassSchedule(classId, scheduleId) {
-        return db.execute('INSERT INTO ClassSchedule (class_id, schedule_id) VALUES (?, ?)', [classId, scheduleId]);
+        return db.execute('INSERT INTO classschedule (class_id, schedule_id) VALUES (?, ?)', [classId, scheduleId]);
     }
 
     static findClassSchedules(classId) {
@@ -53,11 +53,11 @@ export default class SattvaClass {
     }
 
     static registerForClass(classId, userId) {
-        return db.execute('INSERT INTO FeePayments (user_id, class_id) VALUES (?, ?)', [userId, classId]);
+        return db.execute('INSERT INTO feepayments (user_id, class_id) VALUES (?, ?)', [userId, classId]);
     }
 
     static async isUserEnrolled(classId, userId) {
-        const [rows] = await db.execute('SELECT 1 FROM Enrollment WHERE class_id = ? AND user_id = ? AND payment_status = 1', [classId, userId]);
+        const [rows] = await db.execute('SELECT 1 FROM enrollment WHERE class_id = ? AND user_id = ? AND payment_status = 1', [classId, userId]);
         return rows.length > 0;
     }    
 };

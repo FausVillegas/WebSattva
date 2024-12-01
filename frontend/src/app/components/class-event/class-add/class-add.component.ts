@@ -28,6 +28,7 @@ import { Router } from '@angular/router';
 import { InstructorService } from 'src/app/services/instructor.service';
 import { Instructor } from 'src/app/models/Instructor';
 import { AuthService } from 'src/app/services/auth.service';
+import { FilesService } from 'src/app/services/files.service';
 
 @Component({
   selector: 'app-class-add',
@@ -41,7 +42,7 @@ export class ClassAddComponent implements OnInit{
   days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   isAdmin = false;
 
-  constructor(private classService: ClassService, private http: HttpClient, private router: Router, private instructorService: InstructorService, private authService: AuthService) {}
+  constructor(private classService: ClassService, private http: HttpClient, private router: Router, private instructorService: InstructorService, private authService: AuthService, private filesService: FilesService) {}
 
   navigateToAddInstructor() {
     if (this.isAdmin) {
@@ -68,10 +69,14 @@ export class ClassAddComponent implements OnInit{
     this.newClass.schedules.splice(index, 1);
   }
 
-  addClass() {
+  async addClass() {
     if (this.newClass.monthlyFee < 0) {
       alert("La cuota mensual no puede ser negativa.");
       return;
+    }
+    let imageUrl = null;
+    if (this.selectedFile) {
+      imageUrl = await this.filesService.uploadImage(this.selectedFile);
     }
     const formData = new FormData();
     formData.append('title', this.newClass.title);
@@ -79,8 +84,7 @@ export class ClassAddComponent implements OnInit{
     formData.append('monthlyFee', this.newClass.monthlyFee.toString());
     formData.append('instructor_id', this.newClass.instructor_id.toString());
     formData.append('schedules', JSON.stringify(this.newClass.schedules));
-    if (this.selectedFile)
-        formData.append('imageUrl', this.selectedFile);
+    formData.append('imageUrl', imageUrl.url);
 
     this.classService.addClass(formData).subscribe(() => {
         this.router.navigate(['/addClass']);

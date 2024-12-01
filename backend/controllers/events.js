@@ -10,6 +10,7 @@ export async function getAllEvents(req, res, next) {
         res.status(200).json(allEvents);
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        console.error(err);
         next(err);
     }
 }
@@ -21,9 +22,8 @@ export async function addEvent(req, res, next) {
         return console.error("Error " + errors);
     }
 
-    const { title, description, instructor_id, dateTime, price } = req.body;
+    const { title, description, instructor_id, dateTime, price, imageUrl } = req.body;
 
-    const imageUrl = req.file ? req.file.path : null;
     try {
         const newEvent = {
             title: title,
@@ -31,7 +31,7 @@ export async function addEvent(req, res, next) {
             instructor_id: instructor_id,
             dateTime: dateTime,
             price: price,
-            imageUrl: imageUrl
+            imageUrl: imageUrl || ''
         }
 
         const result = await SattvaEvent.save(newEvent);
@@ -39,6 +39,7 @@ export async function addEvent(req, res, next) {
         res.status(201).json({ message: 'The event was added', class: newEvent })
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        console.error(err);
         if (existsSync(imageUrl)) {
             unlinkSync(imageUrl);
         }
@@ -64,6 +65,7 @@ export async function deleteEvent(req, res, next) {
         res.status(200).json(deleteResponse);
     } catch (err) {
         if (!err.statusCode) { err.statusCode = 500; }
+        console.error(err);
         next(err);
     }
 }
@@ -83,6 +85,7 @@ export async function getEventById(req, res) {
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
         console.error(err);
+        console.error(err);
     }
 }
 
@@ -95,12 +98,13 @@ function isValidDatetime(datetime) {
 export async function updateEvent(req, res, next) {
     const eventId = req.body.id;
     const updatedData = req.body;
-    let imageUrl = req.file ? req.file.path : null;
+    
     try {
         const [eventData] = await SattvaEvent.findById(eventId);
         const oldImageUrl = eventData[0].imageUrl;
 
-        updatedData.imageUrl = imageUrl || oldImageUrl;
+        if(!updatedData.imageUrl)
+            updatedData.imageUrl = oldImageUrl;
 
         if(!isValidDatetime(updatedData.event_datetime)) {
             updatedData.event_datetime = eventData[0].event_datetime;
@@ -109,11 +113,11 @@ export async function updateEvent(req, res, next) {
         // console.log("TODOO"+updatedData.title, updatedData.event_datetime, updatedData.description, updatedData.price, updatedData.instructor_id, updatedData.imageUrl, eventId)
         const [result] = await SattvaEvent.update(updatedData, eventId);
         
-        if (imageUrl && oldImageUrl) {
-            fs.unlink(oldImageUrl, (err) => {
-              if (err) console.error(`Error deleting old image: ${err}`);
-            });
-          }
+        // if (imageUrl && oldImageUrl) {
+        //     fs.unlink(oldImageUrl, (err) => {
+        //       if (err) console.error(`Error deleting old image: ${err}`);
+        //     });
+        //   }
 
         res.status(200).json({ message: 'Clase actualizada correctamente: '+result });
     } catch (err) {

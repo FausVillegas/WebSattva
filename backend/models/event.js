@@ -34,11 +34,11 @@ export default class SattvaEvent {
     }
 
     static registerForEvent(eventId, userId) {
-        return db.execute('INSERT INTO EventRegistrations (event_id, user_id) VALUES (?, ?)', [eventId, userId]);
+        return db.execute('INSERT INTO eventregistrations (event_id, user_id) VALUES (?, ?)', [eventId, userId]);
     }
 
     static async isUserEnrolled(eventId, userId) {
-        const [rows] = await db.execute('SELECT 1 FROM EventRegistrations WHERE event_id = ? AND user_id = ?', [eventId, userId]);
+        const [rows] = await db.execute('SELECT 1 FROM eventregistrations WHERE event_id = ? AND user_id = ?', [eventId, userId]);
         return rows.length > 0;
     }    
 };

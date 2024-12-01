@@ -55,22 +55,24 @@ router.get("/user-registrations/:userId", async (req, res) => {
         
         const [events] = await db.query(
             `SELECT e.id, e.title, e.event_datetime, e.description, e.price, e.imageUrl 
-             FROM Events e
-             JOIN EventRegistrations er ON e.id = er.event_id
+             FROM events e
+             JOIN eventregistrations er ON e.id = er.event_id
              WHERE er.user_id = ?`, [userId]
         );
 
         const [classes] = await db.query(
             `SELECT c.id, c.title, c.description, c.imageUrl, c.monthly_fee, en.payment_status
-             FROM Classes c
-             JOIN Enrollment en ON c.id = en.class_id
+             FROM classes c
+             JOIN enrollment en ON c.id = en.class_id
              WHERE en.user_id = ?`, [userId]
         );
 
         res.json({ events, classes });
     } catch (error) {
+        console.error("Error fetching user registrations:", error); 
         res.status(500).json({ error: "Error fetching user registrations" });
     }
 });
+
 
 export default router;

@@ -84,6 +84,10 @@ export class CartComponent implements OnInit {
       alert('Inicia sesión para realizar esta acción.');
       return;
     }
+    if (!this.authService.completedProfile()) {
+      alert('Completa la información de tu perfil para continuar.');
+      return;
+    }
     try {
       const orderData = {
         items: this.items,

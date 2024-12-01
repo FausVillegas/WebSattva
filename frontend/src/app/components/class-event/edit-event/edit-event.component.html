@@ -21,7 +21,7 @@
 
       <div class="form-group">
         <label for="imageUrl">Imagen</label>
-        <img *ngIf="eventData.imageUrl" [src]="apiUrl+'/'+eventData.imageUrl" alt="Imagen del evento" class="event-image">
+        <img *ngIf="eventData.imageUrl" [src]="eventData.imageUrl" alt="Imagen del evento" class="event-image">
         <input id="imageUrl" type="file" (change)="onFileChange($event)" name="imageUrl">
       </div>    
   

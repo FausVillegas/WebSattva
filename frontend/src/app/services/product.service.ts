@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, first } from 'rxjs';
+import { Observable, first, lastValueFrom } from 'rxjs';
 import { catchError } from 'rxjs';
 
 import { Product } from '../models/Product';
@@ -30,10 +30,11 @@ export class ProductService {
       );
   }
 
-  createProduct(formData: FormData): Observable<Product> {
-    return this.http.post<Product>(this.url, formData).pipe(
+  createProduct(formData: any): Observable<Product> {
+    console.log("Form Data "+formData.get('image_url'));
+    return this.http.post<any>(this.url, formData).pipe(
           catchError(error => {
-            return this.errorHandlerService.handleError<Product>("createProduct")(error);
+            return this.errorHandlerService.handleError<any>("createProduct",error)(error);
           }),
         );
   }

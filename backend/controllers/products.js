@@ -13,38 +13,48 @@ export async function fetchAll(req, res, next) {
         res.status(200).json(allProducts);
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         next(err);
     }
 }
 
 export async function postProduct(req, res, next) {
-    const errors = validationResult(req);
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        return console.error("Error "+errors);
-    }
-    
-    const { title, description, sale_price, category, stock } = req.body;
-    const image_url = req.file.path;
+  if (!errors.isEmpty()) {
+      console.error("Error "+errors.array().forEach((err)=>console.error(err)));
+      return res.status(400).json({ errors: errors.array() });
+  }
 
-    try {
-        const product = {
-            title: title, 
-            description: description,
-            sale_price: sale_price, 
-            category: category,
-            stock: stock,
-            image_url: image_url,
-        }
+  const { title, description, sale_price, category, stock, image_url } = req.body;
 
-        const result = await Product.save(product);
+  // Log to check the values received
+  console.log("Received values:", { title, description, sale_price, category, stock, image_url });
 
-        res.status(201).json({ message: 'The product was added', product: product })
-    } catch (err) {
-        if (!err.statusCode) {err.statusCode = 500;}
-        next(err);
-    }
+  if (!title || !description || !sale_price || !category || !stock || !image_url) {
+      return res.status(400).json({ error: 'All fields are required' });
+  }
+  
+  try {
+      const product = {
+        title: title || null, 
+        description: description || null,
+        sale_price: (sale_price !== undefined && sale_price !== 'null') ? parseFloat(sale_price) : null, 
+        category: category || null,
+        stock: (stock !== undefined && stock !== 'null') ? parseInt(stock) : null,
+        image_url: image_url || null,
+      };
+
+      const result = await Product.save(product);
+
+      res.status(201).json({ message: 'The product was added', product: product });
+  } catch (err) {
+      if (!err.statusCode) {err.statusCode = 500;}
+      console.error("Error creating product: ", err);
+      next(err);
+  }
 }
+
 
 
 export async function deleteProduct(req, res, next) {
@@ -65,6 +75,7 @@ export async function deleteProduct(req, res, next) {
         res.status(200).json(deleteResponse);
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         next(err);
     }
 }
@@ -73,7 +84,7 @@ export async function updateProduct(req, res, next) {
   console.log("Actualizando producto "+req.params.id);
   const productId = req.params.id;
   const updatedData = req.body;
-  let imageUrl = req.file ? req.file.path : null;
+
   try {
     const [product] = await Product.findById(productId);
     if (product.length === 0) {
@@ -81,17 +92,17 @@ export async function updateProduct(req, res, next) {
     }
     const oldImageUrl = product[0].image_url;
     
-    updatedData.image_url = imageUrl || oldImageUrl;
+    updatedData.image_url = updatedData.image_url || oldImageUrl;
     
     // console.log("PRODD "+updatedData.title, updatedData.description, updatedData.sale_price, updatedData.category, updatedData.stock, updatedData.image_url, productId);
     
       const [result] = await Product.update(productId, updatedData);
 
-      if (imageUrl && oldImageUrl) {
-        fs.unlink(oldImageUrl, (err) => {
-          console.error(`Error deleting old image: ${err}`);
-        });
-      }
+      // if (imageUrl && oldImageUrl) {
+      //   fs.unlink(oldImageUrl, (err) => {
+      //     console.error(`Error deleting old image: ${err}`);
+      //   });
+      // }
 
       res.status(200).json({ message: 'Producto actualizado correctamente: '+result });
   } catch (err) {
@@ -109,6 +120,7 @@ export async function getProductById(req, res, next) {
       }
       res.status(200).json(product[0]);
     } catch (error) {
+      console.error(err);
       next(error);
     }
   }
@@ -133,13 +145,13 @@ export const createPreference = async (req, res) => {
         currency_id: 'ARS'
       })),
       back_urls: {
-        success: 'https://www.google.com/',
-        failure: 'https://www.google.com/',
-        pending: 'https://www.google.com/'
+        success: 'https://web-sattva.vercel.app/',
+        failure: 'https://web-sattva.vercel.app/',
+        pending: 'https://web-sattva.vercel.app/'
       },
       auto_return: 'approved',
       metadata: { userId: userId, items: items },
-      notification_url: `${process.env.BACKEND_API}/products/webhook`
+      notification_url: `https://sattva-website-backend.vercel.app/products/webhook`
     };
 
     const preference = new Preference(client);
@@ -151,59 +163,6 @@ export const createPreference = async (req, res) => {
     res.status(500).json({ error: 'Error creating preference' });
   }
 };
-
-// export const orderWebhook = async (req, res) => {
-//   const paymentId = req.query.id;
-//   if(paymentId){
-//     try {
-//       console.log("fectching payment "+paymentId);
-//       const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-//         method: 'GET',
-//         headers: {
-//           'Authorization': `Bearer ${process.env.MP_ACCESS_TOKEN}`
-//         }
-//       });
-      
-//       // console.log(data);
-//       // if (response.status !== 200) {
-//         //   throw Error(data.message)
-//         // };
-//         try{
-//         const data = await response.json();
-//         const { items, user_id } = data.metadata;
-//         const transaction_amount = data.transaction_amount;
-        
-//         const [orderResult] = await Order.insertOrder(user_id, transaction_amount);
-//         const newOrderId = orderResult.insertId;
-        
-//         for (const item of items) {
-//           const productId = item.product_id;
-//           const quantity = item.quantity;
-//           await Order.insertOrderProductRelation(newOrderId, productId, quantity);
-          
-//           // Actualizar el inventario
-//           await Order.updateInventory(productId, quantity);
-//         }
-
-//         // Enviar correo de confirmación
-//         await sendConfirmationEmail(user_id, newOrderId);
-
-//         await Product.deleteItemsFromCart(user_id);
-
-//         res.status(200).json({ response:'Order placed successfully' });
-//       } catch (err) {
-//         console.error(`Error fetching payment: ${err}`);
-//         res.status(response.status).json({ error: 'Error fetching payment' });
-//       }
-      
-//     } catch (error) {
-//       console.error('Error processing webhook:', error);
-//       res.status(500).json({ error: 'Error processing webhook' });
-//     }
-//   } else {
-//     console.error("Error PaymentId "+paymentId);
-//   }
-// };
 
 export const orderWebhook = async (req, res) => {
   const paymentId = req.query.id;
@@ -228,6 +187,9 @@ export const orderWebhook = async (req, res) => {
 
     const data = await response.json();
     const { metadata } = data;
+
+    console.log('Data '+data);
+    console.log('MetaData '+metadata);
 
     if (!metadata || !metadata.items || !metadata.user_id) {
       console.error('Error: metadata incompleta en la respuesta');
@@ -267,6 +229,7 @@ export const orderWebhook = async (req, res) => {
 
 
 import { createTransport } from 'nodemailer';
+import { toString } from 'express-validator/src/utils.js';
 const transporter = createTransport({
   service: 'Gmail', 
   auth: {

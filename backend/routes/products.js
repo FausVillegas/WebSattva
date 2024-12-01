@@ -3,8 +3,10 @@ const router = Router();
 import { body } from 'express-validator';
 import { fetchAll, getProductById, postProduct, deleteProduct, createPreference, orderWebhook, updateProduct } from '../controllers/products.js';
 import { isAuthenticated, isAdmin } from '../middleware/auth.js';
-import upload from '../middleware/upload.js';
+// import upload from '../middleware/upload.js';
 import Order from '../models/order.js';
+import multer from 'multer';
+const upload = multer();
 
 router.get('/', fetchAll);
 
@@ -12,7 +14,7 @@ router.get('/:id', getProductById);
 
 router.post(
     '/',
-    upload('image_url'),
+    upload.none(),
     [
         isAuthenticated, isAdmin,
         body('title').trim().not().isEmpty(),
@@ -27,23 +29,11 @@ router.delete(
     '/:id', isAuthenticated, isAdmin, deleteProduct
 );
 
-router.put('/:id', upload('image_url'), updateProduct);
+router.put('/:id', upload.none(), updateProduct);
 
 router.post('/create-preference', createPreference);
 
 router.post("/webhook", orderWebhook);  
-
-// router.get('/orders/:status', async (req, res) => {
-//     console.log("AAAAAa");
-//     const status = req.params.status === 'true'; // Convert the string to a boolean
-//     try {
-//         const orders = await Order.findStatusFalse(status);
-//         res.status(200).json(orders);
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send(err);
-//     }
-// });
 
 router.get('/orders/by-status', async (req, res) => {
     try {

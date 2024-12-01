@@ -8,7 +8,6 @@ export default class Product {
         this.category = category;
         this.stock = stock;
         this.image_url = image_url;
-        // this.idSupplier = idSupplier;
     }
 
     static fetchAll() {
@@ -16,6 +15,7 @@ export default class Product {
     }
 
     static save(product) {
+        console.log(product.title, product.description, product.sale_price, product.category, product.stock, product.image_url);
         return db.execute(
             'INSERT INTO products (title, description, sale_price, category, stock, image_url) VALUES (?, ?, ?, ?, ?, ?)', 
             [product.title, product.description, product.sale_price, product.category, product.stock, product.image_url]

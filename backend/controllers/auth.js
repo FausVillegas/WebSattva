@@ -129,6 +129,7 @@ export async function signup(req, res, next) {
         res.status(201).json({ message: 'User registered' })
     } catch (err) {
         if (!err.statusCode) {err.statusCode = 500;}
+        console.error(err);
         next(err);
     }
 }
@@ -166,6 +167,7 @@ export async function login(req, res, next) {
         res.status(200).json({ token, userId: storedUser.id, role: storedUser.role });
     } catch (err) {
         err.statusCode = err.statusCode || 500;
+        console.error(err);
         next(err);
     }
 }
@@ -209,6 +211,7 @@ export async function googleLogin(req, res, next) {
         res.status(200).json({ token: newToken, user: user[0][0] });
     } catch (err) {
         err.statusCode = err.statusCode || 500;
+        console.error(err);
         next(err);
     }
 }

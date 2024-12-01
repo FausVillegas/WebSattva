@@ -157,5 +157,13 @@ updateProfile(email: string, updatedProfile: any): Observable<any> {
     console.log('getUserRegistrations service '+this.getUserId());
     return this.http.get(`${this.url}/user-registrations/${this.getUserId()}`);
   }
+
+  completedProfile():boolean {
+    if(this.token){
+      this.decodedToken = jwtDecode(this.token);
+      return this.decodedToken.location && this.decodedToken.address && this.decodedToken.dni && this.decodedToken.phone;
+    }
+    return false;
+  }
 }
 

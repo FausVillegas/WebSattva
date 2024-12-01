@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import initMercadoPago, { MercadoPagoInstance } from '@mercadopago/sdk-react/mercadoPago/initMercadoPago';
 import { AuthService } from 'src/app/services/auth.service';
+import { ClassService } from 'src/app/services/class.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,14 +17,20 @@ export class ClassEventDetailsComponent implements OnInit {
   userId: string | null;
   isAuthenticated = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private classService: ClassService) {
     this.message = '';
     this.userId = this.authService.getUserId();
     this.initializeMercadoPago();
     if (this.data.price)
       this.price = this.data.price;
-    else
+    else {
       this.price = this.data.monthly_fee;
+      this.classService.getClassById(Number(this.data.id)).subscribe(classData => {
+        console.log(classData);
+        this.data = classData.classData;
+        this.data.schedules = classData.classSchedules;
+      });
+    } 
   }
 
   getAuthService() {
