@@ -4,7 +4,7 @@
       <img *ngIf="event.imageUrl" [src]="event.imageUrl" alt="Event Image">
       <h3>{{ event.title }}</h3>
       <p>{{ event.description }}</p>
-      <p class="datetime">Fecha: {{ event.event_datetime | date:'short' }}</p>
+      <p class="datetime">Fecha: {{ event.event_datetime | date }}</p>
       <p>Precio: ${{ event.price }}</p>
     </div>
   
@@ -13,6 +13,12 @@
       <img *ngIf="class.imageUrl" [src]="class.imageUrl" alt="Class Image">
       <h3>{{ class.title }}</h3>
       <p>{{ class.description }}</p>
+      <h3>Horarios</h3>
+        <ul>
+          <li *ngFor="let schedule of classesSchedules[class.id]">
+            {{schedule.day_of_week}} a las {{schedule.time}}
+          </li>
+        </ul>
       <p>Cuota Mensual: ${{ class.monthly_fee }}</p>
       <p class="payment-status-true" *ngIf="class.payment_status">CUOTA AL DÍA</p>
       <div *ngIf="!class.payment_status">
