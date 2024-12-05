@@ -138,3 +138,105 @@ span {
 .product-price-btn button:hover {
   background-color: #79b0a1;
 }
+
+/* Ajustes para pantallas medianas */
+@media (max-width: 1024px) {
+  .product-card {
+    width: 60%; /* Reduce ancho del producto */
+    height: auto; /* Ajusta altura automáticamente */
+    margin: 20px auto; /* Centra las tarjetas */
+    display: block; /* Modo bloque */
+  }
+
+  .product-img, 
+  .product-info {
+    width: 70%; /* Ambas ocupan el 100% */
+    height: auto; /* Ajustar altura automáticamente */
+  }
+
+  .product-img img {
+    border-radius: 7px 7px 0 0; /* Bordes superiores redondeados */
+  }
+
+  .product-info {
+    border-radius: 0 0 7px 7px; /* Bordes inferiores redondeados */
+    text-align: center; /* Centra texto */
+  }
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .product-list {
+    padding: 10px; /* Reduce padding */
+  }
+
+  .product-card {
+    width: 75%; /* Tarjeta ocupa todo el ancho */
+    
+    margin: 10px 0; /* Espaciado entre tarjetas */
+  }
+
+  .product-title h1 {
+    font-size: 24px; /* Reduce tamaño del título */
+    margin: 0; /* Ajusta margen */
+  }
+
+  .product-title {
+    height: auto;
+  }
+
+  .product-price-btn p span{
+    font-size: 30px; /* Reduce tamaño del precio */
+  }
+
+  .product-price-btn p{
+    width: 75%; /* Reduce ancho del botón */
+    margin: auto; /* Centra el botón */
+  }
+
+  .product-price-btn button {
+    width: 65%; /* Reduce ancho del botón */
+    margin: 0 auto; /* Centra el botón */
+  }
+
+  .product-price-btn {
+    margin: 0;
+  }
+}
+
+/* Ajustes para pantallas extra pequeñas */
+@media (max-width: 480px) {
+  .add-product-btn, .delete-product-btn, .edit-product-btn, .orders-list-btn {
+    width: 100%; /* Botones ocupan todo el ancho */
+    margin: 10px 0; /* Separación entre botones */
+  }
+
+  .product-card {
+    margin: 10px 0; /* Reduce margen */
+  }
+
+  .product-title {
+    height: auto;
+  }
+
+  .product-title h1 {
+    font-size: 20px; /* Título más pequeño */
+  }
+
+  .product-price-btn p {
+    font-size: 16px; /* Precio más pequeño */
+  }
+
+  span {
+    font-size: 20px; /* Tamaño del número reducido */
+  }
+
+  .product-price-btn {
+    margin: 0;
+  }
+
+  .product-price-btn button {
+    font-size: 12px; /* Botón más compacto */
+    padding: 10px; /* Reduce padding */
+  }
+}

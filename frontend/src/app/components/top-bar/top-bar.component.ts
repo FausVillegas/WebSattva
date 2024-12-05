@@ -13,7 +13,8 @@ export class TopBarComponent{
   isHomePage: boolean = false;
   searchTerm: string = '';
   showFilterMenu: boolean = false;
-
+  isMobileMenuOpen = false;
+  
   constructor(private authService: AuthService, private cartService: CartService, private router: Router) {
     this.showFilterMenu = false;
     this.router.events.subscribe(event => {
@@ -23,6 +24,11 @@ export class TopBarComponent{
       }
     });
   }
+  
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
 
   getItemsInCart(): number {
     return this.cartService.getItemsInCart();

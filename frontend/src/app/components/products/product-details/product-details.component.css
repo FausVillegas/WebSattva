@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Montserrat:300,400,700,800|Open+Sans:300');
+/* @import url('https://fonts.googleapis.com/css?family=Fjalla+One|Montserrat:300,400,700,800|Open+Sans:300');
 
 .card {
   box-shadow: 0 6px 6px rgba(#000, 0.3);
@@ -56,7 +56,7 @@
 
 .image img {
   display: block;
-  max-width: 100%;
+  max-width: 55%;
   height: auto;
 }
 
@@ -115,4 +115,210 @@
 .action button:hover {
   background: #fff;
   color: #2b7a87;
+} */
+
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.card {
+  max-width: 1200px;
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  transition: 200ms;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #44c1d4;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-body {
+  display: flex;
+  flex-wrap: nowrap; /* No envuelve por defecto */
+  padding: 20px;
+}
+
+/* Ajustes para las mitades */
+.half {
+  flex: 1;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.title-price h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.title-price .price {
+  font-size: 1.5rem;
+  color: #252525;
+}
+
+.image {
+  text-align: center;
+}
+
+.image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.description p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.stock {
+  color: #a1cc16;
+}
+
+.no-stock {
+  color: #bf0606;
+}
+
+.quantity {
+  margin-top: 1rem;
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* .action button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 25px;
+  transition: all 0.3s;
+}
+.action button:hover {
+  background: #fff;
+  color: #2b7a87;
+} */
+.action {
+  padding: 30px 40px;
+  display: flex;
+  flex-flow: row no-wrap;
+  justify-content: center;
+  position: relative;
+}
+
+.action button {
+  cursor: pointer;
+  border: 1px solid #2b7a87;
+  padding: 14px 30px;
+  border-radius: 200px;
+  color: #fff;
+  background: #2b7a87;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  transition: 200ms;
+}
+
+.action button:hover {
+  background: #fff;
+  color: #2b7a87;
+}
+
+/* Media Queries */
+
+/* Para pantallas medianas */
+@media (max-width: 1024px) {
+  .card-body {
+    flex-wrap: wrap; /* Cambia a disposición vertical */
+  }
+
+  .half {
+    flex: 1 0 100%; /* Cada mitad ocupa todo el ancho */
+    padding: 10px;
+  }
+
+  .title-price h1 {
+    font-size: 1.8rem;
+  }
+
+  .title-price .price {
+    font-size: 1.3rem;
+  }
+
+  .action button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+  .bar {
+    font-size: 1rem;
+    padding: 15px;
+  }
+
+  .title-price h1 {
+    font-size: 1.5rem;
+  }
+
+  .title-price .price {
+    font-size: 1.2rem;
+  }
+
+  .description p {
+    font-size: 0.9rem;
+  }
+
+  .action button {
+    width: 90%; /* Botón ocupa casi todo el ancho */
+    padding: 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Para pantallas extra pequeñas */
+@media (max-width: 480px) {
+  .card {
+    margin: 10px;
+  }
+
+  .bar {
+    font-size: 0.9rem;
+  }
+
+  .title-price h1 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .title-price .price {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .image img {
+    max-width: 80%; /* Imagen más pequeña */
+    margin: 0 auto;
+  }
+
+  .description p {
+    font-size: 0.8rem;
+  }
+
+  .action button {
+    font-size: 0.7rem;
+    padding: 10px;
+    width: 100%; /* Botón ocupa todo el ancho */
+  }
 }

@@ -1,13 +1,82 @@
+/* General Nav Styles */
 nav {
     background-color: #ffffff;
-    color: #ffffff;
+    color: #333; /* Cambiar texto a oscuro para visibilidad */
     position: fixed;
     top: 0;
     width: 100%;
+    padding: 0 1rem; /* Márgenes ajustables */
     margin: 0 6rem;
     z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombras para diferenciar nav */
 }
 
 #filter-menu {
     margin-top: 3.5rem;
+}
+
+/* Ajustes para pantallas medianas */
+@media (max-width: 1500px) {
+    nav {
+        margin: 0;
+    }
+}
+
+/* General Styles for Mobile */
+@media (max-width: 768px) {
+    .lg\\:hidden {
+      display: block;
+    }
+  
+    .hidden {
+      display: none;
+    }
+  
+    .space-y-4 > * {
+      margin-bottom: 1rem;
+    }
+  
+    .flex.h-16 {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+    }
+  
+    .flex.items-center.space-x-4 {
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+  
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+    nav {
+        padding: 0.5rem;
+    }
+
+    .flex.h-16 {
+        flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+        align-items: stretch;
+    }
+
+    .ml-auto {
+        margin: 0; /* Quitar márgenes automáticos */
+    }
+
+    .flow-root {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem; /* Espaciado entre íconos */
+    }
+
+    input[type="text"] {
+        width: 100%; /* Campo de búsqueda ocupa todo el ancho */
+        margin-bottom: 1rem;
+    }
+
+    #filter-menu {
+        position: static; /* Cambiar menú de filtro a estático */
+        margin-top: 0;
+    }
 }
